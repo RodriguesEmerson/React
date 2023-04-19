@@ -1,8 +1,10 @@
 import './App.css';
-import HelloWorld from './components/HelloWorld'
+import HelloWorld from './components/HelloWorld';
 import SayMyName from './components/SayMyName';
 import Pessoa from './components/Pessoa';
 import List from './components/List'
+import Eventos from './components/Eventos';
+import Form from './components/Form';
 
 function App() {
   const name = 'Emerson'
@@ -14,6 +16,8 @@ function App() {
 
   return (
     <div className="App">
+      <Form />
+      <Eventos />
       <h1>Hello World!</h1>
       <p>Olá, {name}</p>
       <p>Resultado: {sum(20, 30)} </p>
