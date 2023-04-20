@@ -1,6 +1,6 @@
 function SayMyName(props){
     return(
-        <div>
+        <div className="box">
             <p>Ola, {props.name}, tudo bem? </p>
         </div>
     )

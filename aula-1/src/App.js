@@ -1,22 +1,24 @@
 import './App.css';
-import HelloWorld from './components/HelloWorld';
-import SayMyName from './components/SayMyName';
-import Pessoa from './components/Pessoa';
-import List from './components/List'
-import Eventos from './components/Eventos';
-import Form from './components/Form';
+import RenderList from './components/RenderIList';
+// import Condicional from './components/Condicional';
+// import HelloWorld from './components/HelloWorld';
+// import SayMyName from './components/SayMyName';
+// import Pessoa from './components/Pessoa';
+// import List from './components/List'
+// import Eventos from './components/Eventos';
+// import Form from './components/Form';
 
 function App() {
-  const name = 'Emerson'
-  const url = 'https://via.placeholder.com/150'
-  const name2 = 'Erika'
-  function sum(y, x){
-    return y + x;
-  }
+  // const name = 'Emerson'
+  // const url = 'https://via.placeholder.com/150'
+  // const name2 = 'Erika'
+  // function sum(y, x){
+  //   return y + x;
+  // }
 
   return (
     <div className="App">
-      <Form />
+      {/* <Form />
       <Eventos />
       <h1>Hello World!</h1>
       <p>Olá, {name}</p>
@@ -30,6 +32,8 @@ function App() {
               profissao="Developer"
               foto="https://via.placeholder.com/150"/>
       <List />
+      <Condicional /> */}
+      <RenderList />
     </div>
   );
 }

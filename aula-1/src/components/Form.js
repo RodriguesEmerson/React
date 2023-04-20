@@ -13,7 +13,7 @@ function Form(){
   const[password, setPassword] = useState();
 
   return(
-    <div>
+    <div className="box">
       <h1>Formulário</h1>
       <form onSubmit={cadastraUsuario}>
 
