@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import Cars from './Cars';
 import styles from './Main.module.css';
+import MetodoPorProps from './MetodoPorProps';
+import RederizacaoPorCondicao from './RederizacaoPorCondicao';
+import RederizacaoListas from './RederizasaoListas';
+
 
 function Main(){
 
@@ -9,6 +13,10 @@ function Main(){
   function cadastraUsuario(e){
     e.preventDefault();
     console.log(name, senha)
+  }
+
+  function saySomething(){
+    alert('Learning React')
   }
 
   const [name, setName] = useState();
@@ -61,6 +69,10 @@ function Main(){
         </form>
       </div>
       <Cars />
+      <MetodoPorProps event={saySomething}/>
+      <RederizacaoPorCondicao />
+      <RederizacaoListas />
+
     </main>
   )
 }
