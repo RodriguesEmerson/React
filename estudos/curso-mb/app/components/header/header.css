@@ -1,0 +1,93 @@
+
+
+header{
+   position: relative;
+   display: flex;
+   padding: 0 30px;
+   align-items: center;
+   justify-content: space-between;
+   height: 50px;
+   border-bottom: 1px solid rgb(213, 213, 213);
+}
+
+.logo{
+   font-size: 30px;
+   font-weight: 600;
+}
+
+/**********OPTIONS**********/
+.options{
+   position: relative;
+}
+.options ul{
+   display:  flex;
+   gap: 10px;
+   list-style-type: none;
+}
+.options ul li{
+   cursor: pointer;
+}
+.options .card{
+   color: gray;
+}
+.options .notification{
+   color: rgb(237, 186, 1);
+}
+.options .help{
+   color: rgb(0, 148, 228);
+}
+
+.options-desc{
+   display: inline-block;
+   position: absolute;
+   line-height: 22px;
+   padding: 3px;
+   margin: 0 5px;
+   font-size: 13px;
+   color: white;
+   background-color: black;
+   height: 30px;
+   border-radius: 5px;
+}
+
+.card-desc{
+   left: -50px;
+}
+.noti-desc{
+   left: 3px;
+}
+.help-desc{
+   left: 56px;
+}
+
+/**********USER BOX**********/
+.interacao{
+   display: flex;
+   align-items: center;
+   gap: 13px;
+}
+.interacao .user-box{
+   display: flex;
+   align-items: center;
+   border-radius: 5px;
+   padding: 3px;
+   gap: 10px;
+   height: 40px;
+   border: 1px solid gray;
+   cursor: pointer;
+}
+.interacao .user-box .user-img{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 38px;
+   width: 38px;
+   border-radius: 50%;
+   }
+.interacao .user-box .user-icon{
+   font-size: 46px;
+}
+
+.hidden{
+   display: none;
+}
