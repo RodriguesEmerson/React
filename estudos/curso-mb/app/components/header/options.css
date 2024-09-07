@@ -1,0 +1,44 @@
+.options{
+   position: relative;
+   z-index: 10;
+}
+.options ul{
+   display:  flex;
+   gap: 10px;
+   list-style-type: none;
+}
+.options ul li{
+   cursor: pointer;
+}
+.options .card{
+   color: gray;
+}
+.options .noti{
+   color: rgb(237, 186, 1);
+}
+.options .help{
+   color: rgb(0, 148, 228);
+}
+
+.options-desc{
+   display: inline-block;
+   position: absolute;
+   line-height: 22px;
+   padding: 3px;
+   margin: 0 5px;
+   font-size: 13px;
+   color: white;
+   background-color: black;
+   height: 30px;
+   border-radius: 5px;
+}
+
+.card-desc{
+   left: -50px;
+}
+.noti-desc{
+   left: 3px;
+}
+.help-desc{
+   left: 56px;
+}

@@ -1,17 +1,41 @@
+'use client';
 
-'use Client';
+import './options.css'
 export default function Options() {
-   function hover(e){
-      console.log(e)
+   let openedLabel;
+   function handleMouseEnter(e){
+      const classe = e.target.classList[0];
+      const hoveredItemLabel = document.querySelector(`.${classe}-desc`);
+      hoveredItemLabel.classList.remove('hidden');
+      openedLabel = hoveredItemLabel;
+   }
+   function handleMouseOut(){
+      openedLabel.classList.add('hidden');
    }
    return (
       <div className="options">
          <ul>
-            <li className="card material-icons">credit_card</li>
-            <li className="notification material-icons">notifications</li>
-            <li className="help material-icons">help</li>
+            <li
+               onMouseEnter={handleMouseEnter}
+               onMouseLeave={handleMouseOut}
+               className="card material-icons">
+                  credit_card
+            </li>
+            <li 
+               onMouseEnter={handleMouseEnter} 
+               onMouseLeave={handleMouseOut}
+               className="noti material-icons">
+                  notifications
+               </li>
+            <li 
+               onMouseEnter={handleMouseEnter}
+               onMouseLeave={handleMouseOut} 
+               className="help material-icons">
+                  help
+            </li>
+   
          </ul>
-         <span onMouseEnter={ hover } className="options-desc card-desc hidden">Cartão Fidelidade</span>
+         <span className="options-desc card-desc hidden">Cartão Fidelidade</span>
          <span className="options-desc noti-desc hidden">Notificações</span>
          <span className="options-desc help-desc hidden">Ajuda</span>
       </div> 
