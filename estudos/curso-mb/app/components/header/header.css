@@ -1,12 +1,14 @@
 
 
 header{
+   z-index: 9;
    position: relative;
    display: flex;
    padding: 0 30px;
    align-items: center;
    justify-content: space-between;
    height: 60px;
+   width: 100%;
    border-bottom: 1px solid rgb(213, 213, 213);
 }
 

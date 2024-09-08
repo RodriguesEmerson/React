@@ -5,12 +5,17 @@
   margin: 0;
 }
 
-
+:root{
+  --cor-texto-padrao: #2f2f3e;
+}
 
 body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-wrap: wrap;
+
 }
 

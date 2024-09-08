@@ -51,7 +51,10 @@
    color: white;
    font-size: 13px;
 }
-   .credits-nuber{
+   .credits-count{
+      margin-top: 3px;
+   }
+   .credits-number{
       font-size: 18px;
    }
    .button-buy-credits{

@@ -1,0 +1,58 @@
+.subNav ul{
+   display: flex;
+   justify-content: space-around;
+   gap: 25px;
+   list-style-type: none;
+
+
+}
+
+.subNav li a{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: column;
+   gap: 5px;
+   font-size: 18px;
+   height: 120px;
+   width: 180px;
+   border-radius: 10px;
+   color: white;
+   background-color:rgba(54, 54, 70, 0.75);
+   border: 1px solid rgb(54, 54, 70);
+}
+
+.subNav a .material-icons{
+   font-size: 43px;
+}
+.subNav a{
+   transition: 0.4s;
+}
+.subNav a:hover{
+   margin-top: -7px;
+   background-color:rgba(54, 54, 70);
+}
+
+.subNav ul li:nth-child(2) a{
+   background-color:rgba(125, 140, 155, 0.75);
+   border-color: rgb(125, 140, 155);
+}
+.subNav ul li:nth-child(2) a:hover{
+   background-color:rgba(125, 140, 155);
+}
+
+.subNav ul li:nth-child(3) a{
+   background-color:rgba(151, 200, 114, 0.75);
+   border-color: rgba(151, 200, 114);
+}
+.subNav ul li:nth-child(3) a:hover{
+   background-color:rgba(151, 200, 114);
+}
+
+.subNav ul li:nth-child(4) a{
+   background-color:rgba(70, 171, 222, 0.75);
+   border-color: rgba(70, 171, 222);
+}
+.subNav ul li:nth-child(4) a:hover{
+   background-color:rgba(70, 171, 222);
+}
