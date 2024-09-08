@@ -1,16 +1,13 @@
-import './user.css';
+
+import OpenUserBoxButton from './open-user-box'
 
 export default function User(){
-   const name = 'Emerson'
+   const name = 'Emerson';
+   
    return(
       <>
-      <div className="user-box flex">
-         <span className="material-icons">keyboard_arrow_down</span>
-         <div className="user-img">
-            <sapn className="material-icons user-icon">account_circle</sapn>
-         </div>
-      </div>
-      <div className='user-infos'>
+      <OpenUserBoxButton />
+      <div className='user-infos hidden'>
          <div className='user-profile flex'>
             <div className="user-img">
                <sapn className="material-icons user-icon">account_circle</sapn>
@@ -22,7 +19,6 @@ export default function User(){
          </div>
          <div className='user-options'>
             <ul className='flex'>
-                  {/* isso seria links 'a' */}
                <li>
                   <a href=''>Minha Conta</a>
                </li>
