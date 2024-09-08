@@ -1,5 +1,6 @@
 
 import './aside.css'
+import LinksList from './nav-links'
 
 
 export default function Aside(){
@@ -21,22 +22,6 @@ export default function Aside(){
          </nav>
          <Creditos />
       </section>
-   )
-}
-
-function LinksList({ links }){
-   return(
-      <>
-      {links.map((a) =>(
-         <li key={a.icon} className='nav-link'>
-            <span className='selected'></span>
-            <a href={a.a}>
-               <span className="material-icons">{a.icon}</span>
-               <span>{a.value}</span>
-            </a>
-         </li>
-      ))}
-      </>
    )
 }
 

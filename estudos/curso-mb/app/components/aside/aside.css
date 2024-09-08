@@ -17,9 +17,9 @@
    }
       .selected{
          position: absolute;
-         width: 5px;
+         width: 3px;
          height: 100%;
-         background-color: rgb(42, 105, 193);
+         background-color: rgb(68, 155, 242);
          left: 0;
       }
       a{
