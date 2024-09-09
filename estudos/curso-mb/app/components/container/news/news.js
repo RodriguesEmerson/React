@@ -1,12 +1,11 @@
-import Galerias from "./galerias/galerias";
-import Notificacoes from "./notificacoes/notificacoes";
+import NewsDados from "./news-dados/news-dados";
 import './news.css';
 
 export default function News(){
    return(
       <section className="news">
-         <Galerias />
-         <Notificacoes />
+         <NewsDados tipo="galerias"/>
+         <NewsDados tipo="notificacoes"/>
       </section>
    )
 }

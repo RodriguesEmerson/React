@@ -4,5 +4,6 @@
    flex-direction: row;
    justify-content: space-between;
    width: 90%;
+   max-width: 1050px;
    margin:  30px auto 50px auto;
 }

@@ -1,9 +1,14 @@
+.subNav{
+   max-width: 1050px;
+   width: 90%;
+   margin: auto;
+}
 .subNav ul{
    display: flex;
    justify-content: space-around;
    gap: 25px;
    list-style-type: none;
-   width: 90% !important;
+   width: 100% !important;
    margin: auto;
 }
 .subNav li{

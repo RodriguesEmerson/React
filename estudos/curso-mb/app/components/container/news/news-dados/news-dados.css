@@ -1,4 +1,4 @@
-.galerias{
+.news-box{
    height: 400px;
    width: 48%;
    border: 1px solid rgb(221, 221, 221);
@@ -6,7 +6,7 @@
    background-color: white;
    overflow: hidden;
 }
-.galeria-header{
+.news-box-header{
    position: relative;
    padding-left: 15px;
    height: 50px;
@@ -21,31 +21,31 @@
    border-bottom: 1px solid rgb(237, 237, 237);
 }
 
-.galeria-header span{
+.news-box-header .span{
    cursor: pointer;
    transition: 0.4s;
 }
-.galeria-header span:hover{
+.news-box-header .span:hover{
    color: rgb(39, 116, 188);;
 }
 
-.galeria-header a{
+.news-box-header a{
    position: absolute;
    right: 15px;
    color: rgb(39, 116, 188);
    font-weight: 200;
 }
-/********GALERIA BODY********/
-.galeria-body{
+/********news-box BODY********/
+.news-box-body{
    padding: 10px;
    height: calc(100% - 50px);
    overflow-y: scroll !important; 
 }
-.galeria-body .lista-de-galerias{
+.news-box-body .news-box-lista{
    display: flex;
    flex-direction: column;
 }
-.galeria-body .lista-de-galerias li{
+.news-box-body .news-box-lista li{
    display: flex;
    gap: 15px;
    padding: 5px;
@@ -54,34 +54,59 @@
    border-bottom: 1px solid rgb(231, 230, 230);
 }
 
-.galeria-body .galeria-thumb{
+.news-box-body .news-box-thumb{
    min-width: 120px;
    width: 120px;
    height: 80px;
    overflow: hidden;
    border-radius: 5px;   
 }
-.galeria-body .galeria-thumb img{
+.news-box-body .news-box-thumb img{
    max-width: 100%;
    height: 100%;
    object-fit: cover;
 }
-.galeria-body .galeria-infos{ 
+.news-box-body .news-box-infos{ 
    display: flex;
-   gap: 3px;
    padding-top: 5px;
    flex-direction: column;
    height: 80px;
 }
-.galeria-body .galeria-infos .galeria-nome{
+.news-box-body .news-box-infos .news-box-nome{
    color: rgb(41, 41, 41);
    font-size: 16px;
    font-weight: 600;
 }
-.galeria-body .galeria-infos .galeria-nome:hover{
+.news-box-body .news-box-infos .news-box-nome:hover{
    color: rgb(0, 168, 230);
 }
-.galeria-body .galeria-infos .galeria-data{
+.news-box-body .news-box-infos .news-box-data{
    font-size: 11px;
    color: gray;
+}
+
+/**NOTIFICACOES*/
+.news-box-leter{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 20px;
+   font-weight: 800;
+   background-color: rgb(0, 162, 68);
+   color: white;
+   min-width: 40px !important;
+   width: 40px !important;
+   height: 40px !important;
+   border-radius: 50% !important;
+}
+
+.news-box-noti{
+   height: 70px !important;
+}
+.news-box-noti a{
+   font-weight: 300 !important;
+   
+}
+.news-box-noti .news-box-infos{
+   padding-top: 0 !important;
 }
