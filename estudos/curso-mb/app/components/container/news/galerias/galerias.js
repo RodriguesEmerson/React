@@ -34,7 +34,6 @@ async function ListaGalerias(){
       }
       return response.json();
    }).catch(error => console.log('Erro: ' + error))
-      
    //Valida os dados recebidos   
    if(!data) return <span>Ainda não existe galerias!</span>;  
    const galerias = data.galerias;
@@ -42,15 +41,13 @@ async function ListaGalerias(){
       <ul className='lista-de-galerias'> 
       {galerias.map((galeria) => (
          <li key={galeria.id} className='galeria-link' id={galeria.id}>
-            <a href="">
                <div className='galeria-thumb'>
                   <img src={galeria.thumbImage}></img>
                </div>
                <div className='galeria-infos'>
-                  <span className='galeria-nome'>{(galeria.titulo).toUpperCase()}</span>
+                  <a href='' className='galeria-nome'>{galeria.titulo}</a>
                   <span className='galeria-data'>{dataExt(galeria.data)}</span>
                </div>
-            </a>
          </li>
       ))}
       </ul>
