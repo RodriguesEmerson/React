@@ -1,4 +1,6 @@
 .aside-bar{
+   position: fixed;
+   margin-top: 60px;
    height: calc(100vh - 60px);
    width: 243px;
    background-color: rgb(54, 54, 70);

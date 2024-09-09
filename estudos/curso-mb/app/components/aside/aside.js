@@ -34,7 +34,7 @@ function Creditos(){
             <span className='credits-number'>{totalCredits}</span>
             <span> créditos</span>
          </div>
-         <a className='button-buy-credits' href=''>COPRAR CRÉDITOS</a>
+         <a className='button-buy-credits' href=''>COMPRAR CRÉDITOS</a>
       </div>
    )
 }

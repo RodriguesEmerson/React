@@ -1,0 +1,77 @@
+{
+   "galerias":[
+      {
+         "titulo":"Nome do Arquivo",
+         "data":"2024/09/08",
+         "thumbImage": "http://localhost:3000/images/fotos/IMG-1.jpg",
+         "id":"123d4",
+         "fotos":[
+            {
+               "desc":"IMG-1",
+               "url": "http://localhost:3000/images/fotos/IMG-1.jpg"
+            }
+         ]
+      },
+      {
+         "titulo":"Nome do Arquivo",
+         "data":"2024/09/08",
+         "thumbImage": "http://localhost:3000/images/fotos/IMG-2.jpg",
+         "id":"123r4",
+         "fotos":[
+            {
+               "desc":"IMG-1",
+               "url": "http://localhost:3000/images/fotos/IMG-2.jpg"
+            }
+         ]
+      },
+      {
+         "titulo":"Nome do Arquivo",
+         "data":"2024/09/08",
+         "thumbImage": "http://localhost:3000/images/fotos/IMG-3.jpg",
+         "id":"123d4",
+         "fotos":[
+            {
+               "desc":"IMG-1",
+               "url": "http://localhost:3000/images/fotos/IMG-3.jpg"
+            }
+         ]
+      },
+      {
+         "titulo":"Nome do Arquivo",
+         "data":"2024/09/08",
+         "thumbImage": "http://localhost:3000/images/fotos/IMG-4.jpg",
+         "id":"123r4",
+         "fotos":[
+            {
+               "desc":"IMG-1",
+               "url": "http://localhost:3000/images/fotos/IMG-4.jpg"
+            }
+         ]
+      },
+      {
+         "titulo":"Nome do Arquivo",
+         "data":"2024/09/08",
+         "thumbImage": "http://localhost:3000/images/fotos/IMG-5.jpg",
+         "id":"123d4",
+         "fotos":[
+            {
+               "desc":"IMG-1",
+               "url": "http://localhost:3000/images/fotos/IMG-5.jpg"
+            }
+         ]
+      },
+      {
+         "titulo":"Nome do Arquivo",
+         "data":"2024/09/08",
+         "thumbImage": "http://localhost:3000/images/fotos/IMG-6.jpg",
+         "id":"123r4",
+         "fotos":[
+            {
+               "desc":"IMG-1",
+               "url": "http://localhost:3000/images/fotos/IMG-6.jpg"
+            }
+         ]
+      }
+
+   ]
+}

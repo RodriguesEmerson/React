@@ -3,8 +3,11 @@
    justify-content: space-around;
    gap: 25px;
    list-style-type: none;
-
-
+   width: 90% !important;
+   margin: auto;
+}
+.subNav li{
+   width: 23%;
 }
 
 .subNav li a{
@@ -15,7 +18,7 @@
    gap: 5px;
    font-size: 18px;
    height: 120px;
-   width: 180px;
+   width: 100%;
    border-radius: 10px;
    color: white;
    background-color:rgba(54, 54, 70, 0.75);
@@ -26,7 +29,7 @@
    font-size: 43px;
 }
 .subNav a{
-   transition: 0.4s;
+   transition: all 0.4s ease-in-out;
 }
 .subNav a:hover{
    margin-top: -7px;
