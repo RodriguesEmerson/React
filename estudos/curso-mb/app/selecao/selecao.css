@@ -124,3 +124,7 @@
 .btn-criar-galeria:hover{
    background-color: var(--azul-secundario);
 }
+
+.orden-selected{
+   background-color: var(--azul-padrao);
+}
