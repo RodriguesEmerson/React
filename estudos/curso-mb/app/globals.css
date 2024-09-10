@@ -8,6 +8,9 @@
 
 :root{
   --cor-texto-padrao: #2f2f3e;
+  --cor-backgroud-padrao: rgb(241, 244, 246);
+  --azul-padrao: rgb(70, 171, 222);
+  --azul-secundario: rgb(44, 143, 207);
 }
 
 @font-face {
