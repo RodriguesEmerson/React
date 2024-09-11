@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
+let select, selectedOption;
 export default function SelectOrdenar(){
-   let select;
    let [text, setText] = useState('Ordenar');
 
    function handleClickToggle(){
@@ -12,7 +12,11 @@ export default function SelectOrdenar(){
    }
 
    function handleMarkSelected(e){
-      e.target.classList.add('oden-selected');
+      if(selectedOption){
+         selectedOption.target.classList.remove('orden-selected');
+      } 
+      e.target.classList.add('orden-selected');
+      selectedOption = e;
    }
 
    return(
@@ -20,30 +24,47 @@ export default function SelectOrdenar(){
          <span className="ordernar">{text}</span>
          <div className="ordenar-galerias hidden">
             <span 
-               onClick={() => setText(text = "Ordenar")} 
+               onClick={(e) => 
+                  {handleMarkSelected(e);
+                   setText(text = "Ordenar")
+                  }
+               } 
                className="ordenar-galerias-option">
                Ordernar
             </span>
             <span 
-               onClick={() => 
-                  setText(text = "Títlulo A-Z") -
-                  handleMarkSelected
+               onClick={(e) => 
+                  {handleMarkSelected(e);
+                   setText(text = "Títlulo A-Z")
+                  }
                } 
                className="ordenar-galerias-option">
                Título A-Z
             </span>
             <span 
-              onClick={() => setText(text = "Títlulo Z-A")}
+               onClick={(e) => 
+                  {handleMarkSelected(e);
+                  setText(text = "Títlulo Z-A")
+                  }
+               } 
                className="ordenar-galerias-option">
                Título Z-A
             </span>
             <span 
-               onClick={() => setText(text = "Mais recentes")}
+               onClick={(e) => 
+                  {handleMarkSelected(e);
+                   setText(text = "Mais recentes")
+                  }
+               } 
                className="ordenar-galerias-option">
                Mais recentes
             </span>
             <span 
-               onClick={() => setText(text = "Mais antigas")} 
+               onClick={(e) => 
+                  {handleMarkSelected(e);
+                   setText(text = "Mais Antigas")
+                  }
+               } 
                className="ordenar-galerias-option">
                Mais antigas
             </span>

@@ -1,6 +1,6 @@
 import './selecao.css';
 import MarcarPaginaSelecionada from '../components/marcarLink';
-import SelecaoHeader from './components/selecao-header';
+import SelecaoHeader from './components/selecao-header/selecao-header';
 
 export default function Selecao() { 
 
