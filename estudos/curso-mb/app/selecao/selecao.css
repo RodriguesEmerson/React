@@ -79,7 +79,7 @@
    border: none;
 }
 
-.ordenar-galerias{
+.ordenar-galerias, .select{
    position: absolute;
    top: 44px;
    left: 0;
@@ -93,13 +93,14 @@
    border-radius: 5px;
    transition: 0.4s;
 }
-.ordenar-galerias-option{
+.ordenar-galerias-option, .select-option{
    height: 35px;
    display: flex;
    align-items: center;
    padding-left: 13px;
+   cursor: pointer;
 }
-.ordenar-galerias-option:hover{
+.ordenar-galerias-option:hover, .select-option:hover{
    background-color: var(--cor-backgroud-padrao);
 }
 

@@ -1,6 +1,7 @@
 import './selecao.css';
 import MarcarPaginaSelecionada from '../components/marcarLink';
 import SelecaoHeader from './components/selecao-header/selecao-header';
+import SelecaoGalerias from './components/selecao-galerias/selecao-galerias'
 
 export default function Selecao() { 
 
@@ -10,8 +11,8 @@ export default function Selecao() {
             <MarcarPaginaSelecionada item="image"/>
             <span className="page-title">Galerias Ativas</span>
             <selction className="selecao-content">
-            <SelecaoHeader />
-
+               <SelecaoHeader />
+               <SelecaoGalerias />
             </selction>
 
          </main>
