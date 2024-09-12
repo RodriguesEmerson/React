@@ -3,7 +3,21 @@ import MarcarPaginaSelecionada from '../components/marcarLink';
 import SelecaoHeader from './components/selecao-header/selecao-header';
 import SelecaoGalerias from './components/selecao-galerias/selecao-galerias'
 
-export default function Selecao() { 
+export default async function Selecao() { 
+
+   const data = await fetch('http://localhost:3000/db/db.json',
+      {
+         method: 'GET', 
+         cache: 'no-store' //Impede que o fetch busque dados em cache --'antigos';
+      }
+   ).then(response =>{
+      //Se o status da resposta for diferente de ok, lança um Erro.
+      if(!response.ok) {
+         throw new Error('Falha ao carregar as galerias.');
+      }
+      //Senão, retorna o arquivo buscado.
+      return response.json();
+   }).catch(error => console.log('Erro:' + error));
 
    return (
       <>
@@ -11,8 +25,8 @@ export default function Selecao() {
             <MarcarPaginaSelecionada item="image"/>
             <span className="page-title">Galerias Ativas</span>
             <selction className="selecao-content">
-               <SelecaoHeader />
-               <SelecaoGalerias />
+               <SelecaoHeader data={data}/>
+               <SelecaoGalerias data={data}/>
             </selction>
 
          </main>

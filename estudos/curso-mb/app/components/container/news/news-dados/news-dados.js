@@ -33,16 +33,19 @@ async function ListaGalerias({ tipo }){
    const data = await fetch('http://localhost:3000/db/db.json', 
       {
          method: 'GET',
-         cache: 'no-store' //Impede de trazer dados em cache --'antigos';
+         cache: 'no-store' //Impede que o fetch busque dados em cache --'antigos';
       }
    ).then(response =>{
+      //Se o status da resposta for diferente de ok, lança um Erro.
       if(!response.ok){
          throw new Error('Falha ao carregar o arquivo.')
       }
+      //Senão, retorna o arquivo buscado.
       return response.json();
-   }).catch(error => console.log('Erro: ' + error))
+   }).catch(error => console.log('Erro: ' + error));
+
    //Valida os dados recebidos   
-   if(!data) return <span>Ainda não existe galerias!</span>;  
+   if(!data) return (<span>Ainda não existe nehuma Galeria!</span>);  
 
    if(tipo == "galerias"){
       const galerias = data.galerias;

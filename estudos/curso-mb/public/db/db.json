@@ -1,7 +1,7 @@
 {
    "galerias":[
       {
-         "titulo":"Nome do Arquivo",
+         "titulo":"João & Maria",
          "data":"2024/09/08",
          "thumbImage": "http://localhost:3000/images/fotos/IMG-1.jpg",
          "id":"123d4",
@@ -15,7 +15,7 @@
          ]
       },
       {
-         "titulo":"Nome do Arquivo",
+         "titulo":"Sofia & Pedro",
          "data":"2024/09/08",
          "thumbImage": "http://localhost:3000/images/fotos/IMG-2.jpg",
          "id":"123a4",
@@ -29,7 +29,7 @@
          ]
       },
       {
-         "titulo":"Nome do Arquivo",
+         "titulo":"Fernanda & Rafael",
          "data":"2024/09/08",
          "thumbImage": "http://localhost:3000/images/fotos/IMG-3.jpg",
          "id":"123n4",
@@ -43,7 +43,7 @@
          ]
       },
       {
-         "titulo":"Nome do Arquivo",
+         "titulo":"Lucas & Ana",
          "data":"2024/09/08",
          "thumbImage": "http://localhost:3000/images/fotos/IMG-4.jpg",
          "id":"123r4",
@@ -57,7 +57,7 @@
          ]
       },
       {
-         "titulo":"Nome do Arquivo",
+         "titulo":"Gabriel & Júlia",
          "data":"2024/09/08",
          "thumbImage": "http://localhost:3000/images/fotos/IMG-5.jpg",
          "id":"123e4",
@@ -71,7 +71,7 @@
          ]
       },
       {
-         "titulo":"Nome do Arquivo",
+         "titulo":"Carla & Bruno",
          "data":"2024/09/08",
          "thumbImage": "http://localhost:3000/images/fotos/IMG-6.jpg",
          "id":"123t4",
@@ -93,7 +93,8 @@
          "a": "linkFuturo",
          "data": "2024/09/08",
          "hora": "00:34",
-         "id": "ler323"
+         "id": "ler323",
+         "lida": true
       },
       {
          "leter": "N",
@@ -101,7 +102,8 @@
          "a": "linkFuturo",
          "data": "2024/09/08",
          "hora": "00:34",
-         "id": "ltr323"
+         "id": "ltr323",
+         "lida": true
       }
    ]
 }
