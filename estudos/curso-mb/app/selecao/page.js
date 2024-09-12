@@ -26,7 +26,7 @@ export default async function Selecao() {
             <span className="page-title">Galerias Ativas</span>
             <selction className="selecao-content">
                <SelecaoHeader data={data}/>
-               <SelecaoGalerias data={data}/>
+               <SelecaoGalerias />
             </selction>
 
          </main>

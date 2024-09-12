@@ -1,11 +1,28 @@
+
+'use client';
+
+import { useState } from 'react';
 import SelectOrdenar from './select-ordenar'
+import SelecaoGalerias from '../selecao-galerias/selecao-galerias'
 
 export default function SelecaoOptions(){
+
+   const [searchTerms, setSearchTerms] = useState('aa');
+   const handleSearchChange = (e) =>{
+      setSearchTerms(e.target.value);
+      <SelecaoGalerias termos={searchTerms} />
+   }
+
    return(
       <div className="selecao-options">
          <div className="filtros">
             <div className="colum">
-               <input className="filtros-search" type="text" placeholder="Buscar (nome da galeria)"></input>
+               <input 
+                  onChange={handleSearchChange}
+                  className="filtros-search" 
+                  type="text" 
+                  placeholder="Buscar (nome da galeria)">
+               </input>
                <span className="material-icons">search</span>
             </div>
             <div className="colum">
