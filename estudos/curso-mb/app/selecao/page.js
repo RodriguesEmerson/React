@@ -1,8 +1,6 @@
 import './selecao.css';
 import MarcarPaginaSelecionada from '../components/marcarLink';
-import SelecaoHeader from './components/selecao-header/selecao-header';
-import SelecaoGalerias from './components/selecao-galerias/selecao-galerias'
-
+import SelecaoContent from './components/selecao-content'
 export default async function Selecao() { 
 
    const data = await fetch('http://localhost:3000/db/db.json',
@@ -24,11 +22,7 @@ export default async function Selecao() {
          <main className="container">
             <MarcarPaginaSelecionada item="image"/>
             <span className="page-title">Galerias Ativas</span>
-            <selction className="selecao-content">
-               <SelecaoHeader data={data}/>
-               <SelecaoGalerias />
-            </selction>
-
+            <SelecaoContent data={data.galerias} />
          </main>
          <footer className="footer">
 

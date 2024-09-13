@@ -2,15 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import SelectOrdenar from './select-ordenar'
-import SelecaoGalerias from '../selecao-galerias/selecao-galerias'
+import SelectOrdenar from './select-ordenar';
 
-export default function SelecaoOptions(){
+export default function SelecaoOptions({ setSearchTerms }){
 
-   const [searchTerms, setSearchTerms] = useState('aa');
    const handleSearchChange = (e) =>{
       setSearchTerms(e.target.value);
-      <SelecaoGalerias termos={searchTerms} />
    }
 
    return(

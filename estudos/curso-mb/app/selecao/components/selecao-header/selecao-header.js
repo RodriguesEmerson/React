@@ -1,9 +1,9 @@
 import SelecaoOptions from './selecao-options'
-export default function SelecaoHeader({ data }){
-
+export default function SelecaoHeader( props ){
+   const data = props.data;
    let galeriasAtivas = 0;
    if(data){
-      galeriasAtivas = data.galerias.length;
+      galeriasAtivas = data.length;
    }
 
    return(
@@ -12,7 +12,7 @@ export default function SelecaoHeader({ data }){
             <span className="g-link galerias-ativas ativa">Galerias {`(${galeriasAtivas})`}</span>
             <span className="g-link galerias-congeladas">Galerias Congeladas {`(0)`}</span>
          </div>
-         <SelecaoOptions />
+         <SelecaoOptions setSearchTerms={props.setSearchTerms}/>
       </div>
    )
 }

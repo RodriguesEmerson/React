@@ -1,38 +1,22 @@
 import './selecao-galerias.css'
 import GaleriaOptions from "./galeria-options"
 
-export default function SelecaoGalerias({ termos }){
-   console.log(termos)
+export default function SelecaoGalerias({ data } ){
    return(
       <section className="selecao-galerias">
-         <Galeria />
+         <Galeria data={data}/>
       </section>
    )
 }
 
-async function Galeria(){
-
-   const data = await fetch('http://localhost:3000/db/db.json',
-      {
-         method: 'GET', 
-         cache: 'no-store' //Impede que o fetch busque dados em cache --'antigos';
-      }
-   ).then(response =>{
-      //Se o status da resposta for diferente de ok, lança um Erro.
-      if(!response.ok) {
-         throw new Error('Falha ao carregar as galerias.');
-      }
-      //Senão, retorna o arquivo buscado.
-      return response.json();
-   }).catch(error => console.log('Erro:' + error));
-
+function Galeria({ data }){
    //Valida os dados recebidos. *Ainda não sei se isso é realmente necessário*.
-   if(!data) return (<span>Ainda não existe nehuma Galeria!</span>)
+   if(!data) return (<span>Nenhuma galeria encontrada!</span>)
 
-   const galerias = data.galerias;
+   const galerias = data;
    return(
          galerias.map(galeria =>(
-         <div className="galeria">
+         <div key={galeria.titulo} className="galeria">
             <div className="galeria-image">
                <img src={galeria.thumbImage}></img>
             </div>
