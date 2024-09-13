@@ -6,7 +6,7 @@
          "thumbImage": "http://localhost:3000/images/fotos/IMG-1.jpg",
          "id":"123d4",
          "a": "linkFuturo",
-         "expirado": true,
+         "situacao": "Finalizada",
          "fotos":[
             {
                "desc":"IMG-1",
@@ -20,7 +20,7 @@
          "thumbImage": "http://localhost:3000/images/fotos/IMG-2.jpg",
          "id":"123a4",
          "a": "linkFuturo",
-         "expirado": false,
+         "situacao": "Pendente",
          "fotos":[
             {
                "desc":"IMG-1",
@@ -34,7 +34,7 @@
          "thumbImage": "http://localhost:3000/images/fotos/IMG-3.jpg",
          "id":"123n4",
          "a": "linkFuturo",
-         "expirado": false,
+         "situacao": "Pendente",
          "fotos":[
             {
                "desc":"IMG-1",
@@ -48,7 +48,7 @@
          "thumbImage": "http://localhost:3000/images/fotos/IMG-4.jpg",
          "id":"123r4",
          "a": "linkFuturo",
-         "expirado": true,
+         "situacao": "Expirada",
          "fotos":[
             {
                "desc":"IMG-1",
@@ -62,7 +62,7 @@
          "thumbImage": "http://localhost:3000/images/fotos/IMG-5.jpg",
          "id":"123e4",
          "a": "linkFuturo",
-         "expirado": false,
+         "situacao": "Finalizada",
          "fotos":[
             {
                "desc":"IMG-1",
@@ -76,7 +76,7 @@
          "thumbImage": "http://localhost:3000/images/fotos/IMG-6.jpg",
          "id":"123t4",
          "a": "linkFuturo",
-         "expirado": false,
+         "situacao": "Pendente",
          "fotos":[
             {
                "desc":"IMG-1",

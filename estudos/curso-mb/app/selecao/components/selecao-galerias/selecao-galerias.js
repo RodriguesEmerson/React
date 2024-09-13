@@ -9,7 +9,7 @@ export default function SelecaoGalerias({ data } ){
    )
 }
 
-function Galeria({ data }){
+function Galeria({ data }){ 
    //Valida os dados recebidos. *Ainda não sei se isso é realmente necessário*.
    if(!data) return (<span>Nenhuma galeria encontrada!</span>)
 
@@ -27,8 +27,8 @@ function Galeria({ data }){
                <span>{galeria.data}</span>
             </div>
             <div className="galeria-infos-footer">
-               <span className={`material-icons ${galeria.expirado ? 'G-expirado' : 'G-ativo'}`}>person</span>
-               <span className="galeria-status">{galeria.expirado ? 'Experiada' : 'Ativa'}</span>
+               <span className={`material-icons g-${galeria.situacao}`}>person</span>
+               <span className="galeria-status">{galeria.situacao}</span>
             </div>
          </div>
          <GaleriaOptions />

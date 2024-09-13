@@ -23,7 +23,10 @@ export default function SelecaoCotent({ data }){
    //A ordem por padrão será ordem por data de criação, que é a do próprio db.json.
    const [ordem, setOrdem] = useState(data);
 
-   //Filtra *data* com os carecteres de searchTerms.
+   //Aqui será a funão que filtra pelo status(situação) da galeria.
+   //const filtro = filtro;
+
+   //Filtra *ordem* com os carecteres de searchTerms.
    const filteredData = ordem.filter(item => 
       item.titulo.toLowerCase().includes(searchTerms.toLowerCase())
    )
