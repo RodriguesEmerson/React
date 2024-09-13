@@ -4,10 +4,10 @@
 import { useState } from 'react';
 import SelectOrdenar from './select-ordenar';
 
-export default function SelecaoOptions({ setSearchTerms }){
+export default function SelecaoOptions( {props} ){
 
    const handleSearchChange = (e) =>{
-      setSearchTerms(e.target.value);
+      props.setSearchTerms(e.target.value);
    }
 
    return(
@@ -26,7 +26,7 @@ export default function SelecaoOptions({ setSearchTerms }){
                <div className="filtrar-complex">Filtrar</div>
                <span className="material-icons">open_in_new</span>
             </div>
-            <SelectOrdenar />
+            <SelectOrdenar props={props}/>
          </div>
 
          <div className="btn-criar-galeria">

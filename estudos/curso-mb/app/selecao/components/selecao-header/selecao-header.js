@@ -12,7 +12,7 @@ export default function SelecaoHeader( props ){
             <span className="g-link galerias-ativas ativa">Galerias {`(${galeriasAtivas})`}</span>
             <span className="g-link galerias-congeladas">Galerias Congeladas {`(0)`}</span>
          </div>
-         <SelecaoOptions setSearchTerms={props.setSearchTerms}/>
+         <SelecaoOptions props={props}/>
       </div>
    )
 }

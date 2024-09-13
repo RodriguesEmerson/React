@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 let select, selectedOption;
-export default function SelectOrdenar(){
+export default function SelectOrdenar( {props} ){
    let [text, setText] = useState('Ordenar');
 
    function handleClickToggle(){
@@ -26,7 +26,8 @@ export default function SelectOrdenar(){
             <span 
                onClick={(e) => 
                   {handleMarkSelected(e);
-                   setText(text = "Ordenar")
+                   setText(text = "Ordenar");
+                   props.setOrdem(props.data);
                   }
                } 
                className="ordenar-galerias-option">
@@ -35,7 +36,8 @@ export default function SelectOrdenar(){
             <span 
                onClick={(e) => 
                   {handleMarkSelected(e);
-                   setText(text = "Títlulo A-Z")
+                   setText(text = "Títlulo A-Z");
+                   props.setOrdem(props.filteredDataOrdemAlfCres);
                   }
                } 
                className="ordenar-galerias-option">
@@ -44,7 +46,8 @@ export default function SelectOrdenar(){
             <span 
                onClick={(e) => 
                   {handleMarkSelected(e);
-                  setText(text = "Títlulo Z-A")
+                   setText(text = "Títlulo Z-A");
+                   props.setOrdem(props.filteredDataOrdemAlfDecr);
                   }
                } 
                className="ordenar-galerias-option">
@@ -53,7 +56,8 @@ export default function SelectOrdenar(){
             <span 
                onClick={(e) => 
                   {handleMarkSelected(e);
-                   setText(text = "Mais recentes")
+                   setText(text = "Mais recentes");
+                   props.setOrdem(props.data);
                   }
                } 
                className="ordenar-galerias-option">
@@ -62,7 +66,8 @@ export default function SelectOrdenar(){
             <span 
                onClick={(e) => 
                   {handleMarkSelected(e);
-                   setText(text = "Mais Antigas")
+                   setText(text = "Mais Antigas");
+                   props.setOrdem(props.filteredDataMaisAntigos);
                   }
                } 
                className="ordenar-galerias-option">

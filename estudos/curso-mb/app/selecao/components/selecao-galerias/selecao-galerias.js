@@ -14,24 +14,25 @@ function Galeria({ data }){
    if(!data) return (<span>Nenhuma galeria encontrada!</span>)
 
    const galerias = data;
+   //Faz um loop por todos os dados recebidos em 'data' e retorna a lista das galerias encontradas.
    return(
-         galerias.map(galeria =>(
-         <div key={galeria.titulo} className="galeria">
-            <div className="galeria-image">
-               <img src={galeria.thumbImage}></img>
-            </div>
-            <div className="galeria-infos">
-               <div className="galeria-infos-body">
-                  <a href="a" target="_blank">{galeria.titulo}</a>
-                  <span>{galeria.data}</span>
-               </div>
-               <div className="galeria-infos-footer">
-                  <span className={`material-icons ${galeria.expirado ? 'G-expirado' : 'G-ativo'}`}>person</span>
-                  <span className="galeria-status">{galeria.expirado ? 'Experiada' : 'Ativa'}</span>
-               </div>
-            </div>
-            <GaleriaOptions />
+      galerias.map(galeria =>(
+      <div key={galeria.titulo} className="galeria">
+         <div className="galeria-image">
+            <img src={galeria.thumbImage}></img>
          </div>
+         <div className="galeria-infos">
+            <div className="galeria-infos-body">
+               <a href="a" target="_blank">{galeria.titulo}</a>
+               <span>{galeria.data}</span>
+            </div>
+            <div className="galeria-infos-footer">
+               <span className={`material-icons ${galeria.expirado ? 'G-expirado' : 'G-ativo'}`}>person</span>
+               <span className="galeria-status">{galeria.expirado ? 'Experiada' : 'Ativa'}</span>
+            </div>
+         </div>
+         <GaleriaOptions />
+      </div>
       ))
    )
    
