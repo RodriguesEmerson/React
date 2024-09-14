@@ -2,13 +2,18 @@
 'use client';
 
 import { useState } from 'react';
-import SelectOrdenar from './select-ordenar';
+import SelectOrdenar from './select-header-ordenar';
+import SelecaoFiltro from './selecao-header-filtro';
 
 export default function SelecaoOptions( {props} ){
+
 
    const handleSearchChange = (e) =>{
       props.setSearchTerms(e.target.value);
    }
+
+   //Ação para mostrar e esconder o modal de filtros.
+   const [showModal, setShowModal] = useState('hidden')
 
    return(
       <div className="selecao-options">
@@ -22,10 +27,12 @@ export default function SelecaoOptions( {props} ){
                </input>
                <span className="material-icons">search</span>
             </div>
-            <div className="colum">
+            <div onClick={() => setShowModal('')} className="colum">
                <div className="filtrar-complex">Filtrar</div>
                <span className="material-icons">open_in_new</span>
             </div>
+            
+            <SelecaoFiltro showModal={showModal} setShowModal={setShowModal} />            
             <SelectOrdenar props={props}/>
          </div>
 

@@ -1,4 +1,4 @@
-import SelecaoOptions from './selecao-options'
+import SelecaoOptions from './selecao-header-options'
 export default function SelecaoHeader( props ){
    const data = props.data;
    let galeriasAtivas = 0;

@@ -11,7 +11,8 @@
   --cor-backgroud-padrao: rgb(241, 244, 246);
   --azul-padrao: rgb(70, 171, 222);
   --azul-secundario: rgb(44, 143, 207);
-  --cor-borda-padrao: rgb(209, 221, 225);
+  --azul-escuro-background: rgb(54, 54, 70);
+  --cor-borda-padrao: rgb(238, 241, 243);
 }
 
 @font-face {
