@@ -1,43 +1,52 @@
 'use client';
 
 import { useState } from "react";
-let filtrosPreSelecionados = [null, null, null];
+
 
 export default function SelecaoFiltro({ showModal, setShowModal, fStatus, setFStatus }){
    //SH = selecao-header;
-
    const [showList, setShowList] = useState('');
-   const [checkedOne, setcheckedOne] = useState(false);
-   const [checkedTwo, setcheckedTwo] = useState(false);
-   const [checkedTeee, setcheckedTeee] = useState(false); 
+   const [checkedOne, setcheckedOne] = useState(true);
+   const [checkedTwo, setcheckedTwo] = useState(true);
+   const [checkedTree, setcheckedTree] = useState(true); 
+
+   // Estado para armazenar os filtros pre-selecionados
+   const [filtrosPreSelecionados, setFiltrosPreSelecionados] = useState(['Finalizada', 'Pendente', 'Expirada']);
 
    function handleLimparCheckboxs(){
-      setcheckedOne(false);
-      setcheckedTwo(false);
-      setcheckedTeee(false);
-      filtrosPreSelecionados = ['Finalizada', 'Pendente',  'Expirada']
+      setcheckedOne(true);
+      setcheckedTwo(true);
+      setcheckedTree(true);
+      setFiltrosPreSelecionados (['Finalizada', 'Pendente',  'Expirada']);
    }
 
+   //Abre e fecha a lista com os filtros.
    function handleShowList(){
-      if(showList == '') return setShowList('SH-filtro-body-list-show');
-      return setShowList('');
+      setShowList(prev => (prev === '' ? 'SH-filtro-body-list-show' : ''));
    }
 
    function handlePreSelecionaFiltros(checkbox, setChecked, index, status){
-         if(!checkbox){
-            setChecked(true);
-            filtrosPreSelecionados[index] = status;
-            console.log(filtrosPreSelecionados)
-            return;
-         }
-         setChecked(false);
-         filtrosPreSelecionados[index] = null;
-         console.log(filtrosPreSelecionados)  
+      const newFiltros = [...filtrosPreSelecionados];
+      //prev é o valor atual de checked
+      setChecked(prev => !prev)
+      newFiltros[index] = checkbox ?  'null' : status;
+
+      setFiltrosPreSelecionados(newFiltros)
+
+      console.log(newFiltros)
    }
 
    function handleSetFiltros(){
-      console.log(filtrosPreSelecionados)
-      setFStatus(filtrosPreSelecionados)
+      setFStatus(filtrosPreSelecionados);
+   }
+
+   function handleFechaModal(){
+      setcheckedOne(fStatus[0]  == 'null' ? false : true);
+      setcheckedTwo(fStatus[1]  == 'null' ? false : true);
+      setcheckedTree(fStatus[2] == 'null' ? false : true);
+      setFiltrosPreSelecionados(fStatus);
+      setShowModal('hidden');
+      console.log(fStatus)
    }
 
    return(
@@ -47,7 +56,7 @@ export default function SelecaoFiltro({ showModal, setShowModal, fStatus, setFSt
                <p>Filtrar por</p>
                <span 
                   className="material-icons"
-                  onClick={() => setShowModal('hidden')}>
+                  onClick={handleFechaModal}>
                   close
                </span>
             </div>
@@ -78,9 +87,9 @@ export default function SelecaoFiltro({ showModal, setShowModal, fStatus, setFSt
                      <span>Aguardando seleção</span>
                   </li>
                   <li 
-                     onClick={()=> handlePreSelecionaFiltros(checkedTeee, setcheckedTeee, 2, 'Expirada')}
+                     onClick={()=> handlePreSelecionaFiltros(checkedTree, setcheckedTree, 2, 'Expirada')}
                      className="SH-filtro-body-list-options-item">
-                     <input onChange={handlePreSelecionaFiltros} checked={checkedTeee} type="checkbox" id="SH-filtro-checkbox-3" className="SH-filtro-checkbox hidden"></input>
+                     <input onChange={handlePreSelecionaFiltros} checked={checkedTree} type="checkbox" id="SH-filtro-checkbox-3" className="SH-filtro-checkbox hidden"></input>
                      <span className="SH-filtro-checkbox-label"></span>
                      <span className="material-icons g-Expirada">person</span>
                      <span>Prazo expirado</span>
@@ -93,12 +102,12 @@ export default function SelecaoFiltro({ showModal, setShowModal, fStatus, setFSt
                   <span>Limpar filtro</span>
                </div>
                <input
-                  onClick={() => setShowModal('hidden')}
+                  onClick={handleFechaModal}
                   className="SH-filtro-footer-cancelar" type="button" value={'Cancelar'}>
                </input>
                <input 
                   onClick={()=> {handleSetFiltros(); setShowModal('hidden')}}
-                  className="SH-filtro-footer-filtrar" type="button" value={'Filtar'}>
+                  className="SH-filtro-footer-filtrar" type="button" value={'Aplicar'}>
                </input>
             </div>
          </div>

@@ -34,7 +34,7 @@ export default function SelecaoCotent({ data }){
    )
 
    //Inclui todos os filtros
-   const filteredDataComplete = filteredData.filter(item =>{
+   const filteredDataComplete = [...filteredData].filter(item =>{
       if(item.situacao.includes(fStatus[0]) || 
          item.situacao.includes(fStatus[1]) || 
          item.situacao.includes(fStatus[2])){

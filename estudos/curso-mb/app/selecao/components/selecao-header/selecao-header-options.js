@@ -7,7 +7,6 @@ import SelecaoFiltro from './selecao-header-filtro';
 
 export default function SelecaoOptions({ props }){
 
-
    const handleSearchChange = (e) =>{
       props.setSearchTerms(e.target.value);
    }
