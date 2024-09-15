@@ -25,35 +25,47 @@ export default function SelecaoFiltro({ showModal, setShowModal }){
             </div>
             <div className="SH-filtro-body">
                <div 
-                  className={`SH-filtro-body-list ${showList}`}
+                  className={`SH-filtro-body-list`}
                   onClick={handleShowList}>
                   <div>
                      <p>Status da galeria</p>
                      <span className="material-icons">keyboard_arrow_down</span>
                   </div>
-                  <ul className="SH-filtro-body-list-options">
-                     <li className="SH-filtro-body-list-options-item">
-                        <input type="checkbox" id="SH-filtro-checkbox-1" className="hidden"></input>
-                        <labal htmlFor="SH-filtro-checkbox-1" className="SH-filtro-checkbox-label"></labal>
+               </div>
+               <ul className={`SH-filtro-body-list-options ${showList}`}>
+                  <li className="SH-filtro-body-list-options-item">
+                     <label htmlForfor="SH-filtro-checkbox-1">
+                        <input type="checkbox" id="SH-filtro-checkbox-1" className="SH-filtro-checkbox hidden"></input>
+                        <span className="SH-filtro-checkbox-label"></span>
                         <span className="material-icons g-Finalizada">person</span>
                         <span>Seleção filanizada</span>
-                     </li>
-                     <li className="SH-filtro-body-list-options-item">
-                        <input type="checkbox" id="SH-filtro-checkbox-2" className="hidden"></input>
-                        <labal htmlFor="SH-filtro-checkbox-2" className="SH-filtro-checkbox-label"></labal>
+                     </label>
+                  </li>
+                  <li className="SH-filtro-body-list-options-item">
+                     <label htmlForfor="SH-filtro-checkbox-2">
+                        <input type="checkbox" id="SH-filtro-checkbox-2" className="SH-filtro-checkbox hidden"></input>
+                        <span className="SH-filtro-checkbox-label"></span>
                         <span className="material-icons g-Pendente">person</span>
                         <span>Aguardando seleção</span>
-                     </li>
-                     <li className="SH-filtro-body-list-options-item">
-                        <input type="checkbox" id="SH-filtro-checkbox-3" className="hidden"></input>
-                        <labal htmlFor="SH-filtro-checkbox-3" className="SH-filtro-checkbox-label"></labal>
+                     </label>
+                  </li>
+                  <li className="SH-filtro-body-list-options-item">
+                     <label htmlFor="SH-filtro-checkbox-3">
+                        <input type="checkbox" id="SH-filtro-checkbox-3" className="SH-filtro-checkbox hidden"></input>
+                        <span className="SH-filtro-checkbox-label"></span>
                         <span className="material-icons g-Expirada">person</span>
                         <span>Prazo expirado</span>
-                     </li>
-                  </ul>
-               </div>
+                     </label>
+                  </li>
+               </ul>
             </div>
-            <div className="SH-filtro-body">
+            <div className="SH-filtro-footer">
+               <div className="SH-filtro-footer-limpar" type="button">
+                  <span className="material-icons">close</span>
+                  <span>Limpar filtro</span>
+               </div>
+               <input className="SH-filtro-footer-cancelar" type="button" value={'Cancelar'}></input>
+               <input className="SH-filtro-footer-filtrar" type="button" value={'Filtar'}></input>
             </div>
          </div>
       </divc>
