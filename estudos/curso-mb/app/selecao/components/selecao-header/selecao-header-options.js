@@ -5,7 +5,7 @@ import { useState } from 'react';
 import SelectOrdenar from './select-header-ordenar';
 import SelecaoFiltro from './selecao-header-filtro';
 
-export default function SelecaoOptions( {props} ){
+export default function SelecaoOptions({ props }){
 
 
    const handleSearchChange = (e) =>{
@@ -17,6 +17,12 @@ export default function SelecaoOptions( {props} ){
 
    return(
       <div className="selecao-options">
+         <SelecaoFiltro 
+            showModal={showModal} 
+            setShowModal={setShowModal}
+            fStatus={props.fStatus}
+            setFStatus={props.setFStatus}
+         />            
          <div className="filtros">
             <div className="colum">
                <input 
@@ -32,7 +38,6 @@ export default function SelecaoOptions( {props} ){
                <span className="material-icons">open_in_new</span>
             </div>
             
-            <SelecaoFiltro showModal={showModal} setShowModal={setShowModal} />            
             <SelectOrdenar props={props}/>
          </div>
 
