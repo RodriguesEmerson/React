@@ -31,7 +31,7 @@ function Galeria({ data }){
                <span className="galeria-status">{galeria.situacao}</span>
             </div>
          </div>
-         <GaleriaOptions />
+         <GaleriaOptions IdGaleria={galeria.id}/>
       </div>
       ))
    )

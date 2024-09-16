@@ -10,32 +10,35 @@ export default function SelecaoFiltro({ showModal, setShowModal, fStatus, setFSt
    const [checkedTwo, setcheckedTwo] = useState(true);
    const [checkedTree, setcheckedTree] = useState(true); 
 
-   // Estado para armazenar os filtros pre-selecionados
+   // Estado para armazenar os filtros pre-selecionados, para que qualquer alteração gere uma re-rederização.
    const [filtrosPreSelecionados, setFiltrosPreSelecionados] = useState(['Finalizada', 'Pendente', 'Expirada']);
 
    function handleLimparCheckboxs(){
+      //Preenche as checkboxs, mas ainda não filtra as galerias.
       setcheckedOne(true);
       setcheckedTwo(true);
       setcheckedTree(true);
       setFiltrosPreSelecionados (['Finalizada', 'Pendente',  'Expirada']);
    }
 
-   //Abre e fecha a lista com os filtros.
+   //Abre e fecha a lista 'status da galeria' com os filtros.
    function handleShowList(){
       setShowList(prev => (prev === '' ? 'SH-filtro-body-list-show' : ''));
    }
 
    function handlePreSelecionaFiltros(checkbox, setChecked, index, status){
+      //Cria um novo array com os dados de 'filtrosPreSelecionados' para -->
       const newFiltros = [...filtrosPreSelecionados];
       //prev é o valor atual de checked
       setChecked(prev => !prev)
       newFiltros[index] = checkbox ?  'null' : status;
 
+      //-->Atualiza dos dados com o novo array, para gerar a re-rederização.
       setFiltrosPreSelecionados(newFiltros)
-
-      console.log(newFiltros)
    }
 
+   //Seta os novos filtros em fStatus que está em 'selecao-contente.js'
+   //para que de fato atualize os dados na tela.
    function handleSetFiltros(){
       setFStatus(filtrosPreSelecionados);
    }
@@ -46,7 +49,6 @@ export default function SelecaoFiltro({ showModal, setShowModal, fStatus, setFSt
       setcheckedTree(fStatus[2] == 'null' ? false : true);
       setFiltrosPreSelecionados(fStatus);
       setShowModal('hidden');
-      console.log(fStatus)
    }
 
    return(

@@ -10,7 +10,7 @@ export default function OpenUserBoxButton(){
          <div onClick={handleClick} className="user-box flex">
             <span className="material-icons">keyboard_arrow_down</span>
             <div className="user-img">
-               <sapn className="material-icons user-icon">account_circle</sapn>
+               <span className="material-icons user-icon">account_circle</span>
             </div>
          </div>
       </>

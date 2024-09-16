@@ -10,7 +10,7 @@ export default function User(){
       <div className='user-infos hidden'>
          <div className='user-profile flex'>
             <div className="user-img">
-               <sapn className="material-icons user-icon">account_circle</sapn>
+               <span className="material-icons user-icon">account_circle</span>
             </div>
             <div className='user flex'>
                <span className='user-name'>Olá, {name}</span>

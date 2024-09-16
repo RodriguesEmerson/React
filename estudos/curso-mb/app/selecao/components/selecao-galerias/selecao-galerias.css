@@ -63,7 +63,6 @@
 
 
 /*GALREIA OPTIONS*/
-
 .selecao-galerias .galeria-options{
    position: absolute;
    width: 40px;
@@ -91,8 +90,7 @@
    display: flex;
    justify-content: flex-start;
    align-items: flex-start;
-   top: 35px;
-   left: -168px;
+   left: -203px;
    width: 200px;
    height: 140px;
    background-color: white;
