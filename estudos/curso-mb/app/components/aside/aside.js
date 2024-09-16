@@ -6,7 +6,7 @@ import LinksList from './nav-links'
 export default function Aside(){
    const links = [
       {icon: 'home', a: 'http://localhost:3000', value: 'Início'},
-      {icon: 'image', a: 'http://localhost:3000/selecao', value: 'Seleção de fotos'},
+      {icon: 'image', a: '/selecao', value: 'Seleção de fotos'},
       {icon: 'auto_stories', a: '', value: 'Prova de álbuns'},
       {icon: 'person', a: '', value: 'Clientes'},
       {icon: 'invert_colors', a: '', value: 'Personalizações'},

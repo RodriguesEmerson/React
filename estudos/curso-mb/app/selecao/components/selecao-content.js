@@ -2,9 +2,9 @@
 
 import SelecaoHeader from './selecao-header/selecao-header';
 import SelecaoGalerias from './selecao-galerias/selecao-galerias'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function SelecaoCotent({ data }){
+export default function SelecaoCotent({ data }){ 
 
    //'Seta' os carecteres do campo de pesquisa em *searchTerms*.
    const [searchTerms, setSearchTerms] = useState('');
@@ -38,7 +38,7 @@ export default function SelecaoCotent({ data }){
       if(item.situacao.includes(fStatus[0]) || 
          item.situacao.includes(fStatus[1]) || 
          item.situacao.includes(fStatus[2])){
-         return item
+         return item;
       }
    }
       
@@ -59,5 +59,5 @@ export default function SelecaoCotent({ data }){
          />
          <SelecaoGalerias data={filteredDataComplete}/>
       </section>
-)
+   )
 }
