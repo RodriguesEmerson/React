@@ -7,7 +7,7 @@ import Options from "./options"
 export default function Header(){
    return (
       <header>
-         <div className="logo">Lodo do Site</div>
+         <div className="logo">Foto Select</div>
          <div className="interacao">
             <Options />
             <User />
