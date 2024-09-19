@@ -15,11 +15,11 @@
                      "content": "Texto do card",
                      "data": "2024/09/18",
                      "prazo": "2024/09/18",
-                     "img": "http://localhost:3000/images/bg-img-1.jpg",
+                     "img": "http://localhost:3000/images/bg-img-3.jpg",
                      "integrants": [
                         {
                            "nome": "integrant-1",
-                           "avatar": "/images/profile-1.jpg"
+                           "avatar": "/images/profile-2.png"
                         }
                      ],
                      "labels": ["bg-blue-500","bg-green-600"],
@@ -43,11 +43,11 @@
                      "content": "Texto do card",
                      "data": "2024/09/18",
                      "prazo": "2024/09/18",
-                     "img": "http://localhost:3000/images/bg-img-1.jpg",
+                     "img": "http://localhost:3000/images/bg-img-2.jpg",
                      "integrants": [
                         {
                            "nome": "integrant-1",
-                           "avatar": "/images/profile-1.jpg"
+                           "avatar": "/images/profile-1.png"
                         }
                      ],
                      "labels": ["bg-blue-500","bg-green-600"],
@@ -75,11 +75,11 @@
                      "integrants": [
                         {
                            "nome": "integrant-1",
-                           "avatar": "/images/profile-1.jpg"
+                           "avatar": "/images/profile-1.png"
                         },
                         {
                            "nome": "integrant-2",
-                           "avatar": "/images/profile-1.jpg"
+                           "avatar": "/images/profile-2.png"
                         }
                      ],
                      "labels": ["bg-blue-500","bg-green-600"],
@@ -97,11 +97,11 @@
                      "content": "Texto do card",
                      "data": "2024/09/18",
                      "prazo": "2024/09/18",
-                     "img": "http://localhost:3000/images/bg-img-1.jpg",
+                     "img": "http://localhost:3000/images/bg-img-4.jpg",
                      "integrants": [
                         {
                            "nome": "integrant-1",
-                           "avatar": "/images/profile-1.jpg"
+                           "avatar": "/images/profile-1.png"
                         }
                      ],
                      "labels": ["bg-blue-500","bg-green-600"],

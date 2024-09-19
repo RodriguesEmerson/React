@@ -1,3 +1,5 @@
+import dragDrop from "./drag-drop";
+
 export default function Card({ cards }) {
 
    if (!cards) {
@@ -6,9 +8,14 @@ export default function Card({ cards }) {
 
    return (
       cards.map(card => (
-         <div key={card.id} draggable="true" className="flex flex-col gap-1 w-full cursor-grab shadow-4xl rounded bg-white p-2 relative mb-2" >
+         <div key={card.id} id={card.id} draggable="true" className="card flex flex-col gap-1 w-full cursor-grab shadow-4xl rounded bg-white p-2 relative mb-2" 
+            onDragStart={(e) => {dragDrop.dragStart(e)}}
+            onDrag={dragDrop.draging}
+            onDragOver={(e) => {dragDrop.dragOver(e)}}
+            onDragEnd={dragDrop.dragEnd}
+            >
             {card.img ? <div className="h-36 overflow-hidden rounded-t-sm">
-               <img className="max-w-full object-cover" draggable="false" src="/images/bg-img-1.jpg"></img>
+               <img className="max-w-full object-cover" draggable="false" src={card.img}></img>
                </div>
                : ''
             }
@@ -31,7 +38,7 @@ export default function Card({ cards }) {
                   <p>{new Date(card.data).toLocaleDateString('pt-br', {day: '2-digit', month: 'long', year: 'numeric'})}</p>
                </div>
                <div className="flex flex-row gap-1 justify-end flex-1">
-                  <Profile avatars={card.integrants}/>
+                  <Profile integrantes={card.integrants}/>
                </div>
             </div>
          </div>
@@ -46,11 +53,11 @@ function Labels({ labels }) {
       ))
    )
 }
-function Profile({ avatars }) {
+function Profile({ integrantes }) {
    return (
-      avatars.map(avatar => (
-         <div key={avatar.nome} className="h-7 w-7 rounded-full bg-gray-600">
-            <img src="/images/profile-1.png" className="max-w-full object-cover"></img>
+      integrantes.map(avatar => (
+         <div key={avatar.nome} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden">
+            <img src={avatar.avatar} className="max-w-full object-cover"></img>
          </div>
       ))
    )

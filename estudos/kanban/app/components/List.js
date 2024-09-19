@@ -12,7 +12,7 @@ export default function List({ lists }) {
 
    return (
       lists.map(list => (
-      <div key={list.id} className="w-72 bg-gray-100 shadow-4xl p-2 rounded-sm text-sm">
+      <div key={list.id} className="list w-72 bg-gray-100 shadow-4xl p-2 rounded-sm text-sm">
          <h2 className="mb-3 text-xl font-bold">{list.listName}</h2>
          <div>
             <Card cards={list.cards}/>
