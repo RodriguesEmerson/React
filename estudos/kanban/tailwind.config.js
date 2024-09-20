@@ -19,7 +19,9 @@ module.exports = {
         '3xl': '3px'
       },
       height:{
-        '10px': '10px'
+        '10px': '10px',
+      }, maxHeight:{
+        '100vh-105px': 'calc(100vh - 105px)'
       }
     },
   },

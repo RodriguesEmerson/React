@@ -2,25 +2,21 @@ import dragDrop from "./drag-drop";
 
 export default function Card({ cards }) {
 
-   if (!cards) {
-      return <div>Carregando Card</div>
-   }
-
    return (
       cards.map(card => (
-         <div key={card.id} id={card.id} draggable="true" className="card flex flex-col gap-1 w-full cursor-grab shadow-4xl rounded bg-white p-2 relative mb-2" 
+         <div key={card.id} id={card.id} draggable="true" className="card cursor-grab flex flex-col gap-1 w-full shadow-4xl rounded bg-white p-2 relative mb-2" 
             onDragStart={(e) => {dragDrop.dragStart(e)}}
-            onDrag={dragDrop.draging}
             onDragOver={(e) => {dragDrop.dragOver(e)}}
             onDragEnd={dragDrop.dragEnd}
             >
-            {card.img ? <div className="h-36 overflow-hidden rounded-t-sm">
-               <img className="max-w-full object-cover" draggable="false" src={card.img}></img>
+            {card.img ? 
+               <div className="h-36 overflow-hidden rounded-t-sm ">
+                  <img className="max-w-full object-cover" draggable="false" src={card.img}></img>
                </div>
                : ''
             }
             {card.labels ?
-               <div className="flex flex-row gap-1 h-4">
+               <div className="flex flex-row gap-1 h-4" >
                   <Labels  labels={card.labels}/>
                </div> : ''
             }

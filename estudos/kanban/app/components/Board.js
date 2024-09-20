@@ -8,6 +8,10 @@ export default function Board(){
    const [data, setData] = useState('');
    const [projetId, setProjectId] = useState('p123456');
 
+   const handleDragOver = (e) =>{
+      e.preventDefault();
+   }
+
    //UseEffect só execulta depois do dom ter sido criado por completo
    useEffect(()=>{
       const getData = async () =>{
@@ -34,7 +38,9 @@ export default function Board(){
    }, []);
 
    return(
-      <section className="flex flex-row items-start m-auto p-5 gap-3">
+      <section className={`flex flex-row items-start m-auto p-5 gap-3`}
+      onDragOver={(e)=> {handleDragOver(e)}}
+      >
          <List lists={data.lists}/>
       </section>
    )
