@@ -38,7 +38,7 @@ export default function Board(){
    }, []);
 
    return(
-      <section className={`flex flex-row items-start m-auto p-5 gap-3`}
+      <section className={`board flex flex-row items-start m-auto p-5 gap-3`}
       onDragOver={(e)=> {handleDragOver(e)}}
       >
          <List lists={data.lists}/>

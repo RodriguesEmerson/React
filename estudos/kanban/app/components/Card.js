@@ -8,6 +8,7 @@ export default function Card({ cards }) {
             onDragStart={(e) => {dragDrop.dragStart(e)}}
             onDragOver={(e) => {dragDrop.dragOver(e)}}
             onDragEnd={dragDrop.dragEnd}
+            onDragEnter={(e)=> e.stopPropagation()}
             >
             {card.img ? 
                <div className="h-36 overflow-hidden rounded-t-sm ">
@@ -16,7 +17,7 @@ export default function Card({ cards }) {
                : ''
             }
             {card.labels ?
-               <div className="flex flex-row gap-1 h-4" >
+               <div className="flex flex-row gap-1 h-4">
                   <Labels  labels={card.labels}/>
                </div> : ''
             }

@@ -14,7 +14,7 @@ const dragDrop = {
 
    dragEnter: function(e){
       //Verifica se a lista atual é a mesma em que a div foi criada.
-      if(currentList.getAttribute('id') != e.target.closest('.list').getAttribute('id')){
+      if(currentList !== e.target.closest('.list')){
          //remove a 'div temporária' criada anteriomente em outra lista.
          const TemporarieDiv = document.querySelector('.temp-div');
          TemporarieDiv ? TemporarieDiv.remove() : '';
@@ -33,7 +33,8 @@ const dragDrop = {
       const card = e.target.closest('.card')
       const mousePositionY = e.clientY; //Posição do mouseY
       const cardPositionY = card.offsetTop; //Posição do cardY
-      const cardHalf = card.offsetHeight / 2; //Tamaho do card / 2     
+      const cardHalf = card.offsetHeight / 2; //Tamaho do card / 2 
+      currentCard = card;    
 
       if(mousePositionY < cardPositionY + cardHalf){
          if(tempPosition == 'up') return;
@@ -56,7 +57,13 @@ const dragDrop = {
    //Acionado quando uma operação de arrastar está terminando 
    //(por eexmplo, ao soltar o botão do mouse ou pressionar a tecla esc).
    dragEnd: function(){
-      draggingCard = false;
+      const tempDiv = (document.querySelector('.temp-div'));
+      console.log(currentList, draggingCard, currentCard)
+      
+      currentList.appendChild(draggingCard); 
+      currentList.replaceChild(draggingCard, tempDiv);
+      draggingCard = origemList = currentList = tempPosition = currentCard = null;
+      tempDiv.remove();
    }
 }
 
