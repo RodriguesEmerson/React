@@ -13,10 +13,14 @@ const dragDrop = {
       currentList = e.target.closest('.list');
       currentListId = currentList.getAttribute('id');
       dragableArea = document.querySelector(`#${currentListId} .dragableArea`);  
-      dragableArea.style.height = `${dragableArea.offsetHeight}px`;    
+      // dragableArea.style.height = `${dragableArea.offsetHeight}px`;    
       
-      // //Seta a imagem que aparecerá no dragging e a posição do mouse em no card arrastado.
-      // e.dataTransfer.setDragImage(draggingCard, 0, 0);
+      //Seta a imagem que aparecerá no card arrastado.
+      e.dataTransfer.setDragImage(
+            draggingCard, //Imagem
+            (e.clientX - draggingCard.offsetLeft), //EixoX
+            (e.clientY - draggingCard.offsetTop + dragableArea.scrollTop) //EixoY
+      );
 
       // setTimeout(() => {
       //    draggingCard.style.opacity='0';
@@ -51,25 +55,24 @@ const dragDrop = {
    dragOver: function(e){
       e.preventDefault(); //obrigatório.
       shadowCard = TemporarieCard(draggingCardHeight)
+      // Se a dragableArea não tiver nenhum card, adicioana um shadowCard
+      if(!dragableArea.hasChildNodes()){
+         return dragableArea.appendChild(shadowCard); 
+      }
+      
       const card = e.target.closest('.card');
-      // Se a dragableArea não conter nenhum card, adicioana a divTemp
-      // para depois poder ser substituida pelo card dropado.
-      if(dragableArea.childNodes.length < 1){
-         dragableArea.appendChild(shadowCard);
-         return
-      }
-      if(dragableArea.childNodes.length == 1 && dragableArea.firstChild == draggingCard){
-         dragableArea.appendChild(shadowCard);
-         return
-      }
-
       if(!card) return;
       currentCard = card;
-      const mousePositionY = e.clientY; //Posição do mouseY
+
+      const mousePositionY = e.clientY + dragableArea.scrollTop; //Posição do mouseY
       const cardPositionY = card.offsetTop; //Posição do cardY
       const cardHalf = card.offsetHeight / 2; //Tamaho do card / 2 
 
+      if(draggingCard == currentCard) return;
       if(mousePositionY < cardPositionY + cardHalf){
+         //Verifica se o carde anterior é o card que esta sendo arrastado.
+         if(card.previousSibling?.isEqualNode(draggingCard)) return;
+
          //Verifica se o próximo card é um shadowCard, se for, o remove();
          card.nextSibling?.isEqualNode(shadowCard) && card.nextSibling.remove();
 
@@ -78,6 +81,9 @@ const dragDrop = {
             card.insertAdjacentElement('beforebegin', shadowCard)
          }
       }else{
+         //Verifica se o carde posterior é o card que esta sendo arrastado.
+         if(card.nextSibling?.isEqualNode(draggingCard)) return;
+
          //Verifica se o card anterior é o shadowCard, se for, o remove();
          card.previousSibling?.isEqualNode(shadowCard) && card.previousSibling.remove();
    
