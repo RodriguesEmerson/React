@@ -52,8 +52,8 @@ const dragDrop = {
       e.preventDefault(); //obrigatório.
       shadowCard = TemporarieCard(draggingCardHeight)
       const card = e.target.closest('.card');
-      //Se a dragableArea não conter nenhum card, adicioana a divTemp
-      //para depois poder ser substituida pelo card dropado.
+      // Se a dragableArea não conter nenhum card, adicioana a divTemp
+      // para depois poder ser substituida pelo card dropado.
       if(dragableArea.childNodes.length < 1){
          dragableArea.appendChild(shadowCard);
          return
@@ -64,42 +64,27 @@ const dragDrop = {
       }
 
       if(!card) return;
-
       currentCard = card;
       const mousePositionY = e.clientY; //Posição do mouseY
       const cardPositionY = card.offsetTop; //Posição do cardY
       const cardHalf = card.offsetHeight / 2; //Tamaho do card / 2 
 
-      //Verifica se o card arrartado é o mesmo que o que está sobreposto.
-      if(draggingCard == card) return;
-      
       if(mousePositionY < cardPositionY + cardHalf){
+         //Verifica se o próximo card é um shadowCard, se for, o remove();
+         card.nextSibling?.isEqualNode(shadowCard) && card.nextSibling.remove();
 
-         if(!card.previousSibling){
-            return card.insertAdjacentElement('beforebegin', shadowCard)
+         //Insere um shadowCard acima do card, se não haver um.
+         if(!card.previousSibling || !card.previousSibling.isEqualNode(shadowCard)){
+            card.insertAdjacentElement('beforebegin', shadowCard)
          }
-         if(card.previousSibling.isEqualNode(shadowCard)) return;
-         
-         if(card.nextSibling){
-            console.log('aru')
-            card.nextSibling.isEqualNode(shadowCard) ? shadowCard.remove() : '';
-         }
-         
-         //Insere a caixa temporaria acima do card
-         card.insertAdjacentElement('beforebegin', shadowCard)
       }else{
-         if(!card.nextSibling){
-            return card.insertAdjacentElement('afterend', shadowCard);
+         //Verifica se o card anterior é o shadowCard, se for, o remove();
+         card.previousSibling?.isEqualNode(shadowCard) && card.previousSibling.remove();
+   
+         if(!card.nextSibling || !card.nextSibling.isEqualNode(shadowCard)){
+            //Insere a caixa temporaria abaixo do card
+            card.insertAdjacentElement('afterend', shadowCard);
          }
-         if(card.nextSibling.isEqualNode(shadowCard)) return;
-
-         if(card.previousSibling){
-            card.previousSibling.isEqualNode(shadowCard) ? shadowCard.remove() : '';
-            // console.log('tem')
-         }
-
-         //Insere a caixa temporaria abaixo do card
-         card.insertAdjacentElement('afterend', shadowCard)
       }
    },
 
