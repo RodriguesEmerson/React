@@ -21,7 +21,7 @@ module.exports = {
       height:{
         '10px': '10px',
       }, maxHeight:{
-        '100vh-105px': 'calc(100vh - 105px)'
+        '100vh-105px': 'calc(100vh - 180px) !important'
       }
     },
   },
