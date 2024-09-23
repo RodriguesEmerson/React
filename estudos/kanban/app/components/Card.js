@@ -6,18 +6,17 @@ export default function Card({ cards }) {
 
    return (
       cards.map(card => (
-         <div key={card.id} id={card.id} draggable="true" className="card cursor-grab flex flex-col gap-1 w-full shadow-4xl rounded bg-white p-2 relative mb-2" 
+         <div key={card.id} id={card.id} draggable="true" className="card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl rounded bg-white relative mb-2" 
             >
-            {card.img ? 
+            {card.img &&
                <div className="h-36 overflow-hidden rounded-t-sm ">
                   <img className="max-w-full object-cover" draggable="false" src={card.img}></img>
                </div>
-               : ''
             }
-            {card.labels ?
+            {card.labels &&
                <div className="flex flex-row gap-1 h-4">
                   <Labels  labels={card.labels}/>
-               </div> : ''
+               </div> 
             }
             
             <div>
@@ -42,9 +41,10 @@ export default function Card({ cards }) {
 }
 
 function Labels({ labels }) {
+  
    return (
       labels.map(label =>(
-         <span key={label} className={`w-12 h-2 ${label} rounded-lg`}></span>
+         <span key={label} className={`w-12 h-2 rounded-lg`} style={{backgroundColor: `${label}`}}></span>
       ))
    )
 }

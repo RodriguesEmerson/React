@@ -50,7 +50,7 @@
                            "avatar": "/images/profile-1.png"
                         }
                      ],
-                     "labels": ["bg-blue-500","bg-green-600"],
+                     "labels": ["red","green"],
                      "id": "c123457",
                      "coments": [
                         {

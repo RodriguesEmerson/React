@@ -41,7 +41,9 @@ const dragDrop = {
 
       shadowCard = TemporarieCard(draggingCardHeight);
       // Se a dragableArea não tiver nenhum card, adicioana um shadowCard
-      if(!dragableArea.hasChildNodes()){
+      !dragableArea.hasChildNodes() && dragableArea.appendChild(shadowCard)
+      if(dragableArea.childNodes.length == 1 && dragableArea.firstChild.isEqualNode(draggingCard)){
+         draggingCard.style.display = 'none';
          return dragableArea.appendChild(shadowCard); 
       }
       
@@ -55,9 +57,8 @@ const dragDrop = {
 
       if(draggingCard == currentCard) return;
       if(mousePositionY < cardPositionY + cardHalf){
-         //Verifica se o carde anterior é o card que esta sendo arrastado.
-         // if(card.previousSibling?.isEqualNode(draggingCard)) return;
          draggingCard.style.display = 'none';
+
          //Verifica se o próximo card é um shadowCard, se for, o remove();
          card.nextSibling?.isEqualNode(shadowCard) && card.nextSibling.remove();
 
@@ -66,8 +67,6 @@ const dragDrop = {
             card.insertAdjacentElement('beforebegin', shadowCard)
          }
       }else{
-         //Verifica se o carde posterior é o card que esta sendo arrastado.
-         // if(card.nextSibling?.isEqualNode(draggingCard)) return;
          draggingCard.style.display = 'none';
 
          //Verifica se o card anterior é o shadowCard, se for, o remove();

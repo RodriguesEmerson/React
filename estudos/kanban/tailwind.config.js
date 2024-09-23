@@ -16,7 +16,7 @@ module.exports = {
         '4xl': '1px 2px 5px rgba(0, 0, 0, 0.104)'
       },
       borderRadius:{
-        '3xl': '3px'
+        '3xl': '3px' 
       },
       height:{
         '10px': '10px',

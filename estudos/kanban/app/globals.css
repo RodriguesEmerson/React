@@ -12,6 +12,7 @@
   box-sizing: border-box;  
 }
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -29,9 +30,16 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
-
+ 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+  .scroll-presonalizada{
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(9, 30, 66, 0.141) rgb(231, 231, 231);
+  }
+  
 }
+
