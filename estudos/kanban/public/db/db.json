@@ -22,7 +22,7 @@
                            "avatar": "/images/profile-2.png"
                         }
                      ],
-                     "labels": ["bg-blue-500","bg-green-600"],
+                     "labels": ["#260273","#04D99D"],
                      "id": "c123456",
                      "coments": [
                         {
@@ -50,7 +50,7 @@
                            "avatar": "/images/profile-1.png"
                         }
                      ],
-                     "labels": ["red","green"],
+                     "labels": ["#F205CB","#7C05F2"],
                      "id": "c123457",
                      "coments": [
                         {
@@ -82,7 +82,7 @@
                            "avatar": "/images/profile-2.png"
                         }
                      ],
-                     "labels": ["bg-blue-500","bg-green-600"],
+                     "labels": ["#F2E307","#F205CB"],
                      "id": "c123458",
                      "coments": [
                         {
@@ -104,7 +104,7 @@
                            "avatar": "/images/profile-1.png"
                         }
                      ],
-                     "labels": ["bg-blue-500","bg-green-600"],
+                     "labels": ["#260273"],
                      "id": "c1234589",
                      "coments": [
                         {

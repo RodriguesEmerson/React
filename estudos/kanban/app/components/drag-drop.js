@@ -94,7 +94,7 @@ const dragDrop = {
 
 function TemporarieCard( height ){
    const shadowCard = document.createElement('div');
-   shadowCard.setAttribute('class', 'shadow-card w-full  bg-gray-200 rounded mb-2')
+   shadowCard.setAttribute('class', 'shadow-card w-full  bg-gray-200 rounded-md mb-2')
    shadowCard.setAttribute('style', `height:${height}px`);
 
    return shadowCard;

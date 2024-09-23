@@ -1,12 +1,12 @@
 'use client';
-import List from "./List"
-
+import List from "./List";
 import { useEffect, useState } from "react";
 
 export default function Board(){
-
+   
    const [data, setData] = useState('');
    const [projetId, setProjectId] = useState('p123456');
+
 
    const handleDragOver = (e) =>{
       e.preventDefault();
@@ -16,8 +16,8 @@ export default function Board(){
    useEffect(()=>{
       const getData = async () =>{
          try {
-            const res = await fetch(`http://localhost:3000/db/db.json`,
-               {  
+            const res = await fetch(`/api/lists`,
+               { 
                   method: 'GET',
                   cache: 'no-store' //impede dados antigos
                }
@@ -25,11 +25,11 @@ export default function Board(){
             if(!res.ok){
                throw new Error('Não foi possível encontrar dos dados.')
             }
+
             const json = await res.json();
-            //Pega o projeto com o id informado em projectId;
-            //Creio que se estivesse usando o json-server não seria preciso  fazer isso;
-            const project = json.projects.find(proj => proj.id == projetId)
+            const project = json.data.projects.find(proj => proj.id == projetId)
             setData(project);
+
          } catch (error) {
             console.log('Erro: ' + error)
          }

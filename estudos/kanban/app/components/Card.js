@@ -9,12 +9,12 @@ export default function Card({ cards }) {
          <div key={card.id} id={card.id} draggable="true" className="card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl rounded-md overflow-hidden bg-white relative mb-2" 
             >
             {card.img &&
-               <div className="h-36 overflow-hidden rounded-t-sm -m-1 mb-1">
+               <div className="h-36 overflow-hidden rounded-t-sm -m-1">
                   <img className="max-w-full object-cover" draggable="false" src={card.img}></img>
                </div>
             }
             {card.labels &&
-               <div className="flex flex-row gap-1 h-4">
+               <div className="flex flex-row gap-1 h-2 mt-2">
                   <Labels  labels={card.labels}/>
                </div> 
             }
