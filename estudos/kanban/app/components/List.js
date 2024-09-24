@@ -1,10 +1,8 @@
 'use client';
 
-import { useEffect, useState } from "react";
 import Card from "./Card";
 import dragDrop from "./drag-drop";
 export default function List({ lists }) {
-
    //Retorna um elemento enquanto lists não está disponível.
    if(!lists){
       return <div className="text-blue-400 h-5 w-5 animate-pulse">Carregando...</div>
