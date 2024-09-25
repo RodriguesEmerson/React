@@ -1,7 +1,7 @@
 
 let currentList, currentListId, draggingCard,
    draggingCardHeight, currentCard, 
-   dragableArea, shadowCard, eventType;
+   dragableArea, shadowCard;
 
    
 const dragDrop = {
@@ -45,6 +45,10 @@ const dragDrop = {
       if(dragableArea.childNodes.length == 1 && dragableArea.firstChild.isEqualNode(draggingCard)){
          draggingCard.style.display = 'none';
          return dragableArea.appendChild(shadowCard); 
+      }
+      if(dragableArea.childNodes.length == 1 && dragableArea.firstChild.classList.contains('novo-card')){
+         draggingCard.style.display = 'none';
+         return dragableArea.prepend(shadowCard); 
       }
       
       const card = e.target.closest('.card');

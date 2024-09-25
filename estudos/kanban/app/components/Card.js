@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import dragDrop from "./drag-drop";
 
 export default function Card({ cards }) {
 
@@ -24,11 +22,11 @@ export default function Card({ cards }) {
             </div>
             <div className="flex flex-row flex-wrap gap-2 text-sm text-gray-500">
                <div className="flex flex-row items-center gap-1">
-                  <span className="material-icons">chat</span>
+                  <span className="material-icons !text-lg">chat</span>
                   <p>{card.coments.length}</p>
                </div>
                <div className="flex flex-row items-center gap-1">
-                  <span className="material-icons">schedule</span>
+                  <span className="material-icons !text-lg">schedule</span>
                   <p>{new Date(card.data).toLocaleDateString('pt-br', {day: '2-digit', month: 'long', year: 'numeric'})}</p>
                </div>
                <div className="flex flex-row gap-1 justify-end flex-1">

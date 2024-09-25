@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: { 
+      fontSize: {
+        '13px' : '13px'
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

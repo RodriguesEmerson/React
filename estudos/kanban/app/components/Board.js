@@ -1,5 +1,4 @@
 'use client';
-import { useSearchParams } from "next/navigation";
 import List from "./List";
 import { useEffect, useState } from "react";
 
@@ -13,15 +12,15 @@ export default function Board({ id }){
    useEffect(()=>{
       const getData = async () =>{
          try {
-            const res = await fetch(`/api/projects/${id}`)
+            const res = await fetch(`/api/projects/${id}`);
             if(!res.ok){
-               throw new Error('Não foi possível encontrar dos dados.')
+               throw new Error('Não foi possível encontrar dos dados.');
             }
             const project = await res.json();
             setData(project);
 
          } catch (error) {
-            console.log('Erro: ' + error)
+            console.log('Erro: ' + error);
          }
       }
       getData();
