@@ -9,7 +9,6 @@ const dragDrop = {
    dragStart: function(e){
       draggingCard = e.target.closest('.card');
       draggingCardHeight = e.target.offsetHeight;
-      draggingCard.classList.add('dragging')
 
       //Seleciona a lista sobre qual o draging está.
       currentList = e.target.closest('.list');
