@@ -20,8 +20,9 @@ export default function List({ lists }) {
 
 function EachList({ list }) {
    const [novoCard, setNovoCard] = useState(false);
+   const [cards, setCards] = useState(list.cards);
 
-   
+
    return (
       <div id={list.id} className="list w-72  bg-gray-100 shadow-4xl p-1 rounded-sm text-sm"
          onDragStart={(e) => {dragDrop.dragStart(e)}}
@@ -31,7 +32,7 @@ function EachList({ list }) {
       >
          <h2 className="mb-3 text-base font-bold">{list.listName}</h2>
          <div className="dragableArea overflow-y-auto scroll-presonalizada  max-h-100vh-105px" >
-            <Card cards={list.cards} />
+            <Card cards={cards} />
             {novoCard &&
                <form id={`f${list.id}`} className="novo-card p-1 cursor-grab flex flex-col gap-1 w-full min-h-14 shadow-4xl rounded-md overflow-hidden bg-white relative mb-2">
                   <textarea id={`nctxt${list.id}`} name="texto" className="p-1 outline-none resize-none" placeholder="Insira um texto"></textarea>
@@ -48,7 +49,7 @@ function EachList({ list }) {
             :
             <div className="flex items-center gap-1 w-9/12 p-1 h-9">
                <button 
-                  onClick={(e)=> criarNovo.card(e)}
+                  onClick={(e)=> {criarNovo.card(e, cards, setCards); setNovoCard(false)}}
                   type="sumit" 
                   form={`f${list.id}`}
                   data-parent={list.id} 

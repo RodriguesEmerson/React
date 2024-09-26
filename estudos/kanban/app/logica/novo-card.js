@@ -2,10 +2,11 @@ class NovoCard {
    constructor(content){
       this.content = content;
       this.data = this.dataHoje();
-      this.prazo = '';
+      this.prazo = false;
       this.img = '';
-      this.integrants = '';
-      this.labels = '';
+      this.integrants = [];
+      this.labels = [];
+      this.coments = []
       this.id = `c${this.gerarUUID()}`;
    }
 
@@ -22,7 +23,7 @@ class NovoCard {
 }
 
 const criarNovo = {
-   card: function(e){
+   card: function(e, cards, setCards){
       e.preventDefault();
       const parentId = e.target.getAttribute('data-parent');
       const form = document.querySelector(`#f${parentId}`);
@@ -32,7 +33,11 @@ const criarNovo = {
       const texto = Object.fromEntries(formData)['texto'];
 
       const novoCard = new NovoCard(texto);
-      this.salvarCard(novoCard, parentId)
+
+      //Adiciona um novo card no fim dos cards, sem re-renderizar todos os outros.
+      setCards([...cards, novoCard]);
+
+      this.salvarCard(novoCard, parentId);
 
    },
    salvarCard: async function(novoCard, parentId){
@@ -48,7 +53,7 @@ const criarNovo = {
          .catch(error => console.log(error));
    },
    notificar: function(tipo){
-      tipo == 'novoCard' && console.log('Alterações salvas!')
+      tipo == 'novoCard' && console.log('Novo card criado com sucesso!')
    }
 }
 
