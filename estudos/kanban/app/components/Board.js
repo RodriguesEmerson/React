@@ -1,11 +1,14 @@
 'use client';
 import List from "./List";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import ModalEditCard from "./Modal";
 
+
+const PosicaoModalContext = createContext();
 export default function Board({ id }){
    const [hidden, setHidden] = useState(false)
    const [data, setData] = useState('');
+   const[posicaoModal, setPosicaoModal] = useState({top: '100px', left: '100px'})
    const handleDragOver = (e) =>{
       e.preventDefault();
    }
@@ -31,13 +34,16 @@ export default function Board({ id }){
       <section className={`board flex flex-row items-start m-auto p-2 gap-3`}
       onDragOver={(e)=> {handleDragOver(e)}}
       >
-         <List lists={data.lists}/>
-         {!hidden &&
-            <div className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh">
-               <ModalEditCard />
-            </div>
+         <PosicaoModalContext.Provider  value={{posicaoModal, setPosicaoModal}}>
+            <List lists={data.lists}/>
+            {!hidden &&
+               <div className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh">
+                  <ModalEditCard />
+               </div>
+               
+            }
+         </PosicaoModalContext.Provider>
             
-         }
       </section>
    )
 }
