@@ -24,7 +24,10 @@ module.exports = {
       height:{
         '10px': '10px',
       }, maxHeight:{
-        '100vh-105px': 'calc(100vh - 180px) !important'
+        '100vh-105px': 'calc(100vh - 160px) !important'
+      },
+      padding:{
+        '1px': '1px'
       }
     },
   },
