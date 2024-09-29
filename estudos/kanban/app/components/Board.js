@@ -1,15 +1,15 @@
 'use client';
-import List from "./List";
 import { useEffect, useState } from "react";
+import { Providers, useProvidersContext } from "../context/providers";
+import modalPosition from "../logica/card-options/modal-position";
+import List from "./List";
 import ModalEditCard from "./Modal";
-import { ModalPosition } from "../context/card-options-context";
+
+
 
 export default function Board({ id }){
-   const [hidden, setHidden] = useState(false);
    const [data, setData] = useState('');
-   const handleDragOver = (e) =>{
-      e.preventDefault();
-   }
+   
 
    useEffect(()=>{
       const getData = async () =>{
@@ -29,17 +29,30 @@ export default function Board({ id }){
    }, []);
 
    return(
+      <Providers>
+         <BoardBody data={data} />
+      </Providers>
+   )
+}
+function BoardBody({ data }){
+   const { hiddenOptionsModal, setHiddenOptionsModal } = useProvidersContext();
+
+   const handleDragOver = (e) =>{
+      e.preventDefault();
+   }
+   return(
       <section className={`board flex flex-row items-start m-auto p-2 gap-3`}
-      onDragOver={(e)=> {handleDragOver(e)}}
-      >
-         <ModalPosition>
-            <List lists={data.lists}/>
-            {!hidden &&
-               <div className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh">
+         onDragOver={(e)=> {handleDragOver(e)}}
+         >
+            <List  lists={data.lists}/>
+            {!hiddenOptionsModal &&
+               <div 
+                  className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
+                  onClick={(e)=> {modalPosition.hiddenModal(e, setHiddenOptionsModal)}}
+                  >
                   <ModalEditCard />
                </div>
             }
-         </ModalPosition>
-      </section>
+         </section>
    )
 }

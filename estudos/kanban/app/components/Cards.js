@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useProvidersContext } from "../context/providers";
+import modalPosition from "../logica/card-options/modal-position";
 
 export default function Cards({ cards }) {
 
@@ -11,6 +13,7 @@ export default function Cards({ cards }) {
 
 function Card({ card }) {
    const [hidden, setHidden] = useState(true);
+   const { setPosition, setHiddenOptionsModal } = useProvidersContext();
 
    return (
       <div  id={card.id}
@@ -22,7 +25,7 @@ function Card({ card }) {
          {!hidden &&
             <span
               className="material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px"
-            
+               onClick={(e)=> {modalPosition.position(e, setPosition); setHiddenOptionsModal(false)}}
             >edit</span>
          }
          {card.img &&

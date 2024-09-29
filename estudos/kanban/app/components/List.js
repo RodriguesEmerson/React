@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Cards from "./Cards";
 import dragDrop from "../logica/drag-drop";
 import criarNovo from "../logica/novo-card";
-import { Tulpen_One } from "next/font/google";
 
 export default function List({ lists }) {
    //Retorna um elemento enquanto lists não estiver disponível.

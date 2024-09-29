@@ -1,6 +1,6 @@
 "use client";
 
-import { useModalPositionContex } from "../context/card-options-context";
+import { useProvidersContext } from "../context/providers";
 
 const cardsOptions = [
    {icon: 'credit_card', text: 'Abrir Cartão'},
@@ -13,15 +13,13 @@ const cardsOptions = [
    {icon: 'inventory_2', text: 'Arquivar'}
 ]
 
-
-
 export default function ModalEditCard(){
-   const { position, setPosition } = useModalPositionContex();
+   const { position } = useProvidersContext();
    return(
-      <div className="absolute" style={{top: `${position.top}`, left: `${position.left}`}}>
+      <div className="card-options absolute" style={{top: `${position.top}`, left: `${position.left}`}}>
          <ul className="flex gap-1 flex-col">
             {cardsOptions.map(option => (
-               <li className="flex flex-row gap-2 justify-start items-center w-fit h-8 px-2 hover:bg-gray-200 transition-all cursor-pointer text-xs font-bold bg-white rounded-sm">
+               <li key={option.icon} className="flex flex-row gap-2 justify-start items-center w-fit h-8 px-2 hover:bg-gray-200 transition-all cursor-pointer text-xs font-bold bg-white rounded-sm">
                   <span className="material-icons-outlined !text-sm">{option.icon}</span>
                   <p>{option.text}</p>
                </li>
