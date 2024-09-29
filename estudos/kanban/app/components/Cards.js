@@ -20,7 +20,10 @@ function Card({ card }) {
          className="card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl rounded-md overflow-hidden bg-white relative mb-2"
       >
          {!hidden &&
-            <span className="material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px">edit</span>
+            <span
+              className="material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px"
+            
+            >edit</span>
          }
          {card.img &&
             <div className="h-36 overflow-hidden rounded-t-sm -m-1">
