@@ -4,7 +4,7 @@ import { Providers, useProvidersContext } from "../context/providers";
 import modalPosition from "../logica/card-options/modal-position";
 import List from "./List";
 import ModalEditCard from "./modais/Modal";
-import ModalLabels from "./modais/modal-labels";
+import ModalLabels from "./modais/Modal-labels";
 
 
 
