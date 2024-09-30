@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Providers, useProvidersContext } from "../context/providers";
 import modalPosition from "../logica/card-options/modal-position";
 import List from "./List";
-import ModalEditCard from "./Modal";
+import ModalEditCard from "./modais/Modal";
+import ModalLabels from "./modais/modal-labels";
 
 
 
@@ -35,7 +36,10 @@ export default function Board({ id }){
    )
 }
 function BoardBody({ data }){
-   const { hiddenOptionsModal, setHiddenOptionsModal } = useProvidersContext();
+   const { 
+      hiddenOptionsModal, setHiddenOptionsModal,
+      hiddenLabelsModal, setHiddenLabelsModal,
+   } = useProvidersContext();
 
    const handleDragOver = (e) =>{
       e.preventDefault();
@@ -51,6 +55,13 @@ function BoardBody({ data }){
                   onClick={(e)=> {modalPosition.hiddenModal(e, setHiddenOptionsModal)}}
                   >
                   <ModalEditCard />
+               </div>
+            }
+            {!hiddenLabelsModal &&
+               <div
+                  className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
+               >
+                  <ModalLabels />
                </div>
             }
          </section>

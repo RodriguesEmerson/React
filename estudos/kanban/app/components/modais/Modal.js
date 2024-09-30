@@ -1,6 +1,6 @@
 "use client";
 
-import { useProvidersContext } from "../context/providers";
+import { useProvidersContext } from "../../context/providers";
 
 const cardsOptions = [
    {icon: 'credit_card', text: 'Abrir Cartão'},
