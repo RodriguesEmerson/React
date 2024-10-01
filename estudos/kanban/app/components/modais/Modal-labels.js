@@ -1,6 +1,6 @@
 import { useProvidersContext } from "../../context/providers"
 import modalPosition from "@/app/logica/card-options/modal-position";
-
+import {AddRemoveLabels} from "@/app/logica/card-options/modal-position";
 
 const labelsList = [
    {color: '#FFC636'},
@@ -9,17 +9,17 @@ const labelsList = [
    {color: '#260273'},
    {color: '#04D99D'},
    {color: '#F205CB'},
-   {color: '#7C05F2'},
+   {color: '#7C05F2'},  
    {color: '#F2E307'},
 ]
 
 export default function ModalLabels(){
 
-   const { setHiddenLabelsModal, position } = useProvidersContext();
-
+   const { setHiddenLabelsModal, hiddenLabelsModal, position } = useProvidersContext();
+   if(hiddenLabelsModal) return <></>;
    return(
       <div className="modal-labels absolute  bg-white w-64 p-1 rounded-lg" 
-         style={{top: `${position.top}px`, left: `${position.left}px`}}
+      style={{top: `${position.top}`, left: `${position.left}`}}
       >
          <p className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</p>
          <span 
@@ -31,8 +31,9 @@ export default function ModalLabels(){
                <li className="flex gap-2 w-full" key={label.color}>
                   <input className="w-[18px]" type="checkbox" id={`check${label.color}`} />
                   <label 
-                     className="w-full block" 
+                     className={"w-full block"}
                      htmlFor={`check${label.color}`}
+                     onClick={(e) => AddRemoveLabels.add(label.color)}
                   >
                      <div className="w-full h-8 rounded cursor-pointer" style={{backgroundColor: `${label.color}`}}></div>
                   </label>

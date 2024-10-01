@@ -33,8 +33,8 @@ function Card({ card }) {
                <img className="max-w-full object-cover" draggable="false" src={card.img}></img>
             </div>
          }
-         {card.labels.length > 0 &&
-            <div className="flex flex-row gap-1 h-2 mt-2">
+         {
+            <div className="labels flex flex-row gap-1">
                <Labels labels={card.labels} />
             </div>
          }
@@ -69,7 +69,7 @@ function Card({ card }) {
 function Labels({ labels }) {
    return (
       labels.map(label => (
-         <span key={label} className={`w-12 h-2 rounded-lg`} style={{ backgroundColor: `${label}` }}></span>
+         <span key={label} className={`w-12 h-2 rounded-lg mt-2 mb-[-5px]`} data-color={`${label}`} style={{ backgroundColor: `${label}` }}></span>
       ))
    )
 }

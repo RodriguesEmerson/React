@@ -49,18 +49,12 @@ function BoardBody({ data }){
          onDragOver={(e)=> {handleDragOver(e)}}
          >
             <List  lists={data.lists}/>
-            {!hiddenOptionsModal &&
+            {(!hiddenOptionsModal) &&
                <div 
                   className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
-                  onClick={(e)=> {modalPosition.hiddenModal(e, setHiddenOptionsModal)}}
+                  onClick={(e)=> {modalPosition.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal)}}
                   >
                   <ModalEditCard />
-               </div>
-            }
-            {!hiddenLabelsModal &&
-               <div
-                  className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
-               >
                   <ModalLabels />
                </div>
             }
