@@ -1,10 +1,12 @@
 
-let currentCard;
+let currentCard, currentLabels, currentSetLabels;
 const modalPosition = {
-   position: function(e, setPosition){
+   position: function(e, setPosition, labels, setLabels){
       const card = e.target.closest('.card');
       card.style.zIndex = "10"
       currentCard = card;
+      currentLabels = labels;
+      currentSetLabels = setLabels;
       const left = card.offsetLeft + card.offsetWidth;
       const top = card.offsetTop;
       console.log({top: top, left: left})
@@ -25,15 +27,18 @@ const modalPosition = {
 }
 
 const AddRemoveLabels = {
-   add: function(color){
-      console.log(color)
-      const labels = currentCard.querySelector('.labels');
-      const label = currentCard.querySelector(`[data-color="${color}"]`);
-      console.log(label)
-   }
+   currLabels: function(){
+      return currentLabels;
+   },
+   setLabels: function( color ){
+      if(currentLabels.includes(color)){
+         currentLabels = currentLabels.filter((currColor) => currColor != color);
+         return currentSetLabels(currentLabels);
+      };
+      currentLabels = [...currentLabels, color];
+      currentSetLabels(currentLabels);
+   },
 }
-
-
 
 export default modalPosition;
 export { AddRemoveLabels }

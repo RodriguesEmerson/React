@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useProvidersContext } from "../context/providers";
 import modalPosition from "../logica/card-options/modal-position";
 
@@ -14,6 +14,10 @@ export default function Cards({ cards }) {
 function Card({ card }) {
    const [hidden, setHidden] = useState(true);
    const { setPosition, setHiddenOptionsModal } = useProvidersContext();
+   const [labels, setLabels] = useState();
+   useEffect(()=>{
+      setLabels(card.labels)
+   },[card.labels])
 
    return (
       <div  id={card.id}
@@ -25,7 +29,7 @@ function Card({ card }) {
          {!hidden &&
             <span
               className="material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px"
-               onClick={(e)=> {modalPosition.position(e, setPosition); setHiddenOptionsModal(false)}}
+               onClick={(e)=> {modalPosition.position(e, setPosition, labels, setLabels); setHiddenOptionsModal(false)}}
             >edit</span>
          }
          {card.img &&
@@ -35,7 +39,7 @@ function Card({ card }) {
          }
          {
             <div className="labels flex flex-row gap-1">
-               <Labels labels={card.labels} />
+               <Labels labels={labels} />
             </div>
          }
 
@@ -67,6 +71,12 @@ function Card({ card }) {
 }
 
 function Labels({ labels }) {
+   if(!labels) return(
+      <>
+      <span key={"skl1"} className={`w-12 h-2 bg-gray-300 rounded-lg mt-2 mb-[-5px]`}></span>
+      <span key={"skl2"} className={`w-12 h-2 bg-gray-300 rounded-lg mt-2 mb-[-5px]`}></span>
+      </>
+   )
    return (
       labels.map(label => (
          <span key={label} className={`w-12 h-2 rounded-lg mt-2 mb-[-5px]`} data-color={`${label}`} style={{ backgroundColor: `${label}` }}></span>
