@@ -16,7 +16,7 @@ function Card({ card }) {
    const { setPosition, setHiddenOptionsModal } = useProvidersContext();
    const [labels, setLabels] = useState();
    useEffect(()=>{
-      setLabels(card.labels)
+      setLabels(card.labels);
    },[card.labels])
 
    return (

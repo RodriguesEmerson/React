@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import Cards from "./Cards";
 import dragDrop from "../logica/drag-drop";
 import criarNovo from "../logica/novo-card";
+import Skeleton from "./skeleton";
 
 export default function List({ lists }) {
    //Retorna um elemento enquanto lists não estiver disponível.
    if (!lists) {
-      return <div className="text-blue-400 h-5 w-5 animate-pulse">Carregando...</div>
+      return <Skeleton />
    }
    return (
       lists.map(list => (

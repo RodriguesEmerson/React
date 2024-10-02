@@ -3,7 +3,7 @@ let currentCard, currentLabels, currentSetLabels;
 const modalPosition = {
    position: function(e, setPosition, labels, setLabels){
       const card = e.target.closest('.card');
-      card.style.zIndex = "10"
+      card.style.zIndex = "10";
       currentCard = card;
       currentLabels = labels;
       currentSetLabels = setLabels;
