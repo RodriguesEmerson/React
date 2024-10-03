@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useProvidersContext } from "../context/providers";
-import modalPosition from "../logica/logica-modais/main";
+import modalInfos from "../logica/logica-modais/main";
 
 export default function Cards({ cards }) {
 
@@ -12,12 +12,14 @@ export default function Cards({ cards }) {
 }
 
 function Card({ card }) {
-   const [hidden, setHidden] = useState(true);
    const { setPosition, setHiddenOptionsModal } = useProvidersContext();
+   const [hidden, setHidden] = useState(true);
    const [labels, setLabels] = useState();
+   const [integrants, setIntegrants] = useState();
    useEffect(()=>{
       setLabels(card.labels);
-   },[card.labels])
+      setIntegrants(card.integrants);
+   },[card.labels, card.integrants])
 
    return (
       <div  id={card.id}
@@ -29,7 +31,10 @@ function Card({ card }) {
          {!hidden &&
             <span
               className="material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px"
-               onClick={(e)=> {modalPosition.position(e, setPosition, labels, setLabels); setHiddenOptionsModal(false)}}
+               onClick={(e)=> {
+                  modalInfos.position(e, setPosition, labels, setLabels, integrants, setIntegrants);
+                  setHiddenOptionsModal(false)}
+               }
             >edit</span>
          }
          {card.img &&
@@ -61,7 +66,7 @@ function Card({ card }) {
                   </div>
                }{card.integrants &&
                   <div className="flex flex-row gap-1 justify-end flex-1">
-                     <Profile integrantes={card.integrants} />
+                     <Integrants integrantes={integrants} />
                   </div>
                }
             </div>)
@@ -83,7 +88,10 @@ function Labels({ labels }) {
       ))
    )
 }
-function Profile({ integrantes }) {
+function Integrants({ integrantes }) {
+   if(!integrantes)return(
+      <div key={'integr1'} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden"></div>
+   )
    return (
       integrantes.map(avatar => (
          <div key={avatar.nome} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden">

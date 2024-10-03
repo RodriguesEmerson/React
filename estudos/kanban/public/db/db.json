@@ -5,7 +5,20 @@
          "name": "Pojeto-1",
          "data": "2024/09/28",
          "autors": ["autor-1", "autor-2"],
-         "integrants": ["integrant-1","integrant-2", "integrant-3"],
+         "integrants": [
+            {
+               "nome": "integrant-1",
+               "avatar": "/images/profile-1.png"
+            },
+            {
+               "nome": "integrant-2",
+               "avatar": "/images/profile-2.png"
+            },
+            {
+               "nome": "integrant-3",
+               "avatar": "/images/profile-3.png"
+            }
+         ],
          "lists": [
             {
                "listName": "To do",
@@ -19,7 +32,7 @@
                      "integrants": [
                         {
                            "nome": "integrant-1",
-                           "avatar": "/images/profile-2.png"
+                           "avatar": "/images/profile-1.png"
                         }
                      ],
                      "labels": ["#260273","#04D99D"],
@@ -78,8 +91,8 @@
                            "avatar": "/images/profile-1.png"
                         },
                         {
-                           "nome": "integrant-2",
-                           "avatar": "/images/profile-2.png"
+                           "nome": "integrant-3",
+                           "avatar": "/images/profile-3.png"
                         }
                      ],
                      "labels": ["#F2E307","#F205CB"],
@@ -100,8 +113,8 @@
                      "img": "http://localhost:3000/images/bg-img-4.jpg",
                      "integrants": [
                         {
-                           "nome": "integrant-1",
-                           "avatar": "/images/profile-1.png"
+                           "nome": "integrant-2",
+                           "avatar": "/images/profile-2.png"
                         }
                      ],
                      "labels": ["#260273"],

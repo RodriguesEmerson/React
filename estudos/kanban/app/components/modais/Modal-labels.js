@@ -17,30 +17,30 @@ export default function ModalLabels() {
 
    const { setHiddenLabelsModal, hiddenLabelsModal, position } = useProvidersContext();
    if (hiddenLabelsModal) return <></>;
-   const currLabels = AddRemoveLabels.currLabels();
+   const editingLabels = AddRemoveLabels.edtLabels();
 
    return (
-      <div className="modal-labels absolute  bg-white w-64 p-1 rounded-lg"
+      <div className="modal-labels absolute  bg-white w-64 p-1 pt-2 rounded-lg"
          style={{ top: `${position.top}`, left: `${position.left}` }}
       >
-         <p className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</p>
+         <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</h2>
          <span
-            className="material-icons !text-base text-gray-600 absolute top-1 right-1 cursor-pointer"
+            className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
             onClick={() => setHiddenLabelsModal(true)}
          >close</span>
          <ul className="flex flex-col gap-[6px]  p-1">
             {labelsList.map(label => (
-               <Label label={label} currLabels={currLabels} key={label.color}/>
+               <Label label={label} editingLabels={editingLabels} key={label.color}/>
             ))}
          </ul>
       </div>
    )
 }
 
-function Label({ label, currLabels }) {
+function Label({ label, editingLabels }) {
    const [checked, setChecked] = useState(false);
    useEffect(()=>{
-      currLabels.includes(label.color) && setChecked(true);
+      editingLabels.includes(label.color) && setChecked(true);
    },[])
    return (
       <li className="flex gap-2 w-full" key={label.color}>

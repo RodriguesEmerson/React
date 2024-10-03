@@ -1,12 +1,14 @@
 
-let currentCard, currentLabels, currentSetLabels;
-const modalPosition = {
-   position: function(e, setPosition, labels, setLabels){
+let editingCard, editingLabels, setEditingLabels, editingIntegrants, setEditingIntegrants;
+const modalInfos = {
+   position: function(e, setPosition, labels, setLabels, integrants, setIntegrants){
       const card = e.target.closest('.card');
-      card.style.zIndex = "10";
-      currentCard = card;
-      currentLabels = labels;
-      currentSetLabels = setLabels;
+      card.style.zIndex = "8";
+      editingCard = card;
+      editingLabels = labels;
+      setEditingLabels = setLabels;
+      editingIntegrants = integrants;
+      setEditingIntegrants = setIntegrants;
       const left = card.offsetLeft + card.offsetWidth;
       const top = card.offsetTop;
       console.log({top: top, left: left})
@@ -21,24 +23,30 @@ const modalPosition = {
          setHiddenOptionsModal(true);
          setHiddenLabelsModal(true);
       }else{return} ;
-      currentCard.style.zIndex = "auto";
-      currentCard = null;
+      editingCard.style.zIndex = "auto";
+      editingCard = null;
    }
 }
 
 const AddRemoveLabels = {
-   currLabels: function(){
-      return currentLabels;
+   edtLabels: function(){
+      return editingLabels;
    },
    setLabels: function( color ){
-      if(currentLabels.includes(color)){
-         currentLabels = currentLabels.filter((currColor) => currColor != color);
-         return currentSetLabels(currentLabels);
+      if(editingLabels.includes(color)){
+         editingLabels = editingLabels.filter((currColor) => currColor != color);
+         return setEditingLabels(editingLabels);
       };
-      currentLabels = [...currentLabels, color];
-      currentSetLabels(currentLabels);
+      editingLabels = [...editingLabels, color];
+      setEditingLabels(editingLabels);
    },
 }
 
-export default modalPosition;
-export { AddRemoveLabels }
+const editIntegrants = {
+   integrants: function(){
+      return editingIntegrants;
+   }
+}
+
+export default modalInfos;
+export { AddRemoveLabels, editIntegrants }

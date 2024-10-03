@@ -1,10 +1,11 @@
 'use client';
 import { useEffect, useState } from "react";
 import { Providers, useProvidersContext } from "../context/providers";
-import modalPosition from "../logica/logica-modais/main";
+import modalInfos from "../logica/logica-modais/main";
 import List from "./List";
 import ModalEditCard from "./modais/Modal";
 import ModalLabels from "./modais/Modal-labels";
+import ModalMembros from "./modais/Modal-membros";
 
 
 
@@ -39,7 +40,14 @@ function BoardBody({ data }){
    const { 
       hiddenOptionsModal, setHiddenOptionsModal,
       hiddenLabelsModal, setHiddenLabelsModal,
+      projectIntegrants, setProjectIntegrants
    } = useProvidersContext();
+   
+   //Garante que os membro sejam carregados antes de setá-los.
+   setTimeout(() => {
+      setProjectIntegrants(data.integrants);
+   }, 1000);
+ 
 
    const handleDragOver = (e) =>{
       e.preventDefault();
@@ -52,10 +60,11 @@ function BoardBody({ data }){
             {(!hiddenOptionsModal) &&
                <div 
                   className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
-                  onClick={(e)=> {modalPosition.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal)}}
+                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal)}}
                   >
                   <ModalEditCard />
                   <ModalLabels />
+                  <ModalMembros />
                </div>
             }
          </section>
