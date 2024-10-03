@@ -1,6 +1,5 @@
 import { useProvidersContext } from "../../context/providers"
-import modalPosition from "@/app/logica/card-options/modal-position";
-import { AddRemoveLabels } from "@/app/logica/card-options/modal-position";
+import { AddRemoveLabels } from "@/app/logica/logica-modais/main";
 import { useEffect, useState } from "react";
 
 const labelsList = [

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useProvidersContext } from "../context/providers";
-import modalPosition from "../logica/card-options/modal-position";
+import modalPosition from "../logica/logica-modais/main";
 
 export default function Cards({ cards }) {
 
