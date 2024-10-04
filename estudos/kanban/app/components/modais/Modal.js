@@ -14,16 +14,19 @@ const cardsOptions = [
 ]
 
 export default function ModalEditCard(){
-   const { position, hiddenOptionsModal, setHiddenLabelsModal } = useProvidersContext();
+   const { position, hiddenOptionsModal, 
+      setHiddenLabelsModal, setHiddenMembersModal
+   } = useProvidersContext();
 
    function handleClick(text){
       text == 'sell' && setHiddenLabelsModal(false);
+      text == 'person' && setHiddenMembersModal(false);
    }
 
    return(
       <>
       {!hiddenOptionsModal &&
-      <div className="card-options absolute" style={{top: `${position.top}`, left: `${position.left}`}}>
+      <div className="card-options absolute" style={{top: `${position.top}px`, left: `${position.left}px`}}>
          <ul className="flex gap-1 flex-col">
             {cardsOptions.map(option => (
                <li 

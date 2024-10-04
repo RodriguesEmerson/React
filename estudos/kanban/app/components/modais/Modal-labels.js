@@ -21,7 +21,7 @@ export default function ModalLabels() {
 
    return (
       <div className="modal-labels absolute  bg-white w-64 p-1 pt-2 rounded-lg"
-         style={{ top: `${position.top}`, left: `${position.left}` }}
+         style={{ top: `${position.top}px`, left: `${position.left}px` }}
       >
          <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</h2>
          <span

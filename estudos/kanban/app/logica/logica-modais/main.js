@@ -13,13 +13,14 @@ const modalInfos = {
       const top = card.offsetTop;
       console.log({top: top, left: left})
    
-      setPosition({top: `${top}px`, left: `${left + 5}px`});
+      setPosition({top: top, left: left + 5});
    },
 
    hiddenModal: function(e, setHiddenOptionsModal, setHiddenLabelsModal){
       const cardsOptions = e.target.closest('.card-options');
       const modalLabels = e.target.closest('.modal-labels');
-      if(!cardsOptions && !modalLabels){
+      const modalMembers = e.target.closest('.modal-members');
+      if(!cardsOptions && !modalLabels && !modalMembers){
          setHiddenOptionsModal(true);
          setHiddenLabelsModal(true);
       }else{return} ;
