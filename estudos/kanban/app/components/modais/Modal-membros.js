@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 
 export default function ModalMembros(){
    const { position, projectIntegrants, hiddenMembersModal, setHiddenMembersModal } = useProvidersContext();
+   // const [outIntegrants, setOutIntegrants] = useState();
 
    let outIntegrants = [...projectIntegrants];
-   const [integrants, setIntegrants] = useState();
    const editingIntegrants = editIntegrants.integrants();
+   const [integrants, setIntegrants] = useState();
    editingIntegrants.map(edInt =>{
       outIntegrants = outIntegrants.filter(int => edInt.nome != int.nome);
    })
@@ -32,7 +33,9 @@ export default function ModalMembros(){
                   {!integrants ? <></> :
                      integrants.map(integrant => (
                         <li key={`ei${integrant.nome}`}
-                           className="relative flex items-center gap-2 w-full p-1 cursor-pointer bg-gray-100 hover:bg-gray-200 transition-all rounded-sm">
+                           className="relative flex items-center gap-2 w-full p-1 cursor-pointer bg-gray-100 hover:bg-gray-200 transition-all rounded-sm"
+                           title={`Remover ${integrant.nome}`}
+                        >
                            <div key={integrant.nome} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden">
                               <img src={integrant.avatar} className="max-w-full object-cover"></img>
                            </div>
@@ -50,6 +53,8 @@ export default function ModalMembros(){
                   {outIntegrants.map(integrant => (
                      <li key={`outIntegrants${integrant.nome}`}
                         className="relative flex items-center gap-2 w-full p-1 cursor-pointer bg-gray-100 hover:bg-gray-200 transition-all rounded-sm"
+                        title={`Adicionar ${integrant.nome}`}
+                        onClick={()=> {setIntegrants([...integrants, integrant])}}
                      >
                         <div key={integrant.nome} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden">
                            <img src={integrant.avatar} className="max-w-full object-cover"></img>
