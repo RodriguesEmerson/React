@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from "react";
 import { Providers, useProvidersContext } from "../context/providers";
-import modalInfos from "../logica/logica-modais/main";
+import { modalInfos } from "../logica/logica-modais/main";
 import List from "./List";
 import ModalEditCard from "./modais/Modal";
 import ModalLabels from "./modais/Modal-labels";
@@ -12,7 +12,6 @@ import ModalMembros from "./modais/Modal-membros";
 export default function Board({ id }){
    const [data, setData] = useState('');
    
-
    useEffect(()=>{
       const getData = async () =>{
          try {
@@ -32,22 +31,24 @@ export default function Board({ id }){
 
    return(
       <Providers>
-         <BoardBody data={data} />
+         <BoardBody data={data} id={id} />
       </Providers>
    )
 }
-function BoardBody({ data }){
+function BoardBody({ data, id }){
    const { 
       hiddenOptionsModal, setHiddenOptionsModal,
       hiddenLabelsModal, setHiddenLabelsModal,
-      projectIntegrants, setProjectIntegrants
+      projectIntegrants, setProjectIntegrants,
+      projectId, setProjectId,
    } = useProvidersContext();
    
    //Garante que os membro sejam carregados antes de setá-los.
    setTimeout(() => {
       setProjectIntegrants(data.integrants);
+      setProjectId(id)
    }, 1000);
- 
+   
 
    const handleDragOver = (e) =>{
       e.preventDefault();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useProvidersContext } from "../context/providers";
-import modalInfos from "../logica/logica-modais/main";
+import { modalInfos } from "../logica/logica-modais/main";
 
 export default function Cards({ cards }) {
 
@@ -19,7 +19,7 @@ function Card({ card }) {
    useEffect(()=>{
       setLabels(card.labels);
       setIntegrants(card.integrants);
-   },[card.labels, card.integrants])
+   },[card.labels, card.integrants]);
 
    return (
       <div  id={card.id}

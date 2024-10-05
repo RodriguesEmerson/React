@@ -26,6 +26,10 @@ const modalInfos = {
       }else{return} ;
       editingCard.style.zIndex = "auto";
       editingCard = null;
+   },
+
+   getEditingCardId: function(){
+      return editingCard.target.getAttribute('id');
    }
 }
 
@@ -46,8 +50,10 @@ const AddRemoveLabels = {
 const editIntegrants = {
    integrants: function(){
       return editingIntegrants;
+   },
+   setIntegrants: function(integrantes){
+      setEditingIntegrants(integrantes);
    }
 }
 
-export default modalInfos;
-export { AddRemoveLabels, editIntegrants }
+export { AddRemoveLabels, editIntegrants, modalInfos }
