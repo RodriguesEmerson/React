@@ -6,7 +6,7 @@ class NovoCard {
       this.img = '';
       this.integrants = [];
       this.labels = [];
-      this.coments = []
+      this.coments = [];
       this.id = `c${this.gerarUUID()}`;
    }
 

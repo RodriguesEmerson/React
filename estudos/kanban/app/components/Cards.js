@@ -51,7 +51,7 @@ function Card({ card }) {
          <div className="min-h-8 flex items-center">
             <p className="max-w-full break-words">{card.content}</p>
          </div>
-         {(card.coments.length > 0 || card.prazo || card.integrants.length > 0) &&
+         {
             (<div className="flex flex-row flex-wrap gap-2 text-sm text-gray-500">
                {card.coments.length > 0 &&
                   <div className="flex flex-row items-center gap-1">

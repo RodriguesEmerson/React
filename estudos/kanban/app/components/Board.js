@@ -40,6 +40,7 @@ function BoardBody({ data, id }){
       hiddenOptionsModal, setHiddenOptionsModal,
       hiddenLabelsModal, setHiddenLabelsModal,
       projectIntegrants, setProjectIntegrants,
+      setHiddenMembersModal,
       projectId, setProjectId,
    } = useProvidersContext();
    
@@ -47,7 +48,7 @@ function BoardBody({ data, id }){
    setTimeout(() => {
       setProjectIntegrants(data.integrants);
       setProjectId(id)
-   }, 1000);
+   }, 50);
    
 
    const handleDragOver = (e) =>{
@@ -61,7 +62,7 @@ function BoardBody({ data, id }){
             {(!hiddenOptionsModal) &&
                <div 
                   className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
-                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal)}}
+                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal)}}
                   >
                   <ModalEditCard />
                   <ModalLabels />

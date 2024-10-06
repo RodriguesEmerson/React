@@ -11,18 +11,19 @@ const modalInfos = {
       setEditingIntegrants = setIntegrants;
       const left = card.offsetLeft + card.offsetWidth;
       const top = card.offsetTop;
-      console.log({top: top, left: left})
-   
       setPosition({top: top, left: left + 5});
    },
 
-   hiddenModal: function(e, setHiddenOptionsModal, setHiddenLabelsModal){
+   hiddenModal: function(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal){
       const cardsOptions = e.target.closest('.card-options');
       const modalLabels = e.target.closest('.modal-labels');
       const modalMembers = e.target.closest('.modal-members');
+      
       if(!cardsOptions && !modalLabels && !modalMembers){
          setHiddenOptionsModal(true);
          setHiddenLabelsModal(true);
+         setHiddenMembersModal(true)
+
       }else{return} ;
       editingCard.style.zIndex = "auto";
       editingCard = null;
