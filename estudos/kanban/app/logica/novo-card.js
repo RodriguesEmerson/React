@@ -53,7 +53,7 @@ const criarNovo = {
          .catch(error => console.log(error));
    },
    notificar: function(tipo){
-      tipo == 'novoCard' && console.log('Novo card criado com sucesso!')
+      tipo == 'novoCard' && console.log('Novo card criado com sucesso!');
    }
 }
 

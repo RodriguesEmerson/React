@@ -10,12 +10,15 @@ const labelsList = [
    { color: '#04D99D' },
    { color: '#F205CB' },
    { color: '#7C05F2' },
-   { color: '#F2E307' },
 ]
 
 export default function ModalLabels() {
 
-   const { setHiddenLabelsModal, hiddenLabelsModal, position } = useProvidersContext();
+   const { 
+      position,
+      setHiddenLabelsModal, 
+      hiddenLabelsModal, 
+   } = useProvidersContext();
    if (hiddenLabelsModal) return <></>;
    const editingLabels = AddRemoveLabels.edtLabels();
 
@@ -26,7 +29,7 @@ export default function ModalLabels() {
          <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</h2>
          <span
             className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
-            onClick={() => setHiddenLabelsModal(true)}
+            onClick={() => {setHiddenLabelsModal(true)}}
          >close</span>
          <ul className="flex flex-col gap-[6px]  p-1">
             {labelsList.map(label => (

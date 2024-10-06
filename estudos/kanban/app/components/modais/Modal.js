@@ -19,7 +19,7 @@ export default function ModalEditCard(){
    } = useProvidersContext();
 
    function handleClick(text){
-      text == 'sell' && setHiddenLabelsModal(false);
+      text == 'sell' && setHiddenLabelsModal(false), setHiddenMembersModal(true);
       text == 'person' && setHiddenMembersModal(false);
    }
 
