@@ -16,30 +16,44 @@ function Card({ card }) {
    const [hidden, setHidden] = useState(true);
    const [labels, setLabels] = useState();
    const [integrants, setIntegrants] = useState();
+   const [capa, setCapa] = useState();
    useEffect(()=>{
       setLabels(card.labels);
       setIntegrants(card.integrants);
-   },[card.labels, card.integrants]);
+      setCapa(card.capa);
+   },[card.labels, card.integrants, card.card]);
 
    return (
       <div  id={card.id}
          onMouseEnter={() => setHidden(false)}
          onMouseLeave={() => setHidden(true)}
          draggable="true"
-         className="card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl rounded-md overflow-hidden bg-white relative mb-2"
+         className={`card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl 
+            rounded-md overflow-hidden relative mb-2 `}
+         style={{backgroundColor:`${capa?.full ? capa.color : "white"}`}}
       >
          {!hidden &&
             <span
               className="material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px"
                onClick={(e)=> {
-                  modalInfos.position(e, setPosition, labels, setLabels, integrants, setIntegrants);
+                  modalInfos.position(
+                     e, setPosition, 
+                     labels, setLabels, 
+                     integrants, setIntegrants,
+                     capa, setCapa
+                  );
                   setHiddenOptionsModal(false)}
                }
             >edit</span>
          }
-         {card.img &&
+         {(capa?.img) &&
             <div className="h-36 overflow-hidden rounded-t-sm -m-1">
-               <img className="max-w-full object-cover" draggable="false" src={card.img}></img>
+               <img className="max-w-full object-cover" draggable="false" src={capa.img}></img>
+            </div>
+         }
+         {(capa?.color && !capa.full) &&
+            <div className="h-12 overflow-hidden rounded-t-sm -m-1">
+               <div className="h-full w-full" style={{backgroundColor: capa.color}}></div>
             </div>
          }
          {
@@ -64,7 +78,7 @@ function Card({ card }) {
                      <span className="material-icons !text-lg">schedule</span>
                      <p>{new Date(card.data).toLocaleDateString('pt-br', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
                   </div>
-               }{card.integrants &&
+               }{integrants &&
                   <div className="flex flex-row gap-1 justify-end flex-1">
                      <Integrants integrantes={integrants} />
                   </div>

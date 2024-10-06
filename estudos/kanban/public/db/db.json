@@ -28,7 +28,11 @@
                      "content": "Texto do card",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "http://localhost:3000/images/bg-img-3.jpg",
+                     "img": "",
+                     "capa": {
+                        "color":"#F205CB", "full": false,
+                        "img": ""
+                     },
                      "integrants": [
                         {
                            "nome": "integrant-1",
@@ -57,6 +61,10 @@
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
                      "img": "http://localhost:3000/images/bg-img-2.jpg",
+                     "capa": {
+                        "color":false, "full": false,
+                        "img": "http://localhost:3000/images/bg-img-2.jpg"
+                     },
                      "integrants": [
                         {
                            "nome": "integrant-1",
@@ -85,6 +93,10 @@
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
                      "img": "",
+                     "capa": {
+                        "color":false, "full": false,
+                        "img": ""
+                     },
                      "integrants": [
                         {
                            "nome": "integrant-1",
@@ -111,6 +123,10 @@
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
                      "img": "http://localhost:3000/images/bg-img-4.jpg",
+                     "capa": {
+                        "color":false, "full": false,
+                        "img": "http://localhost:3000/images/bg-img-4.jpg"
+                     },
                      "integrants": [
                         {
                            "nome": "integrant-2",

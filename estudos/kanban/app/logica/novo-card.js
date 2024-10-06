@@ -4,6 +4,7 @@ class NovoCard {
       this.data = this.dataHoje();
       this.prazo = false;
       this.img = '';
+      this.capa = false;
       this.integrants = [];
       this.labels = [];
       this.coments = [];

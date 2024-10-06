@@ -1,5 +1,6 @@
 import { useProvidersContext } from "@/app/context/providers";
-import { useState } from "react";
+import { useState, useEffect  } from "react";
+import { editCapa } from "@/app/logica/logica-modais/main";
 
 const capaColors = [
    { color: '#FFC636' },
@@ -15,7 +16,12 @@ const capaColors = [
 ]
 
 export default function ModalCapa() {
-   const [color, setColor] = useState("#00ADA9");
+   const [capa, setCapa] = useState();
+   const editingCapa = editCapa.capa();
+   console.log(editingCapa)
+   useEffect(()=>{
+      setCapa(editCapa)
+   },[editingCapa])
    const {
       position,
    } = useProvidersContext();
@@ -30,19 +36,19 @@ export default function ModalCapa() {
             onClick={() => { }}
          >close</span>
          <div className="flex flex-col gap-2 p-1">
-            <PreviewCapa color={color} />
-            <input type="button" value="Remover Cartão"
+            <PreviewCapa capa={capa} />
+            <input type="button" value="Remover Capa"
                className="bg-gray-200 text-[13px] font-semibold w-full 
                   rounded-sm h-8 cursor-pointer hover:bg-gray-300 transition-all"
             ></input>
-            <Cores color={color} setColor={setColor} />
+            <Cores color={capa} setColor={setCapa} />
          </div>
 
       </div>
    )
 }
 
-function PreviewCapa({ color,  }) {
+function PreviewCapa({ capa  }) {
    const [modelo, setModelo] = useState(1)
    return (
       <div className="text-xs">
@@ -52,7 +58,7 @@ function PreviewCapa({ color,  }) {
                ${modelo == 1 && "outline outline-[3px] outline-blue-500"}`}
                onClick={()=> setModelo(1)}
             >
-               <div className="h-7 rounded-t-[4px]" style={{ backgroundColor: color }}>
+               <div className="h-7 rounded-t-[4px]" style={{ backgroundColor: capa?.color }}>
                </div>
                <div className=" flex flex-col gap-1 p-1 mt-1">
                   <span className="rounded-md h-1 w-full bg-gray-400 block"></span>
@@ -70,7 +76,7 @@ function PreviewCapa({ color,  }) {
                ${modelo == 2 && "outline outline-[3px] outline-blue-500"}`}
                onClick={()=> setModelo(2)}
             >
-               <div className="h-full p-1 rounded-[4px]" style={{ backgroundColor: color }}>
+               <div className="h-full p-1 rounded-[4px]" style={{ backgroundColor: capa?.color }}>
                   <span className="rounded-md mb-1 mt-12 h-1 w-full bg-gray-500 block"></span>
                   <span className="rounded-md h-1 w-3/4 bg-gray-500 block"></span>
                </div>

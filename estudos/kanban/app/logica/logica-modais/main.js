@@ -1,14 +1,16 @@
 
-let editingCard, editingLabels, setEditingLabels, editingIntegrants, setEditingIntegrants;
+let editingCard, 
+   editingLabels, setEditingLabels, 
+   editingIntegrants, setEditingIntegrants, 
+   editingCapa, setEditingCapa;
 const modalInfos = {
-   position: function(e, setPosition, labels, setLabels, integrants, setIntegrants){
+   position: function(e, setPosition, labels, setLabels, integrants, setIntegrants, capa, setCapa){
       const card = e.target.closest('.card');
       card.style.zIndex = "8";
       editingCard = card;
-      editingLabels = labels;
-      setEditingLabels = setLabels;
-      editingIntegrants = integrants;
-      setEditingIntegrants = setIntegrants;
+      editingLabels = labels; setEditingLabels = setLabels;
+      editingIntegrants = integrants; setEditingIntegrants = setIntegrants;
+      editingCapa = capa; setEditingCapa = setCapa;
       const left = card.offsetLeft + card.offsetWidth;
       const top = card.offsetTop;
       setPosition({top: top, left: left + 5});
@@ -57,4 +59,13 @@ const editIntegrants = {
    }
 }
 
-export { AddRemoveLabels, editIntegrants, modalInfos }
+const editCapa = {
+   capa: function(){
+      return editingCapa;
+   },
+   setCapa: function(capa){
+      setEditingCapa(capa)
+   }
+}
+
+export { AddRemoveLabels, editIntegrants, modalInfos, editCapa }
