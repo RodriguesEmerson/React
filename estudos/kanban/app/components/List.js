@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Cards from "./Cards";
 import dragDrop from "../logica/drag-drop";
 import criarNovo from "../logica/novo-card";
@@ -12,9 +12,12 @@ export default function List({ lists }) {
       return <Skeleton />
    }
    return (
-      lists.map(list => (
-        <EachList key={list.id} list={list} />
-      ))
+      <>
+         {lists.map(list => (
+            <EachList key={list.id} list={list} />
+         ))}
+         <AddNewList />
+      </>
    );
 }
 
@@ -24,10 +27,10 @@ function EachList({ list }) {
 
    return (
       <div id={list.id} className="list w-72  bg-gray-100 shadow-4xl p-1 rounded-sm text-sm"
-         onDragStart={(e) => {dragDrop.dragStart(e)}}
+         onDragStart={(e) => { dragDrop.dragStart(e) }}
          onDragEnter={(e) => dragDrop.dragEnter(e)}
-         onDragOver={(e) => {dragDrop.dragOver(e)}}
-         onDragEnd={(e) => {dragDrop.dragEnd(e)}}
+         onDragOver={(e) => { dragDrop.dragOver(e) }}
+         onDragEnd={(e) => { dragDrop.dragEnd(e) }}
       >
          <h2 className="mb-3 text-base font-bold">{list.listName}</h2>
          <div className="dragableArea overflow-y-auto scroll-presonalizada  max-h-100vh-105px" >
@@ -47,17 +50,57 @@ function EachList({ list }) {
             </div>
             :
             <div className="flex items-center gap-1 w-9/12 p-1 h-9">
-               <button 
-                  onClick={(e)=> {criarNovo.card(e, cards, setCards); setNovoCard(false)}}
-                  type="sumit" 
+               <button
+                  onClick={(e) => { criarNovo.card(e, cards, setCards); setNovoCard(false) }}
+                  type="sumit"
                   form={`f${list.id}`}
-                  data-parent={list.id} 
+                  data-parent={list.id}
                   className="font-semibold text-white text-13px bg-blue-600 h-8 leading-8 px-2 rounded-sm cursor-pointer hover:bg-blue-700 transition-all">
                   Adicionar cartão
                </button>
                <span
                   onClick={() => setNovoCard(false)}
                   className="material-icons text-center !text-xl !leading-8 w-8 h-8 rounded-sm hover:bg-gray-300 transition-all cursor-pointer">close</span>
+            </div>
+         }
+      </div>
+   )
+}
+
+function AddNewList() {
+   const [hidden, setHidden] = useState(true);
+   return (
+      <div className="flex flex-col">
+         {hidden ?
+            <div
+               className="flex gap-1 items-center justify-center w-72 bg-gray-200 hover:bg-gray-300 
+            transition-all cursor-pointer rounded-md h-9"
+               onClick={() => {setHidden(false)}}
+            >
+               <span className="material-icons !text-lg">add</span>
+               <p className="font-semibold text-gray-500 text-13px">Adicionar nova lista</p>
+            </div>
+            :
+            <div className="flex flex-col gap-1 p-1 h-9 w-72">
+               <form className="nova-lista p-1 cursor-grab flex flex-col gap-2 w-full min-h-20 shadow-4xl rounded-md overflow-hidden bg-white relative mb-2">
+                  <textarea name="texto" 
+                     className="p-1 h-6 text-sm outline-none resize-none overflow-hidden rounded-sm outline-blue-600"
+                     placeholder="Digite o nome da lista..."
+                  ></textarea>
+                  <div className="flex items-center gap-1">
+                     <button
+                        onClick={(e) => { }}
+                        type="sumit"
+                        // form={`f${list.id}`}
+                        // data-parent={list.id}
+                        className="font-semibold text-white text-[13px] bg-blue-600 h-8 leading-8 px-2 rounded-sm cursor-pointer hover:bg-blue-700 transition-all"
+                     >Adicionar Lista</button>
+                     <span
+                        onClick={() => setHidden(true)}
+                        className="material-icons text-center !text-xl !leading-8 w-8 h-8 rounded-sm hover:bg-gray-300 transition-all cursor-pointer"
+                     >close</span>
+                  </div>
+               </form>
             </div>
          }
       </div>

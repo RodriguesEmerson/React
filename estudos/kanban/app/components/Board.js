@@ -56,7 +56,7 @@ function BoardBody({ data, id }){
       e.preventDefault();
    }
    return(
-      <section className={`board flex flex-row items-start m-auto p-2 gap-3`}
+      <section className={`board flex flex-row items-start p-2 ml-2 gap-3`}
          onDragOver={(e)=> {handleDragOver(e)}}
          >
             <List  lists={data.lists}/>

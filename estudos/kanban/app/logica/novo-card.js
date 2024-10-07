@@ -1,7 +1,7 @@
-class NovoCard {
-   constructor(content){
+export class NovoCard {
+   constructor(content, UUID, dataHoje){
       this.content = content;
-      this.data = this.dataHoje();
+      this.data = dataHoje;
       this.prazo = false;
       this.img = '';
       this.capa = {
@@ -11,19 +11,8 @@ class NovoCard {
       this.integrants = [];
       this.labels = [];
       this.coments = [];
-      this.id = `c${this.gerarUUID()}`;
-   }
-
-   gerarUUID() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-         const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-         return v.toString(16);
-      })
-   }
-   dataHoje(){
-      return new Date().toLocaleDateString('pt-br', {year: 'numeric', month: '2-digit', day: '2-digit'});
-   }
-   
+      this.id = `c${UUID}`;
+   }   
 }
 
 const criarNovo = {
@@ -36,7 +25,7 @@ const criarNovo = {
       const formData = new FormData(form);
       const conetent = Object.fromEntries(formData)['texto'];
 
-      const novoCard = new NovoCard(conetent);
+      const novoCard = new NovoCard(conetent, this.gerarUUID(), this.dataHoje());
 
       //Adiciona um novo card no fim dos cards, sem re-renderizar todos os outros.
       setCards([...cards, novoCard]);
@@ -44,6 +33,16 @@ const criarNovo = {
       this.salvarCard(novoCard, parentId);
 
    },
+   gerarUUID: function() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+         const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+         return v.toString(16);
+      })
+   },
+   dataHoje: function(){
+      return new Date().toLocaleDateString('pt-br', {year: 'numeric', month: '2-digit', day: '2-digit'});
+   },
+
    salvarCard: async function(novoCard, parentId){
       await fetch (`/api/projects/${parentId}`, 
          {
