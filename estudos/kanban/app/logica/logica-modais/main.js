@@ -16,15 +16,15 @@ const modalInfos = {
       setPosition({top: top, left: left + 5});
    },
 
-   hiddenModal: function(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal){
+   hiddenModal: function(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal){
       const cardsOptions = e.target.closest('.card-options');
-      const modalLabels = e.target.closest('.modal-labels');
-      const modalMembers = e.target.closest('.modal-members');
+      const modal = e.target.closest('.modal');
       
-      if(!cardsOptions && !modalLabels && !modalMembers){
+      if(!cardsOptions && !modal){
          setHiddenOptionsModal(true);
          setHiddenLabelsModal(true);
-         setHiddenMembersModal(true)
+         setHiddenMembersModal(true);
+         setHiddenCapaModal(true);
 
       }else{return} ;
       editingCard.style.zIndex = "auto";

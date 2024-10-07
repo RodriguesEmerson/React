@@ -23,7 +23,7 @@ export default function ModalLabels() {
    const editingLabels = AddRemoveLabels.edtLabels();
 
    return (
-      <div className="modal-labels absolute  bg-white w-64 p-1 pt-2 rounded-lg"
+      <div className="modal absolute  bg-white w-64 p-1 pt-2 rounded-lg"
          style={{ top: `${position.top}px`, left: `${position.left}px` }}
       >
          <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</h2>

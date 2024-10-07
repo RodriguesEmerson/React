@@ -41,7 +41,7 @@ function BoardBody({ data, id }){
       hiddenOptionsModal, setHiddenOptionsModal,
       hiddenLabelsModal, setHiddenLabelsModal,
       projectIntegrants, setProjectIntegrants,
-      setHiddenMembersModal,
+      setHiddenMembersModal, setHiddenCapaModal,
       projectId, setProjectId,
    } = useProvidersContext();
    
@@ -63,7 +63,7 @@ function BoardBody({ data, id }){
             {(!hiddenOptionsModal) &&
                <div 
                   className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
-                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal)}}
+                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal,setHiddenCapaModal)}}
                   >
                   <ModalEditCard />
                   <ModalLabels />

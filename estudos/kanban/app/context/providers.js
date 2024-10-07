@@ -9,8 +9,8 @@ export function Providers({ children }){
    const [hiddenOptionsModal, setHiddenOptionsModal] = useState(true);  //Toggle hidden no modal de opções dos Cards.
    const [hiddenLabelsModal, setHiddenLabelsModal] = useState(true);    //Toggle hidden no modal de labels.
    const [hiddenMembersModal, setHiddenMembersModal] = useState(true);  //Toggle hidden no modal de membros.
+   const [hiddenCapaModal, setHiddenCapaModal] = useState(true);        //Toggle hidden no modal de membros.
    const [projectIntegrants, setProjectIntegrants] = useState([]);      //Integrantes do projeto aberto.
-
    const [projectId, setProjectId] = useState();
 
    return(
@@ -21,6 +21,7 @@ export function Providers({ children }){
                hiddenOptionsModal, setHiddenOptionsModal,
                hiddenLabelsModal, setHiddenLabelsModal,
                hiddenMembersModal, setHiddenMembersModal,
+               hiddenCapaModal, setHiddenCapaModal,
                projectIntegrants, setProjectIntegrants,
                projectId, setProjectId,
             }
