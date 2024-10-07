@@ -2,6 +2,8 @@ import { useProvidersContext } from "@/app/context/providers";
 import { useState, useEffect  } from "react";
 import { editCapa } from "@/app/logica/logica-modais/main";
 
+
+//********************************************************************************************* */
 const arrayColors = [
    { color: '#FFC636' },
    { color: '#FF6444' },
@@ -14,11 +16,19 @@ const arrayColors = [
    { color: '#94C748' },
    { color: '#8590A2' },
 ]
+const arrayImages = [
+   "/images/bg-img-1.jpg", "/images/bg-img-2.jpg", "/images/bg-img-3.jpg", 
+   "/images/bg-img-4.jpg", "/images/bg-img-5.jpg", "/images/bg-img-6.jpg",
+   "/images/bg-img-7.jpg", "/images/bg-img-8.jpg","/images/bg-img-9.jpg",
+]
+//********************************************************************************************** */
+
 
 export default function ModalCapa() {
    const {
       position,
-      hiddenCapaModal
+      hiddenCapaModal,
+      setHiddenCapaModal
    } = useProvidersContext();
 
    const [capa, setCapa] = useState();
@@ -35,17 +45,16 @@ export default function ModalCapa() {
    }
 
 
-
    return (
       <>
       {!hiddenCapaModal &&
-      <div className="modal absolute text-gray-600 bg-white w-[276px] p-1 pt-2 rounded-lg shadow-md"
+      <div className="modal absolute text-gray-600 bg-white w-[296px] p-1 pt-2 rounded-lg shadow-md"
          style={{ top: `${position.top}px`, left: `${position.left}px` }}
       >
          <h2 className="text-center text-sm font-semibold mb-4">Capa</h2>
          <span
             className="material-icons !text-base  absolute top-1 right-2 cursor-pointer"
-            onClick={() => { }}
+            onClick={() => {setHiddenCapaModal(true)}}
          >close</span>
             {capa &&
                <div className="flex flex-col gap-2 p-1">
@@ -56,6 +65,7 @@ export default function ModalCapa() {
                         onClick={()=> handleRemoveCapa()}
                      ></input>
                      <Cores capa={capa} setCapa={setCapa} setModelo={setModelo} />
+                     <Imagens setCapa={setCapa}/>
                </div>
             }
 
@@ -129,7 +139,7 @@ function Cores({ capa, setCapa }) {
 
    return (
       <div className="text-xs mb-2">
-         <p className="font-semibold">Cores</p>
+         <p className="font-semibold mb-1">Cores</p>
          <div className="flex gap-[6px] flex-wrap w-full">
             {arrayColors.map(el => (
                <div key={`capa${el.color}`}
@@ -142,8 +152,31 @@ function Cores({ capa, setCapa }) {
                   >
                   </span>
                </div>
-            ))
-            }
+            ))}
+         </div>
+      </div>
+   )
+}
+
+function Imagens({ setCapa }){
+
+   function handleChangeImage(image){
+      editCapa.setCapa({color: "", full: false, img: `${image}`});
+      setCapa({color: "", full: false, img: `${image}`})
+   }
+
+   return(
+      <div className="text-xs mb-2">
+         <p className="font-semibold mb-1">Imagens</p>
+         <div className="flex justify-between gap-[6px] flex-wrap w-full">
+            {arrayImages.map(image=>(
+               <div key={`imgSC${image}`} 
+                  className="flex-1 min-w-[30%] h-11 bg-black overflow-hidden rounded-sm cursor-pointer"
+                  onClick={()=> handleChangeImage(image)}
+               >
+                  <img src={`${image}`} className="w-full h-full object-cover hover:opacity-60 transition-all"></img>
+               </div>
+            ))}
          </div>
       </div>
    )

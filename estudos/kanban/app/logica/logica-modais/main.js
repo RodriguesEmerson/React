@@ -11,6 +11,7 @@ const modalInfos = {
       editingLabels = labels; setEditingLabels = setLabels;
       editingIntegrants = integrants; setEditingIntegrants = setIntegrants;
       editingCapa = capa; setEditingCapa = setCapa;
+
       const left = card.offsetLeft + card.offsetWidth;
       const top = card.offsetTop;
       setPosition({top: top, left: left + 5});

@@ -4,7 +4,10 @@ class NovoCard {
       this.data = this.dataHoje();
       this.prazo = false;
       this.img = '';
-      this.capa = false;
+      this.capa = {
+         color: false, full: false,
+         img: ""
+      },
       this.integrants = [];
       this.labels = [];
       this.coments = [];
@@ -31,9 +34,9 @@ const criarNovo = {
 
       //Pega os dados do formilário
       const formData = new FormData(form);
-      const texto = Object.fromEntries(formData)['texto'];
+      const conetent = Object.fromEntries(formData)['texto'];
 
-      const novoCard = new NovoCard(texto);
+      const novoCard = new NovoCard(conetent);
 
       //Adiciona um novo card no fim dos cards, sem re-renderizar todos os outros.
       setCards([...cards, novoCard]);

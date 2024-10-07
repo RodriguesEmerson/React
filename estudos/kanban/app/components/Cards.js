@@ -17,6 +17,7 @@ function Card({ card }) {
    const [labels, setLabels] = useState();
    const [integrants, setIntegrants] = useState();
    const [capa, setCapa] = useState();
+
    useEffect(()=>{
       setLabels(card.labels);
       setIntegrants(card.integrants);
@@ -48,7 +49,7 @@ function Card({ card }) {
          }
          {(capa?.img) &&
             <div className="h-36 overflow-hidden rounded-t-sm -m-1">
-               <img className="max-w-full object-cover" draggable="false" src={capa.img}></img>
+               <img className="w-full h-full object-cover" draggable="false" src={capa.img}></img>
             </div>
          }
          {(capa?.color && !capa.full) &&

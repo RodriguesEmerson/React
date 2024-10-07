@@ -28,7 +28,6 @@
                      "content": "Texto do card",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "",
                      "capa": {
                         "color":"#F205CB", "full": false,
                         "img": ""
@@ -60,10 +59,9 @@
                      "content": "Texto do card",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "http://localhost:3000/images/bg-img-2.jpg",
                      "capa": {
                         "color":false, "full": false,
-                        "img": "http://localhost:3000/images/bg-img-2.jpg"
+                        "img": "/images/bg-img-2.jpg"
                      },
                      "integrants": [
                         {
@@ -92,7 +90,6 @@
                      "content": "Texto do card",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "",
                      "capa": {
                         "color":false, "full": false,
                         "img": ""
@@ -122,10 +119,9 @@
                      "content": "Texto do card",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "http://localhost:3000/images/bg-img-4.jpg",
                      "capa": {
                         "color":false, "full": false,
-                        "img": "http://localhost:3000/images/bg-img-4.jpg"
+                        "img": "/images/bg-img-4.jpg"
                      },
                      "integrants": [
                         {
@@ -153,7 +149,20 @@
          "name": "Pojeto-2",
          "data": "2024/09/24",
          "autors": ["autor-1", "autor-2"],
-         "integrants": ["integrant-1","integrant-2", "integrant-3"],
+         "integrants": [
+            {
+               "nome": "integrant-1",
+               "avatar": "/images/profile-1.png"
+            },
+            {
+               "nome": "integrant-2",
+               "avatar": "/images/profile-2.png"
+            },
+            {
+               "nome": "integrant-3",
+               "avatar": "/images/profile-3.png"
+            }
+         ],
          "lists": [
             {
                "listName": "A Fazer",
@@ -163,7 +172,10 @@
                      "content": "Texto do card projeto-2",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "",
+                     "capa": {
+                        "color":false, "full": false,
+                        "img": ""
+                     },
                      "integrants": [
                         {
                            "nome": "integrant-1",
@@ -191,7 +203,10 @@
                      "content": "Texto do card projeto-2",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "http://localhost:3000/images/bg-img-2.jpg",
+                     "capa": {
+                        "color":false, "full": false,
+                        "img": "/images/bg-img-2.jpg"
+                     },
                      "integrants": [
                         {
                            "nome": "integrant-1",
@@ -219,7 +234,10 @@
                      "content": "Texto do card projeto-2",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "http://localhost:3000/images/bg-img-3.jpg",
+                     "capa": {
+                        "color":false, "full": false,
+                        "img": "/images/bg-img-3.jpg"
+                     },
                      "integrants": [
                         {
                            "nome": "integrant-1",
@@ -245,7 +263,10 @@
                      "content": "Texto do card projeto-2",
                      "data": "2024/09/28",
                      "prazo": "2024/09/28",
-                     "img": "http://localhost:3000/images/bg-img-4.jpg",
+                     "capa": {
+                        "color":false, "full": false,
+                        "img": "/images/bg-img-4.jpg"
+                     },
                      "integrants": [
                         {
                            "nome": "integrant-1",
