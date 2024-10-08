@@ -59,7 +59,7 @@ function BoardBody({ data, id }){
       <section className={`board flex flex-row items-start p-2 ml-2 gap-3`}
          onDragOver={(e)=> {handleDragOver(e)}}
          >
-            <List  lists={data.lists}/>
+            <List  arrLists={data.lists}/>
             {(!hiddenOptionsModal) &&
                <div 
                   className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"

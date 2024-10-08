@@ -23,9 +23,13 @@ const criarNovo = {
 
       //Pega os dados do formilário
       const formData = new FormData(form);
-      const conetent = Object.fromEntries(formData)['texto'];
+      const texto = Object.fromEntries(formData)['texto'];
+      
+      //Valdia o texto do card.
+      if(texto.length == 0) return console.log('Nome Inválido!');
 
-      const novoCard = new NovoCard(conetent, this.gerarUUID(), this.dataHoje());
+      //Instancia um novo card.
+      const novoCard = new NovoCard(texto, this.gerarUUID(), this.dataHoje());
 
       //Adiciona um novo card no fim dos cards, sem re-renderizar todos os outros.
       setCards([...cards, novoCard]);
