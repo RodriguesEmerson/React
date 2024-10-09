@@ -7,6 +7,7 @@ import ModalEditCard from "./modais/Modal";
 import ModalLabels from "./modais/Modal-labels";
 import ModalMembros from "./modais/Modal-membros";
 import ModalCapa from "./modais/Modal-capa";
+import ModalData from "./modais/Modal-data";
 
 
 
@@ -68,9 +69,10 @@ function BoardBody({ data, id }){
                   <ModalEditCard />
                   <ModalLabels />
                   <ModalMembros />
+                  <ModalCapa />
                </div>
             }
-            <ModalCapa />
+            <ModalData /> 
          </section>
    )
 }
