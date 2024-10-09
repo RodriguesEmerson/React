@@ -30,7 +30,7 @@ export default function ModalData() {
             className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
             onClick={() => { }}
          >close</span>
-         <div>
+         <div className="data">
 
          </div>
          <div className="text-xs mb-2">
@@ -77,7 +77,10 @@ export default function ModalData() {
                }
             </div>
          </div>
-
+         <input type="submit" value="Salvar" 
+            className="text-xs font-semibold text-white w-full h-8 bg-blue-600 cursor-pointer 
+               hover:bg-blue-700 transition-all rounded-[3px]"
+         />
       </div>
    )
 }
