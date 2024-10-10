@@ -1,6 +1,7 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useProvidersContext } from "../../context/providers"
+import { datas } from "@/app/logica/logica-modais/main";
 
 const selectOptions = [
    "Nenhum", "Na hora da entrega", "5 minutos antes",
@@ -15,7 +16,13 @@ export default function ModalData() {
    } = useProvidersContext();
 
    const [lembrete, setLembrete] = useState("Nenhum");
-   const [showSelect, setShowSelect] = useState(true);
+   const [showSelect, setShowSelect] = useState(false);
+   const [meses, setMeses] = useState();
+   const [mesAno, setMesAnos] = useState({mes: new Date().getMonth(), ano: new Date().getFullYear()})
+   const meses3 = datas.calendario(mesAno.mes, mesAno.ano);
+   useEffect(()=>{
+      setMeses(meses3);
+   },[])
 
    function hangleOpenSelect(){
       setShowSelect(!showSelect);
@@ -30,9 +37,9 @@ export default function ModalData() {
             className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
             onClick={() => { }}
          >close</span>
-         <div className="data">
 
-         </div>
+        <Calendario meses={meses} mesAno={mesAno}/>
+
          <div className="text-xs mb-2">
             <p className="font-semibold mb-1 text-gray-600">Data Início</p>
             <div className="flex items-center gap-[6px] mb-3">
@@ -81,6 +88,33 @@ export default function ModalData() {
             className="text-xs font-semibold text-white w-full h-8 bg-blue-600 cursor-pointer 
                hover:bg-blue-700 transition-all rounded-[3px]"
          />
+      </div>
+   )
+}
+
+function Calendario({ meses, mesAno }){
+   const hoje = new Date().getDate();
+   const diasMesAtual = []
+   const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Quar', 'Qui', 'Sex', 'Sáb'];
+   const diaDaSemana = datas.primeiroDiaMes(mesAno.mes, mesAno.ano);
+
+   for(let dia = 1; dia <= meses?.mAtual; dia++){
+      diasMesAtual.push(dia)
+   }
+   return(
+      <div className="grid grid-cols-7 mb-2">
+         {diasDaSemana.map(dia =>(
+            <span key={`weedDay${dia}`} className={`text-xs  text-center font-semibold mb-2 ${dia == "Dom" && "text-red-500"}`}>{dia}</span>
+         ))}
+         {diaDaSemana.map(dia =>(
+            <span key={`mAnterio${dia}`}></span>
+         ))}
+         {diasMesAtual.map(dia =>(
+            <span key={`monthDay${dia}`} className={`h-8 leading-8 rounded-[3px] text-[14px] text-center hover:bg-gray-100 transition-all
+               cursor-pointer
+               ${hoje == dia && "text-blue-600 font-bold border-b-[3px] border-b-blue-600"}`
+            }>{dia}</span>
+         ))}   
       </div>
    )
 }

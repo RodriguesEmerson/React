@@ -69,4 +69,36 @@ const editCapa = {
    }
 }
 
-export { AddRemoveLabels, editIntegrants, modalInfos, editCapa }
+
+const datas = {
+   calendario: function(mes, ano){
+      this.primeiroDiaMes(mes, ano)
+      return this.diasNoMes(mes, ano);
+   
+   },
+   anoBissexto: function(ano){
+      if(ano / 400 === 0) return true;
+      return false; 
+   },
+   diasNoMes: function(mes, ano){
+      const diasMesAnterior = new Date(ano, mes -1, 0).getDate();
+      const diasMesAtual = new Date(ano, mes + 1, 0).getDate();
+      const diasMesProximo = new Date(ano, mes + 1, 0).getDate();
+      console.log(new Date(ano, mes + 1, 0))
+
+      return({mAnte: diasMesAnterior, mAtual: diasMesAtual, mProx: diasMesProximo});
+   },
+   primeiroDiaMes: function(mes, ano){
+      const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Quar', 'Qui', 'Sex', 'Sáb']
+      const dia = (new Date(ano, mes, 1).getDay());
+      const numerosDiaDaSemana  = []
+      for(let d = 1; d <= dia; d++){
+         numerosDiaDaSemana.push(d);
+      }
+      return numerosDiaDaSemana;
+   }
+
+}
+
+
+export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas }
