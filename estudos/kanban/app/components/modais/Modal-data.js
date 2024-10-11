@@ -18,13 +18,13 @@ export default function ModalData() {
    const [lembrete, setLembrete] = useState("Nenhum");
    const [showSelect, setShowSelect] = useState(false);
    const [meses, setMeses] = useState();
-   const [mesAno, setMesAnos] = useState({mes: new Date().getMonth(), ano: new Date().getFullYear()})
+   const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() })
    const meses3 = datas.calendario(mesAno.mes, mesAno.ano);
-   useEffect(()=>{
+   useEffect(() => {
       setMeses(meses3);
-   },[])
+   }, [mesAno])
 
-   function hangleOpenSelect(){
+   function hangleOpenSelect() {
       setShowSelect(!showSelect);
    }
 
@@ -32,13 +32,13 @@ export default function ModalData() {
       <div className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
          style={{ top: `${position.top}px`, left: `${position.left}px` }}
       >
-         <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Data</h2>
+         <h2 className="text-center text-sm font-semibold text-gray-600 mb-3">Data</h2>
          <span
             className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
             onClick={() => { }}
          >close</span>
 
-        <Calendario meses={meses} mesAno={mesAno}/>
+         <Calendario meses={meses} mesAno={mesAno} setMesAnos={setMesAnos} />
 
          <div className="text-xs mb-2">
             <p className="font-semibold mb-1 text-gray-600">Data Início</p>
@@ -67,14 +67,14 @@ export default function ModalData() {
             <p className="font-semibold mb-1 text-gray-600">Definir lembrete</p>
             <div className={`flex items-center gap-[6px] relative border border-gray-400 rounded-[3px] pl-2 w-full h-8 cursor-pointer
                ${showSelect && "outline outline-[1px] outline-blue-500 border-blue-500"}`}
-               onClick={()=>{hangleOpenSelect()}}
+               onClick={() => { hangleOpenSelect() }}
             >
                <p>{lembrete}</p>
                {showSelect &&
                   <ul className="bg-white border text-[13px] border-gray-200 py-2 -ml-2 rounded-md  absolute bottom-9 w-full">
-                     {selectOptions.map(option =>(
+                     {selectOptions.map(option => (
                         <li key={`select${option}`} className="option-modal-data relative h-7 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
-                           onClick={()=> setLembrete(option)}
+                           onClick={() => setLembrete(option)}
                         >
                            <span className={`w-[3px] h-full ${lembrete == option ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
                            <p>{option}</p>
@@ -84,7 +84,7 @@ export default function ModalData() {
                }
             </div>
          </div>
-         <input type="submit" value="Salvar" 
+         <input type="submit" value="Salvar"
             className="text-xs font-semibold text-white w-full h-8 bg-blue-600 cursor-pointer 
                hover:bg-blue-700 transition-all rounded-[3px]"
          />
@@ -92,29 +92,61 @@ export default function ModalData() {
    )
 }
 
-function Calendario({ meses, mesAno }){
+function Calendario({ meses, mesAno, setMesAnos }) {
    const hoje = new Date().getDate();
    const diasMesAtual = []
    const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Quar', 'Qui', 'Sex', 'Sáb'];
-   const diaDaSemana = datas.primeiroDiaMes(mesAno.mes, mesAno.ano);
+   const mesesDoAno = [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 
+      'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+   ];
 
-   for(let dia = 1; dia <= meses?.mAtual; dia++){
+   const dadosDoCalendario = datas.primeiroDiaMes(mesAno.mes, mesAno.ano);
+
+   for (let dia = 1; dia <= meses?.mAtual; dia++) {
       diasMesAtual.push(dia)
    }
-   return(
-      <div className="grid grid-cols-7 mb-2">
-         {diasDaSemana.map(dia =>(
-            <span key={`weedDay${dia}`} className={`text-xs  text-center font-semibold mb-2 ${dia == "Dom" && "text-red-500"}`}>{dia}</span>
-         ))}
-         {diaDaSemana.map(dia =>(
-            <span key={`mAnterio${dia}`}></span>
-         ))}
-         {diasMesAtual.map(dia =>(
-            <span key={`monthDay${dia}`} className={`h-8 leading-8 rounded-[3px] text-[14px] text-center hover:bg-gray-100 transition-all
-               cursor-pointer
-               ${hoje == dia && "text-blue-600 font-bold border-b-[3px] border-b-blue-600"}`
-            }>{dia}</span>
-         ))}   
+
+   function handleChangeMonth(arrow){
+      let mes = mesAno.mes;
+      let ano = mesAno.ano;
+      
+      if(arrow == 'right'){
+         mes == 12 && (ano++);
+         setMesAnos({mes: mes == 12 ? (mes = 1) : mesAno.mes++, ano: ano})
+      }
+      console.log(mes)
+   }
+
+   return (
+      <div>
+         <div className="flex justify-between items-center  text-gray-600 mb-3">
+            <span className="material-icons h-7 w-7 pt-[2px] text-center hover:bg-gray-200 cursor-pointer rounded
+            ">chevron_left
+            </span>
+            <p className="text-xs font-semibold cursor-default">{mesesDoAno[mesAno.mes]} de {mesAno.ano}</p>
+            <span 
+               className="material-icons h-7 w-7 pt-[2px] text-center hover:bg-gray-200 cursor-pointer rounded"
+               onClick={()=> handleChangeMonth('right')}
+            >chevron_right
+            </span>
+         </div>
+         <div className="grid grid-cols-7 mb-2">
+            {diasDaSemana.map(dia => (
+               <span key={`weedDay${dia}`} className={`text-xs  text-center font-semibold mb-2 ${dia == "Dom" && "text-red-500"}`}>{dia}</span>
+            ))}
+            {dadosDoCalendario.ultimosDiasDoMesAnterior.map(dia => (
+               <span className="h-8 leading-8 rounded-[3px] text-[14px] text-center text-gray-300 cursor-pointer" key={`mAnte${dia}`}>{dia}</span>
+            ))}
+            {diasMesAtual.map(dia => (
+               <span key={`monthDay${dia}`} className={`h-8 leading-8 rounded-[3px] text-[14px] text-center hover:bg-gray-100  transition-all cursor-pointer
+                  ${hoje == dia && "text-blue-600 font-bold border-b-[3px] border-b-blue-600"}`
+               }>{dia}</span>
+            ))}
+            {dadosDoCalendario.primeirosDiasDProxMes.map(dia => (
+               <span className="h-8 leading-8 rounded-[3px] text-[14px] text-center text-gray-300 cursor-pointer" key={`mAnte${dia}`}>{dia}</span>
+            ))}
+         </div>
       </div>
    )
 }
