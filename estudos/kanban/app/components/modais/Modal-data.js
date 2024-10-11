@@ -17,13 +17,7 @@ export default function ModalData() {
 
    const [lembrete, setLembrete] = useState("Nenhum");
    const [showSelect, setShowSelect] = useState(false);
-   const [meses, setMeses] = useState();
    const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() })
-   const meses3 = datas.calendario(mesAno.mes, mesAno.ano);
-   useEffect(() => {
-      setMeses(meses3);
-   }, [mesAno])
-
    function hangleOpenSelect() {
       setShowSelect(!showSelect);
    }
@@ -38,7 +32,7 @@ export default function ModalData() {
             onClick={() => { }}
          >close</span>
 
-         <Calendario meses={meses} mesAno={mesAno} setMesAnos={setMesAnos} />
+         <Calendario mesAno={mesAno} setMesAnos={setMesAnos} />
 
          <div className="text-xs mb-2">
             <p className="font-semibold mb-1 text-gray-600">Data Início</p>
@@ -92,30 +86,27 @@ export default function ModalData() {
    )
 }
 
-function Calendario({ meses, mesAno, setMesAnos }) {
+function Calendario({ mesAno, setMesAnos }) {
    const hoje = new Date().getDate();
-   const diasMesAtual = []
    const diasDaSemana = ['Dom', 'Seg', 'Ter', 'Quar', 'Qui', 'Sex', 'Sáb'];
    const mesesDoAno = [
       'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 
       'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
    ];
+   let mesAtual = mesesDoAno[mesAno.mes]
 
    const dadosDoCalendario = datas.primeiroDiaMes(mesAno.mes, mesAno.ano);
 
-   for (let dia = 1; dia <= meses?.mAtual; dia++) {
-      diasMesAtual.push(dia)
-   }
+   console.log(mesAno.mes)
 
    function handleChangeMonth(arrow){
       let mes = mesAno.mes;
       let ano = mesAno.ano;
       
       if(arrow == 'right'){
-         mes == 12 && (ano++);
-         setMesAnos({mes: mes == 12 ? (mes = 1) : mesAno.mes++, ano: ano})
+         mes == 11 && (ano + 1);
+         setMesAnos({mes: mes == 11 ? 1 : mesAno.mes + 1, ano: mes == 11 ? mesAno.ano + 1 : mesAno.ano})
       }
-      console.log(mes)
    }
 
    return (
@@ -124,7 +115,9 @@ function Calendario({ meses, mesAno, setMesAnos }) {
             <span className="material-icons h-7 w-7 pt-[2px] text-center hover:bg-gray-200 cursor-pointer rounded
             ">chevron_left
             </span>
-            <p className="text-xs font-semibold cursor-default">{mesesDoAno[mesAno.mes]} de {mesAno.ano}</p>
+            <p className="text-xs font-semibold cursor-default">
+               {mesAtual} de {mesAno.ano}
+            </p>
             <span 
                className="material-icons h-7 w-7 pt-[2px] text-center hover:bg-gray-200 cursor-pointer rounded"
                onClick={()=> handleChangeMonth('right')}
@@ -138,7 +131,7 @@ function Calendario({ meses, mesAno, setMesAnos }) {
             {dadosDoCalendario.ultimosDiasDoMesAnterior.map(dia => (
                <span className="h-8 leading-8 rounded-[3px] text-[14px] text-center text-gray-300 cursor-pointer" key={`mAnte${dia}`}>{dia}</span>
             ))}
-            {diasMesAtual.map(dia => (
+            {dadosDoCalendario.numeroDeDiasMesAtual.map(dia => (
                <span key={`monthDay${dia}`} className={`h-8 leading-8 rounded-[3px] text-[14px] text-center hover:bg-gray-100  transition-all cursor-pointer
                   ${hoje == dia && "text-blue-600 font-bold border-b-[3px] border-b-blue-600"}`
                }>{dia}</span>

@@ -88,7 +88,7 @@ const datas = {
       return({mAnte: diasMesAnterior, mAtual: diasMesAtual, mProx: diasMesProximo});
    },
    primeiroDiaMes: function(mes, ano){
-      //Busca qual dia da semana foi o primeiro dia do mês.
+      //Dia da semana que foi o primeiro dia do mês.
       const dia = (new Date(ano, mes, 1).getDay());
 
       //Cria um array com números do 1º dia da semana até o 1º dia do mês.
@@ -113,10 +113,18 @@ const datas = {
             day++;
       }
 
+      //Cria um array com todos os dias do mês atual.
+      const numeroDeDiasMesAtual = [];
+      const diasMesAtual = new Date(ano, mes + 1, 0).getDate();
+      for (let dia = 1; dia <= diasMesAtual; dia++) {
+         numeroDeDiasMesAtual.push(dia)
+      }
+
       const dadosDoCalendario = {
          diaDaSemana: dia, 
          ultimosDiasDoMesAnterior: ultimosDiasDoMesAnterior, 
-         primeirosDiasDProxMes: primeirosDiasDProxMes
+         primeirosDiasDProxMes: primeirosDiasDProxMes,
+         numeroDeDiasMesAtual: numeroDeDiasMesAtual
        }
 
       return dadosDoCalendario;
