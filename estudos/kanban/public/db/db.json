@@ -27,7 +27,7 @@
                   {
                      "content": "Texto do card",
                      "data": "2024/09/28",
-                     "prazo": "2024/09/28",
+                     "prazo": "2024/10/28",
                      "capa": {
                         "color":"#F205CB", "full": false,
                         "img": ""
@@ -58,7 +58,7 @@
                   {
                      "content": "Texto do card",
                      "data": "2024/09/28",
-                     "prazo": "2024/09/28",
+                     "prazo": "2024/10/28",
                      "capa": {
                         "color":false, "full": false,
                         "img": "/images/bg-img-2.jpg"
@@ -89,7 +89,7 @@
                   {
                      "content": "Texto do card",
                      "data": "2024/09/28",
-                     "prazo": "2024/09/28",
+                     "prazo": "2024/10/28",
                      "capa": {
                         "color":false, "full": false,
                         "img": ""
@@ -117,8 +117,8 @@
                   },
                   {
                      "content": "Texto do card",
-                     "data": "2024/09/28",
-                     "prazo": "2024/09/28",
+                     "data": "2024/10/28",
+                     "prazo": "2024/10/28",
                      "capa": {
                         "color":false, "full": false,
                         "img": "/images/bg-img-4.jpg"

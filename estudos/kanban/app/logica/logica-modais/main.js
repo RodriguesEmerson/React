@@ -4,7 +4,7 @@ let editingCard,
    editingIntegrants, setEditingIntegrants, 
    editingCapa, setEditingCapa;
 const modalInfos = {
-   position: function(e, setPosition, labels, setLabels, integrants, setIntegrants, capa, setCapa){
+   position: function(e, setPosition, setHiddenOptionsModal, cardInfos, setCardInfos){
       const card = e.target.closest('.card');
       card.style.zIndex = "8";
       editingCard = card;

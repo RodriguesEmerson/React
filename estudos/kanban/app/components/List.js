@@ -6,9 +6,9 @@ import dragDrop from "../logica/drag-drop";
 import criarNovo from "../logica/novo-card";
 import Skeleton from "./skeleton";
 import { criarNova } from "../logica/nova-lista";
-
+let c = 1
 export default function List({ arrLists }) {
-
+   // console.log('List: ', c++)
    const [lists, setLists] = useState();
 
    useEffect(()=>{
