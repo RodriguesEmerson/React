@@ -41,5 +41,9 @@ body {
   .option-modal-data:hover > span{
     display: block;
   } 
+
+  .card:hover > .edit-button{
+    display: block !important;
+  }
 }
 

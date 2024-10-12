@@ -1,60 +1,50 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useProvidersContext } from "../context/providers";
 import { modalInfos } from "../logica/logica-modais/main";
 
 let c = 1;
-export default function Cards({ cards }) {
-   // console.log('Card: ', c++)
+const Cards = memo(({ cards }) => {
    return (
       cards.map(card => (
          <Card key={card.id} card={card} />
       ))
    );
-}
+})
 
-function Card({ card }) {
+export default Cards;
+
+const Card = memo(({ card }) => {
    const { setPosition, setHiddenOptionsModal } = useProvidersContext();
-   const [hidden, setHidden] = useState(true);
-   const [cardInfos, setCardInfos] = useState();
-
-   useEffect(()=>{
-
-      setCardInfos({
-         labels: card.labels, 
-         integrants: card.integrants,
-         text: card.content,
-         coments: card.coments,
-         capa: card.capa,
-         dates: {inicio: card.data, prazo: card.prazo}
-      })
-
-   },[]);
-  
-   // console.log(cardInfos)
+   const [cardInfos, setCardInfos] = useState({
+      labels: card.labels,
+      integrants: card.integrants,
+      text: card.content,
+      coments: card.coments,
+      capa: card.capa,
+      dates: { inicio: card.data, prazo: card.prazo }
+   });
 
 
-   if(!cardInfos) return <></>;
-   // console.log('passou')
+   if (!cardInfos) return <></>;
    return (
-      <div  id={card.id}
-         onMouseEnter={() => setHidden(false)}
-         onMouseLeave={() => setHidden(true)}
+      <div id={card.id}
          draggable="true"
          className={`card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl 
             rounded-md overflow-hidden relative mb-2 `}
-         style={{backgroundColor:`${cardInfos.capa.full ? cardInfos.capa.color : "white"}`}}
+         style={{ backgroundColor: `${cardInfos.capa.full ? cardInfos.capa.color : "white"}` }}
       >
-         {!hidden &&
-            <span
-              className="material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px"
-               onClick={(e)=> {
-                  modalInfos.position(
-                     e, setPosition, setHiddenOptionsModal, cardInfos, setCardInfos
-                  );
-                  setHiddenOptionsModal(false)}
-               }
-            >edit</span>
-         }
+         
+         <span
+            className="edit-button material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px !hidden"
+            onClick={(e) => {
+               modalInfos.position(
+                  e, setPosition, setHiddenOptionsModal, cardInfos, setCardInfos
+               );
+               setHiddenOptionsModal(false);
+            }
+            }
+         >edit</span>
+         
          {(cardInfos.capa.img) &&
             <div className="h-36 overflow-hidden rounded-t-sm -m-1">
                <img className="w-full h-full object-cover" draggable="false" src={cardInfos.capa.img}></img>
@@ -62,10 +52,10 @@ function Card({ card }) {
          }
          {(cardInfos.capa.color && !cardInfos.capa.full) &&
             <div className="h-12 overflow-hidden rounded-t-sm -m-1">
-               <div className="h-full w-full" style={{backgroundColor: cardInfos.capa.color}}></div>
+               <div className="h-full w-full" style={{ backgroundColor: cardInfos.capa.color }}></div>
             </div>
          }
-         {  
+         {
             <div className="labels flex flex-row gap-1">
                <Labels labels={cardInfos.labels} />
             </div>
@@ -96,7 +86,7 @@ function Card({ card }) {
          }
       </div>
    );
-}
+})
 
 function Labels({ labels }) {
 

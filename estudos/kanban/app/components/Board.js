@@ -8,34 +8,37 @@ import ModalLabels from "./modais/Modal-labels";
 import ModalMembros from "./modais/Modal-membros";
 import ModalCapa from "./modais/Modal-capa";
 import ModalData from "./modais/Modal-data";
-import { resolve } from "styled-jsx/css";
+import Skeleton from "./skeleton";
 let c = 1;
 
+//Criei isso para impedir renderizações desnesessárias.
+//procurei outras formas, mas ainda não encontrei.
+let dataLoaded = false;
+
 export default function Board({ id }){
-   console.log('Board: ', c++)
    const [data, setData] = useState();
 
-   // const updateData = useCallback((response)=>{
-   //    setData(response);
-   // },[]);
+   const updateData = useCallback((response)=>{
+      setData(response);
+   },[]);
    
-   useEffect(()=>{
+   useEffect(()=>{ 
       const getData = async () =>{
+         if(dataLoaded) return;
+         dataLoaded = true;
          try {
             const res = await fetch(`/api/projects/${id}`);
             const project = await res.json();
-            await new Promise((resolve) => setTimeout(resolve))
-            setData(project);
+            updateData(project);
             
-         } catch (error) {
+         } catch (error) { 
             console.log('Erro: ' + error);
          }
-         console.log(data)
       }
       getData();
    }, []);
-
-   if(!data) return <></>;
+   
+   if(!data) return <Skeleton />;
    return(
       <Providers>
          <BoardBody data={data} id={id} />
@@ -43,6 +46,8 @@ export default function Board({ id }){
    )
 }
 const BoardBody = memo(({ data, id }) => {
+   // console.log('Board: ', c++)
+
    const { 
       hiddenOptionsModal, setHiddenOptionsModal,
       hiddenLabelsModal, setHiddenLabelsModal,

@@ -1,20 +1,20 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import Cards from "./Cards";
 import dragDrop from "../logica/drag-drop";
 import criarNovo from "../logica/novo-card";
 import Skeleton from "./skeleton";
 import { criarNova } from "../logica/nova-lista";
 let c = 1
-export default function List({ arrLists }) {
-   // console.log('List: ', c++)
-   const [lists, setLists] = useState();
 
+const List = memo(({ arrLists }) => {
+   const [lists, setLists] = useState();
+   
    useEffect(()=>{
       setLists(arrLists);
    }, [arrLists])
-
+   
    //Retorna o skeleton enquanto lists não estiver disponível.
    if (!lists) {
       return <Skeleton />
@@ -27,9 +27,11 @@ export default function List({ arrLists }) {
          <AddNewList lists={lists} setLists={setLists}/>
       </>
    );
-}
+})
 
-function EachList({ list }) {
+export default List;
+
+const EachList = memo(({ list }) => {
    const [novoCard, setNovoCard] = useState(false);
    const [cards, setCards] = useState(list.cards);
 
@@ -42,7 +44,9 @@ function EachList({ list }) {
       >
          <h2 className="mb-3 text-base font-bold">{list.listName}</h2>
          <div className="dragableArea overflow-y-auto scroll-presonalizada  max-h-100vh-105px" >
+
             <Cards cards={cards} />
+            
             {novoCard &&
                <form id={`f${list.id}`} className="novo-card p-1 cursor-grab flex flex-col gap-1 w-full min-h-14 shadow-4xl rounded-md overflow-hidden bg-white relative mb-2">
                   <textarea id={`nctxt${list.id}`} name="texto" className="p-1 outline-none resize-none" placeholder="Insira um texto"></textarea>
@@ -73,7 +77,7 @@ function EachList({ list }) {
          }
       </div>
    )
-}
+})
 
 function AddNewList({ lists, setLists }) {
    const [hidden, setHidden] = useState(true);
