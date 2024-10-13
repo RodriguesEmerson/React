@@ -1,5 +1,5 @@
 import { useProvidersContext } from "../../context/providers"
-import { AddRemoveLabels } from "@/app/logica/logica-modais/main";
+import { modalInfos, AddRemoveLabels } from "@/app/logica/logica-modais/main";
 import { useEffect, useState } from "react";
 
 const labelsList = [
@@ -13,38 +13,52 @@ const labelsList = [
 ]
 
 export default function ModalLabels() {
-
    const { 
       position,
       setHiddenLabelsModal, 
       hiddenLabelsModal, 
    } = useProvidersContext();
-   if (hiddenLabelsModal) return <></>;
-   const editingLabels = AddRemoveLabels.edtLabels();
+   const cardInfos = modalInfos.getCardInfos();
 
    return (
-      <div className="modal absolute  bg-white w-64 p-1 pt-2 rounded-lg"
-         style={{ top: `${position.top}px`, left: `${position.left}px` }}
-      >
-         <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</h2>
-         <span
-            className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
-            onClick={() => {setHiddenLabelsModal(true)}}
-         >close</span>
-         <ul className="flex flex-col gap-[6px]  p-1">
-            {labelsList.map(label => (
-               <Label label={label} editingLabels={editingLabels} key={label.color}/>
-            ))}
-         </ul>
-      </div>
+      <>
+      {!hiddenLabelsModal &&
+         <div className="modal absolute  bg-white w-64 p-1 pt-2 rounded-lg"
+            style={{ top: `${position.top}px`, left: `${position.left}px` }}
+         >
+            <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</h2>
+            <span
+               className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
+               onClick={() => {setHiddenLabelsModal(true)}}
+            >close</span>
+            <ul className="flex flex-col gap-[6px]  p-1">
+               {labelsList.map(label => (
+                  <Label label={label} editingLabels={cardInfos.labels} cardInfos={cardInfos} key={label.color}/>
+               ))}
+            </ul>
+         </div>
+      }
+      </>
    )
 }
 
-function Label({ label, editingLabels }) {
+function Label({ label, editingLabels, cardInfos }) {
    const [checked, setChecked] = useState(false);
    useEffect(()=>{
       editingLabels.includes(label.color) && setChecked(true);
-   },[])
+   },[]);
+
+   function handeChangeLabels(color){
+      modalInfos.setCardInfos({
+         labels: cardInfos.labels,
+         integrants: cardInfos.integrants,
+         text: cardInfos.text,
+         coments: cardInfos.coments,
+         capa: cardInfos.capa,
+         dates: cardInfos.dates
+      })
+   }
+
    return (
       <li className="flex gap-2 w-full" key={label.color}>
          <input className="w-[18px]" type="checkbox" id={`check${label.color}`}

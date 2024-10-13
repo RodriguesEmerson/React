@@ -11,8 +11,6 @@ const Cards = memo(({ cards }) => {
    );
 })
 
-export default Cards;
-
 const Card = memo(({ card }) => {
    const { setPosition, setHiddenOptionsModal } = useProvidersContext();
    const [cardInfos, setCardInfos] = useState({
@@ -24,8 +22,6 @@ const Card = memo(({ card }) => {
       dates: { inicio: card.data, prazo: card.prazo }
    });
 
-
-   if (!cardInfos) return <></>;
    return (
       <div id={card.id}
          draggable="true"
@@ -38,7 +34,7 @@ const Card = memo(({ card }) => {
             className="edit-button material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px !hidden"
             onClick={(e) => {
                modalInfos.position(
-                  e, setPosition, setHiddenOptionsModal, cardInfos, setCardInfos
+                  e, setPosition, cardInfos, setCardInfos
                );
                setHiddenOptionsModal(false);
             }
@@ -72,10 +68,10 @@ const Card = memo(({ card }) => {
                      <p>{cardInfos.coments.length}</p>
                   </div>
                }
-               {cardInfos.prazo &&
+               {cardInfos.dates.prazo &&
                   <div className="flex flex-row items-center gap-1">
                      <span className="material-icons !text-lg">schedule</span>
-                     <p>{new Date(cardInfos.prazo).toLocaleDateString('pt-br', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+                     <p>{new Date(cardInfos.dates.prazo).toLocaleDateString('pt-br', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
                   </div>
                }{cardInfos.integrants &&
                   <div className="flex flex-row gap-1 justify-end flex-1">
@@ -89,7 +85,6 @@ const Card = memo(({ card }) => {
 })
 
 function Labels({ labels }) {
-
    return (
       labels.map(label => (
          <span key={label} className={`w-12 h-2 rounded-lg mt-2 mb-[-5px]`} data-color={`${label}`} style={{ backgroundColor: `${label}` }}></span>
@@ -105,3 +100,5 @@ function Integrants({ integrantes }) {
       ))
    )
 }
+
+export default Cards;

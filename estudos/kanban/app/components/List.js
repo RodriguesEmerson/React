@@ -9,6 +9,7 @@ import { criarNova } from "../logica/nova-lista";
 let c = 1
 
 const List = memo(({ arrLists }) => {
+
    const [lists, setLists] = useState();
    
    useEffect(()=>{

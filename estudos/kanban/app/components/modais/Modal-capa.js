@@ -1,6 +1,6 @@
 import { useProvidersContext } from "@/app/context/providers";
 import { useState, useEffect  } from "react";
-import { editCapa } from "@/app/logica/logica-modais/main";
+import { editCapa, modalInfos } from "@/app/logica/logica-modais/main";
 
 
 //********************************************************************************************* */
@@ -31,16 +31,13 @@ export default function ModalCapa() {
       setHiddenCapaModal
    } = useProvidersContext();
 
-   const [capa, setCapa] = useState();
+   const cardInfos = modalInfos.getCardInfos();
    const [modelo, setModelo] = useState();
-
-   useEffect(()=>{
-      setCapa(editCapa.capa());
-   },[editCapa.capa()]);
+   const [capa, setCapa] = useState(cardInfos.capa);
 
    function handleRemoveCapa(){
-      editCapa.setCapa({color: "", full: false, img: ""});
-      setCapa({color: "", full: false, img: ""});
+      editCapa.removeCapa();
+      setCapa(cardInfos.capa)
       setModelo(3);
    }
 
@@ -132,9 +129,9 @@ function PreviewCapa({ capa, setCapa, modelo, setModelo  }) {
 
 function Cores({ capa, setCapa }) {
 
-   function handleChangeColor(newColor){
-      setCapa(newColor);
-      editCapa.setCapa(newColor);
+   function handleChangeColor(capa){
+      editCapa.setCapa(capa);
+      setCapa(capa);
    }
 
    return (
@@ -160,9 +157,9 @@ function Cores({ capa, setCapa }) {
 
 function Imagens({ setCapa }){
 
-   function handleChangeImage(image){
-      editCapa.setCapa({color: "", full: false, img: `${image}`});
-      setCapa({color: "", full: false, img: `${image}`})
+   function handleChangeImage(capa){
+      editCapa.setCapa(capa);
+      setCapa(capa)
    }
 
    return(
@@ -172,7 +169,7 @@ function Imagens({ setCapa }){
             {arrayImages.map(image=>(
                <div key={`imgSC${image}`} 
                   className="flex-1 min-w-[30%] h-11 bg-black overflow-hidden rounded-sm cursor-pointer"
-                  onClick={()=> handleChangeImage(image)}
+                  onClick={()=> handleChangeImage({color: "", full: false, img: `${image}`})}
                >
                   <img src={`${image}`} className="w-full h-full object-cover hover:opacity-60 transition-all"></img>
                </div>

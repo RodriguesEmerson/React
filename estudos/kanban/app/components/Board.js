@@ -16,6 +16,7 @@ let c = 1;
 let dataLoaded = false;
 
 export default function Board({ id }){
+
    const [data, setData] = useState();
 
    const updateData = useCallback((response)=>{

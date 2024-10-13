@@ -4,22 +4,31 @@ import { useEffect, useState } from "react";
 
 export default function ModalMembros() {
    const {
-      projectId,
       position,
       projectIntegrants,
       hiddenMembersModal, setHiddenMembersModal,
    } = useProvidersContext();
 
    const [outIntegrants, setOutIntegrants] = useState();
-   const [integrants, setIntegrants] = useState();
+   const cardInfos = modalInfos.getCardInfos();
+   const integrants = cardInfos.integrants;
 
-   useEffect(() => {
-      setIntegrants(editIntegrants.integrants());
-   }, []);
+   function handleChangeMembers(integrant, action){
+      if(action ==  'remove'){
+         //Remove o membro clicado e envia o array já filtrado para a função.
+         editIntegrants.setIntegrants([...integrants].filter(int => int.nome != integrant.nome));
+         //Para o modal não dar uma 'piscada' ao alterar os membros.
+         setOutIntegrants([...outIntegrants, integrant]);
+         return;
+      }
+
+      editIntegrants.setIntegrants([...integrants, integrant]);
+      setOutIntegrants([...outIntegrants].filter(int => int.nome != integrant.nome));
+   }
 
    useEffect(() => {
       if (integrants) {
-         //Se não haver nenhum integrante no card.
+         //retorna se não haver nenhum integrante no card.
          if (integrants.length === 0) return setOutIntegrants(projectIntegrants);
 
          //Cria um objeto contendo todos os nomes dos integrantes do projeto.
@@ -50,13 +59,7 @@ export default function ModalMembros() {
                         <li key={`ei${integrant.nome}`}
                            className="relative flex items-center gap-2 w-full p-1 cursor-pointer bg-gray-100 hover:bg-gray-200 transition-all rounded-sm"
                            title={`Remover ${integrant.nome}`}
-                           onClick={() => {
-                              editIntegrants.setIntegrants([...integrants].filter(int => int.nome != integrant.nome));
-                              setIntegrants([...integrants].filter(int => int.nome != integrant.nome));
-
-                              //Para o modal não dar uma 'piscada' ao alterar os membros.
-                              setOutIntegrants([...outIntegrants, integrant]);
-                           }}
+                           onClick={() => { handleChangeMembers(integrant, 'remove') }}
                         >
                            <div key={integrant.nome} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden">
                               <img src={integrant.avatar} className="max-w-full object-cover"></img>
@@ -76,13 +79,7 @@ export default function ModalMembros() {
                         <li key={`filteredOutIntegrants${integrant.nome}`}
                            className="relative flex items-center gap-2 w-full p-1 cursor-pointer bg-gray-100 hover:bg-gray-200 transition-all rounded-sm"
                            title={`Adicionar ${integrant.nome}`}
-                           onClick={() => {
-                              editIntegrants.setIntegrants([...integrants, integrant]);
-                              setIntegrants([...integrants, integrant]);
-
-                              //Para o modal não dar uma 'piscada' ao alterar os membros.
-                              setOutIntegrants([...outIntegrants].filter(int => int.nome != integrant.nome));
-                           }}
+                           onClick={() => { handleChangeMembers(integrant, 'add') }}
                         >
                            <div key={integrant.nome} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden">
                               <img src={integrant.avatar} className="max-w-full object-cover"></img>
