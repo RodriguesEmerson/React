@@ -54,6 +54,7 @@ const BoardBody = memo(({ data, id }) => {
       hiddenLabelsModal, setHiddenLabelsModal,
       projectIntegrants, setProjectIntegrants,
       setHiddenMembersModal, setHiddenCapaModal,
+      hiddenDataModal, setHiddenDataModal,
       projectId, setProjectId,
    } = useProvidersContext();
    
@@ -74,15 +75,15 @@ const BoardBody = memo(({ data, id }) => {
             {(!hiddenOptionsModal) &&
                <div 
                   className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
-                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal,setHiddenCapaModal)}}
+                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal,setHiddenCapaModal, setHiddenDataModal)}}
                   >
                   <ModalEditCard />
                   <ModalLabels />
                   <ModalMembros />
                   <ModalCapa />
+                  <ModalData /> 
                </div>
             }
-            <ModalData /> 
          </section>
    )
 })

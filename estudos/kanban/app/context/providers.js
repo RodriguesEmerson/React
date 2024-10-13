@@ -10,6 +10,7 @@ export function Providers({ children }){
    const [hiddenLabelsModal, setHiddenLabelsModal] = useState(true);    //Toggle hidden no modal de labels.
    const [hiddenMembersModal, setHiddenMembersModal] = useState(true);  //Toggle hidden no modal de membros.
    const [hiddenCapaModal, setHiddenCapaModal] = useState(true);        //Toggle hidden no modal de membros.
+   const [hiddenDataModal, setHiddenDataModal] = useState(true);        //Toggle hidden no modal de membros.
    const [projectIntegrants, setProjectIntegrants] = useState([]);      //Integrantes do projeto aberto.
    const [projectId, setProjectId] = useState();
 
@@ -22,6 +23,7 @@ export function Providers({ children }){
                hiddenLabelsModal, setHiddenLabelsModal,
                hiddenMembersModal, setHiddenMembersModal,
                hiddenCapaModal, setHiddenCapaModal,
+               hiddenDataModal, setHiddenDataModal,
                projectIntegrants, setProjectIntegrants,
                projectId, setProjectId,
             }

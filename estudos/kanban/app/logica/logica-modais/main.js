@@ -16,7 +16,7 @@ const modalInfos = {
       setPosition({ top: top, left: left + 5 });
    },
 
-   hiddenModal: function (e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal) {
+   hiddenModal: function (e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal, setHiddenDataModal) {
       const cardsOptions = e.target.closest('.card-options');
       const modal = e.target.closest('.modal');
 
@@ -25,6 +25,7 @@ const modalInfos = {
          setHiddenLabelsModal(true);
          setHiddenMembersModal(true);
          setHiddenCapaModal(true);
+         setHiddenDataModal(true);
 
       } else { return };
       editingCard.style.zIndex = "auto";
@@ -102,16 +103,7 @@ const editCapa = {
    }
 }
 
-
 const datas = {
-   calendario: function (mes, ano) {
-      return this.diasNoMes(mes, ano);
-
-   },
-   anoBissexto: function (ano) {
-      if (ano / 400 === 0) return true;
-      return false;
-   },
    diasNoMes: function (mes, ano) {
       const diasMesAnterior = new Date(ano, mes, 0).getDate();
       const diasMesAtual = new Date(ano, mes + 1, 0).getDate();
@@ -119,7 +111,7 @@ const datas = {
 
       return ({ mAnte: diasMesAnterior, mAtual: diasMesAtual, mProx: diasMesProximo });
    },
-   primeiroDiaMes: function (mes, ano) {
+   calendario: function (mes, ano) {
       //Dia da semana que foi o primeiro dia do mês.
       const dia = (new Date(ano, mes, 1).getDay());
 
@@ -129,7 +121,7 @@ const datas = {
          numerosDiaDaSemana.push(d);
       }
 
-      //Cria um array com os ultimos dias do mês anterior que aparecem na mesma semana do primeiro dia do mês atual.
+      //Cria um array com os ultimos dias do mês anterior que aparecem na mesma semana do 1º dia do mês atual.
       const ultimosDiasDoMesAnterior = [];
       for (let d = dia - 1; d >= 0; d--) {
          ultimosDiasDoMesAnterior.push(this.diasNoMes(mes, ano).mAnte - d);
@@ -161,28 +153,28 @@ const datas = {
 
       return dadosDoCalendario;
    },
-   periodo: function (periodo, dia, mes, ano, mesComparacao) {
+   incluiNoPeriodo: function(periodo, dia, mes, ano, mesComparacao){
+      //Verifica se as datas recebidas formam um período, com data de incio e fim.
+      if(!periodo.inicio || !periodo.fim) return;
 
-      let mesAnalizado = mes + 1 % 12;
+      let mesAnalizado = (mes + 1) % 12; //Data com ciclo. 
       mesComparacao == "ante" && ( mesAnalizado = mes );
-      mesComparacao == "prox" && ( mesAnalizado = mes + 2 % 12 );
+      mesComparacao == "prox" && ( mesAnalizado = (mes + 2) % 12 );
 
       const dataInicio = new Date(periodo.inicio).getTime();
       const dataFim = new Date(periodo.fim).getTime();
       const diaAnalizado = (new Date(`${ano}/${mesAnalizado}/${dia}`).getTime());
 
-      return {
-         diaAnalizado: diaAnalizado,
-         dataInicio: dataInicio,
-         dataFim: dataFim
-      }
-
-   },
-
-   incluiNoPeriodo: function(periodo, dia, mes, ano, mesComparacao){
-      const { diaAnalizado, dataInicio, dataFim} = this.periodo(periodo, dia, mes, ano, mesComparacao);
+      //Checa se o dia está dentro do periodo analizado.
       if(diaAnalizado >= dataInicio && diaAnalizado <= dataFim) return true;
    },
+   setPeriodo: function(periodo){
+      setEditingCardInfos({
+         ...editingCardInfos,
+         periodo: periodo
+      })
+      editingCardInfos.periodo = periodo;
+   }
 }
 
 

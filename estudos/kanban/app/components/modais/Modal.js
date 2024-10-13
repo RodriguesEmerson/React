@@ -16,13 +16,14 @@ const cardsOptions = [
 export default function ModalEditCard(){
    const { position, hiddenOptionsModal, 
       setHiddenLabelsModal, setHiddenMembersModal,
-      setHiddenCapaModal
+      setHiddenCapaModal, setHiddenDataModal
    } = useProvidersContext();
 
    function handleClick(text){
       text == 'sell' && setHiddenLabelsModal(false), setHiddenMembersModal(true);
       text == 'person' && setHiddenMembersModal(false);
       text == 'web_asset' && setHiddenCapaModal(false);
+      text == 'calendar_month' && setHiddenDataModal(false)
    }
 
    return(

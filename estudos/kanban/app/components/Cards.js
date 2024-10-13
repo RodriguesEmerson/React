@@ -19,7 +19,7 @@ const Card = memo(({ card }) => {
       text: card.content,
       coments: card.coments,
       capa: card.capa,
-      dates: { inicio: card.data, prazo: card.prazo }
+      periodo: { inicio: card.data, fim: card.prazo }
    });
 
    return (
@@ -68,10 +68,10 @@ const Card = memo(({ card }) => {
                      <p>{cardInfos.coments.length}</p>
                   </div>
                }
-               {cardInfos.dates.prazo &&
+               {cardInfos.periodo.fim &&
                   <div className="flex flex-row items-center gap-1">
                      <span className="material-icons !text-lg">schedule</span>
-                     <p>{new Date(cardInfos.dates.prazo).toLocaleDateString('pt-br', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+                     <p>{new Date(cardInfos.periodo.fim).toLocaleDateString('pt-br', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
                   </div>
                }{cardInfos.integrants &&
                   <div className="flex flex-row gap-1 justify-end flex-1">

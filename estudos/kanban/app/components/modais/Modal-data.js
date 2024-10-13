@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { useProvidersContext } from "../../context/providers"
-import { datas } from "@/app/logica/logica-modais/main";
+import { datas, modalInfos } from "@/app/logica/logica-modais/main";
 
 const selectOptions = [
    "Nenhum", "Na hora da entrega", "5 minutos antes",
@@ -18,51 +18,73 @@ const mesesDoAno = [
 export default function ModalData() {
    const {
       position,
+      hiddenDataModal, setHiddenDataModal
    } = useProvidersContext();
-
+   const cardInfos = modalInfos.getCardInfos();
    const [lembrete, setLembrete] = useState("Nenhum");
    const [showSelect, setShowSelect] = useState(false);
-   const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() })
+   const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() });
+   const [periodo, setPeriodo] = useState(cardInfos.periodo);
+
    function handleOpenSelect() {
       setShowSelect(!showSelect);
    }
 
+   function handleDataInicio(){
+      datas.setPeriodo(periodo.inicio 
+         ? {...periodo, inicio: ""} 
+         : {...periodo, inicio: new Date().toLocaleDateString('en', {year: 'numeric', month: '2-digit', day: '2-digit'})}
+      );
+      setPeriodo(cardInfos.periodo);
+   }
+
    return (
+      <>
+      {!hiddenDataModal &&
       <div className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
          style={{ top: `${position.top}px`, left: `${position.left}px` }}
       >
          <h2 className="text-center text-sm font-semibold text-gray-600 mb-3">Data</h2>
          <span
             className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
-            onClick={() => { }}
+            onClick={() => {setHiddenDataModal(true)}}
          >close</span>
 
-         <Calendario mesAno={mesAno} setMesAnos={setMesAnos} />
+         <Calendario mesAno={mesAno} setMesAnos={setMesAnos} periodo={periodo} setPeriodo={setPeriodo} />
 
          <div className="text-xs mb-2">
             <p className="font-semibold mb-1 text-gray-600">Data Início</p>
             <div className="flex items-center gap-[6px] mb-3">
-               <input className="w-[18px] h-[18px]" type="checkbox"
-                  onChange={() => { }}
+               <input 
+                  className="w-[18px] h-[18px]" type="checkbox" checked={periodo.inicio ? true : false}
+                  onChange={() => {handleDataInicio()}}
                />
-               <input type="text" className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
+               <input 
+                  type="text" 
+                  className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="D/M/AAA"
+                  value={periodo.inicio && `${new Date(periodo.inicio).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})}`}
+                  onChange={() =>{}}
                />
             </div>
-
             <p className="font-semibold mb-1 text-gray-600">Data de entrega</p>
             <div className="flex items-center gap-[6px]  mb-3">
-               <input className="w-[18px] h-[18px]" type="checkbox"
+               <input 
+                  className="w-[18px] h-[18px]" type="checkbox"
                   onChange={() => { }}
                />
-               <input type="text" className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
-                  placeholder="D/M/AAA"
+               <input 
+                  type="text" 
+                  className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
+                  placeholder="D/M/AAA" 
+                  value={`${periodo.fim}`}
+                  onChange={() =>{}}
                />
                <input type="text" className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="hh:mm"
+                  onChange={() =>{}}
                />
             </div>
-
             <p className="font-semibold mb-1 text-gray-600">Definir lembrete</p>
             <div className={`flex items-center gap-[6px] relative border border-gray-400 rounded-[3px] pl-2 w-full h-8 cursor-pointer
                ${showSelect && "outline outline-[1px] outline-blue-500 border-blue-500"}`}
@@ -84,25 +106,24 @@ export default function ModalData() {
             </div>
          </div>
          <input type="submit" value="Salvar"
-            className="text-xs font-semibold text-white w-full h-8 bg-blue-600 cursor-pointer 
+            className="text-xs font-semibold text-white w-full h-8 bg-blue-600 cursor-pointer
                hover:bg-blue-700 transition-all rounded-[3px]"
          />
       </div>
-   )
+      }
+      </>
+   )  
 }
 
-function Calendario({ mesAno, setMesAnos }) {
+function Calendario({ mesAno, setMesAnos, periodo, setPeriodo }) {
    const hoje = new Date().getDate();
    const mesAtual = new Date().getMonth();
-   const dadosDoCalendario = datas.primeiroDiaMes(mesAno.mes, mesAno.ano);
-
-   const dat = {inicio: "2024/09/15", fim: "2024/11/02"};
-   const periodo = datas.periodo(dat, mesAno);
-
+   const calendario = datas.calendario(mesAno.mes, mesAno.ano);
    let { mes, ano } = mesAno;
+
    function handleChangeMonth(arrow) {
       if (arrow == 'next') {
-         setMesAnos({ mes: mes == 11 ? 0 : mesAno.mes + 1, ano: mes == 11 ? mesAno.ano + 1 : mesAno.ano })
+         setMesAnos({ mes: (mes + 1) % 12, ano: mes == 11 ? mesAno.ano + 1 : mesAno.ano })
          return;
       }
 
@@ -130,31 +151,31 @@ function Calendario({ mesAno, setMesAnos }) {
             {diasDaSemana.map(dia => (
                <span 
                   key={`weedDay${dia}`} 
-                  className={`text-xs  text-center font-semibold mb-2 ${dia == "Dom" && "text-red-500"}`}
+                  className={`text-xs  text-center font-semibold mb-2 ${dia == "Dom" && "text-red-700"}`}
                >{dia}</span>
             ))}
-            {dadosDoCalendario.ultimosDiasDoMesAnterior.map(dia => (
+            {calendario.ultimosDiasDoMesAnterior.map(dia => (
                <span 
                   key={`mAnte${dia}`}
-                  className={`h-8 leading-8 rounded-[3px] text-[14px] text-center text-gray-300 cursor-pointer border border-white
-                     ${(datas.incluiNoPeriodo(dat, dia, mes, ano, 'ante')) && "bg-blue-100"}
+                  className={`h-8 leading-8 rounded-[3px] text-[14px] text-center  hover:bg-gray-100 text-gray-300 cursor-pointer border border-white
+                     ${(datas.incluiNoPeriodo(periodo, dia, mes, ano, 'ante') && "bg-blue-100 hover:bg-blue-200")}
                   `}
                >{dia}</span>
             ))}
-            {dadosDoCalendario.numeroDeDiasMesAtual.map(dia => (
+            {calendario.numeroDeDiasMesAtual.map(dia => (
                <span 
                   key={`monthDay${dia}`} 
                   className={`h-8 leading-8 rounded-[3px] text-[14px] text-center hover:bg-gray-100   cursor-pointer border border-white
                      ${(hoje == dia && mesAno.mes == mesAtual) && "text-blue-600 font-bold border-b-[3px] border-b-blue-600"}
-                     ${(datas.incluiNoPeriodo(dat, dia, mes, ano)) && "bg-blue-100"}
+                     ${(datas.incluiNoPeriodo(periodo, dia, mes, ano) && "bg-blue-100 hover:bg-blue-200")}
                   `}
                >{dia}</span>
             ))}
-            {dadosDoCalendario.primeirosDiasDProxMes.map(dia => (
+            {calendario.primeirosDiasDProxMes.map(dia => (
                <span 
                   key={`mAnte${dia}`}
-                  className={`h-8 leading-8 rounded-[3px] text-[14px] text-center text-gray-300 cursor-pointer border border-white
-                     ${(datas.incluiNoPeriodo(dat, dia, mes, ano, 'prox')) && "bg-blue-100"}
+                  className={`h-8 leading-8 rounded-[3px] text-[14px] text-center  hover:bg-gray-100 text-gray-300 cursor-pointer border border-white
+                     ${(datas.incluiNoPeriodo(periodo, dia, mes, ano, 'prox') && "bg-blue-100 hover:bg-blue-200")}
                   `}
                >{dia}</span>
             ))}
