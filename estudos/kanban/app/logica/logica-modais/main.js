@@ -161,84 +161,28 @@ const datas = {
 
       return dadosDoCalendario;
    },
-   periodo: function (peri, mesAno) {
-      const { inicio, fim } = peri;
-      const { mes, ano } = mesAno;
-      const { mAnte, mAtual, mProx } = this.diasNoMes(mes, ano);
-      const { ultimosDiasDoMesAnterior, primeirosDiasDProxMes } = this.primeiroDiaMes(mes, ano);
-      const mesInicio = new Date(inicio).getMonth();
-      const mesFim = new Date(fim).getMonth();
+   periodo: function (periodo, dia, mes, ano, mesComparacao) {
 
-      //Checa se o mês anterior, o atual ou o próximo está no mes incial.
-      const includPeriodoInicio = (
-         //Meses com ciclo
-         mesInicio == (mes - 1 + 12) % 12 || //Impede que o mes seja menor que 0 (0 - 1 = -1 + 12 = 11 % 12 = 11);
-         mesInicio == mes ||
-         mesInicio == (mes + 1) % 12        ////Impede que o mes seja maior que 11 (11 + 1 = 12 % 12 = 0);
-      )
-      //Checa se o mês anterior, o atual ou o próximo está no mes final.
-      const includPeriodoFim = (
-         //Meses com ciclo
-         mesFim == (mes - 1 + 12) % 12 || //Impede que o mes seja menor que 0 (0 - 1 = -1 + 12 = 11 % 12 = 11);
-         mesFim == mes ||
-         mesFim == (mes + 1) % 12        ////Impede que o mes seja maior que 11 (11 + 1 = 12 % 12 = 0);
-      )
-      if (includPeriodoInicio && includPeriodoFim) {
-         const diaInicio = new Date(inicio).getDate();
-         const diaFim = new Date(fim).getDate();
+      let mesAnalizado = mes + 1 % 12;
+      mesComparacao == "ante" && ( mesAnalizado = mes );
+      mesComparacao == "prox" && ( mesAnalizado = mes + 2 % 12 );
 
-         let diasInclusosMesAnte = [];
-         if (mesInicio == (mes - 1 + 12) % 12) {
-            //Dias do mês anterior que estão no periodo.
-            for (let i = diaInicio; i <= mAnte; i++) {
-               diasInclusosMesAnte.push(i)
-            }
-            //Filtra apenas os dias do ultimo mes que são mostrados nesse mês e estão no periodo.
-            diasInclusosMesAnte = diasInclusosMesAnte.filter(dia => ultimosDiasDoMesAnterior.includes(dia) && dia);
-            return ({ diasInclusosMesAnte: diasInclusosMesAnte });
-         }
+      const dataInicio = new Date(periodo.inicio).getTime();
+      const dataFim = new Date(periodo.fim).getTime();
+      const diaAnalizado = (new Date(`${ano}/${mesAnalizado}/${dia}`).getTime());
 
+      return {
+         diaAnalizado: diaAnalizado,
+         dataInicio: dataInicio,
+         dataFim: dataFim
       }
-      // if(includPeriodoFim){
-      //    const diaFim = new Date(fim).getDate();
-      //    console.log(diaFim)
-      //  }
 
    },
 
-   incluiNoMesAnterior: function (periodo, dia, mes) {
-      //Verifica se o dia pertence ao periodo determinado.
-      if (new Date(periodo.inicio).getDate() <= dia && (new Date(periodo.inicio).getMonth() == mes - 1)) {
-         return true;
-      }
+   incluiNoPeriodo: function(periodo, dia, mes, ano, mesComparacao){
+      const { diaAnalizado, dataInicio, dataFim} = this.periodo(periodo, dia, mes, ano, mesComparacao);
+      if(diaAnalizado >= dataInicio && diaAnalizado <= dataFim) return true;
    },
-   incluiNoMesAtual: function (periodo, dia, mes) {
-      const dataFim = new Date(periodo.fim).getDate();
-      const dataInicio = new Date(periodo.inicio).getDate();
-      const mesInicio = new Date(periodo.inicio).getMonth();
-      const mesFim = new Date(periodo.fim).getMonth();
-
-      //Checa se o periodo começa no mes anterior e termina no mes atual.
-      if ((mesInicio == mes - 1) && (mesFim == mes) && (dia <= dataFim)) {
-         return true;
-      }
-
-      //Checa se o mês inteiro está incluso no periodo.
-      if((mesInicio < mes) && (mesFim > mes)){
-         return true;
-      }
-
-      //Checa se o mês inicial e o final é o mesmo e se o dia pertence ao periodo.
-      if((mesInicio == mes) && (mesFim == mes) && (dataInicio <= dia) && (dataFim >= dia) ){
-         return true;
-      }
-
-      //Checa se o periodo começa no mes anterior e termina no mes atual.
-      if ((mesInicio == mes ) && (mesFim == mes + 1) && (dia >= dataInicio)) {
-         return true;
-      }
-   }
-
 }
 
 
