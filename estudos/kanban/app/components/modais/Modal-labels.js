@@ -48,17 +48,6 @@ function Label({ label, editingLabels, cardInfos }) {
       editingLabels.includes(label.color) && setChecked(true);
    },[]);
 
-   function handeChangeLabels(color){
-      modalInfos.setCardInfos({
-         labels: cardInfos.labels,
-         integrants: cardInfos.integrants,
-         text: cardInfos.text,
-         coments: cardInfos.coments,
-         capa: cardInfos.capa,
-         dates: cardInfos.dates
-      })
-   }
-
    return (
       <li className="flex gap-2 w-full" key={label.color}>
          <input className="w-[18px]" type="checkbox" id={`check${label.color}`}

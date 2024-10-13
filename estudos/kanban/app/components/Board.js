@@ -82,7 +82,7 @@ const BoardBody = memo(({ data, id }) => {
                   <ModalCapa />
                </div>
             }
-            {/* <ModalData />  */}
+            <ModalData /> 
          </section>
    )
 })
