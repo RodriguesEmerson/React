@@ -154,9 +154,6 @@ const datas = {
       return dadosDoCalendario;
    },
    incluiNoPeriodo: function(periodo, dia, mes, ano, mesComparacao){
-      //Verifica se as datas recebidas formam um período, com data de incio e fim.
-      if(!periodo.inicio || !periodo.fim) return;
-
       let mesAnalizado = (mes + 1) % 12; //Data com ciclo. 
       mesComparacao == "ante" && ( mesAnalizado = mes );
       mesComparacao == "prox" && ( mesAnalizado = (mes + 2) % 12 );
@@ -165,8 +162,40 @@ const datas = {
       const dataFim = new Date(periodo.fim).getTime();
       const diaAnalizado = (new Date(`${ano}/${mesAnalizado}/${dia}`).getTime());
 
+      //Verifica se as datas recebidas formam um período, com data de incio e fim.
+      if(!periodo.inicio || !periodo.fim){
+         if(periodo.inicio && (diaAnalizado == dataInicio)) return true;
+         if(periodo.fim && (diaAnalizado == dataFim)) return true;
+      };
+
+
       //Checa se o dia está dentro do periodo analizado.
       if(diaAnalizado >= dataInicio && diaAnalizado <= dataFim) return true;
+   },
+   validaData: function(data){
+      //Regex para validar o formato da data recebido.
+      const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/;
+      if(!regex.test(data)) return false;
+
+      //Converte a data para o padrão aceito pelo js.
+      const dataRevesa = this.converteData(data)
+
+      const anoAtual = new Date().getFullYear();
+      const mesAtual = new Date().getMonth();
+      const mesAnalizado = new Date(dataRevesa).getMonth();
+      const anoAnalizado = new Date(dataRevesa).getFullYear();
+      if(anoAnalizado < anoAtual - 1 || anoAnalizado > anoAtual + 1) return false;
+      if(anoAnalizado == anoAtual - 1 && mesAnalizado < mesAtual) return false;
+      if(anoAnalizado == anoAtual + 1 && mesAnalizado > mesAtual) return false;
+
+      return dataRevesa;
+   },
+   converteData: function(data){
+      //Divide a data 
+      const [dia, mes, ano] = data.split('/');
+
+      //Converte a data;
+      return `${ano}/${mes}/${dia}`
    },
    setPeriodo: function(periodo){
       setEditingCardInfos({
@@ -176,6 +205,5 @@ const datas = {
       editingCardInfos.periodo = periodo;
    }
 }
-
 
 export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas }

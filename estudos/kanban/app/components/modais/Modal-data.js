@@ -20,22 +20,39 @@ export default function ModalData() {
       position,
       hiddenDataModal, setHiddenDataModal
    } = useProvidersContext();
+
    const cardInfos = modalInfos.getCardInfos();
    const [lembrete, setLembrete] = useState("Nenhum");
    const [showSelect, setShowSelect] = useState(false);
    const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() });
    const [periodo, setPeriodo] = useState(cardInfos.periodo);
+   const [dataInicio, setDataInicio] = useState(new Date(periodo.inicio).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'}))
 
    function handleOpenSelect() {
       setShowSelect(!showSelect);
    }
 
-   function handleDataInicio(){
-      datas.setPeriodo(periodo.inicio 
-         ? {...periodo, inicio: ""} 
-         : {...periodo, inicio: new Date().toLocaleDateString('en', {year: 'numeric', month: '2-digit', day: '2-digit'})}
+   function handleDataInicio(data, removeData){
+      let novaData;
+      if(!removeData){
+         console.log(removeData)
+         novaData = datas.validaData(data);
+         if(!novaData) return console.log('Data inválida.');
+      }else{
+         novaData = ""
+      }
+      datas.setPeriodo(
+         {...periodo, inicio: novaData}
       );
       setPeriodo(cardInfos.periodo);
+   }
+   function handleDataFim(){
+      datas.setPeriodo(periodo.fim 
+         ? {...periodo, fim: ""} 
+         : {...periodo, fim: new Date().toLocaleDateString('en', {year: 'numeric', month: '2-digit', day: '2-digit'})}
+      );
+      setPeriodo(cardInfos.periodo);
+      
    }
 
    return (
@@ -56,29 +73,36 @@ export default function ModalData() {
             <p className="font-semibold mb-1 text-gray-600">Data Início</p>
             <div className="flex items-center gap-[6px] mb-3">
                <input 
-                  className="w-[18px] h-[18px]" type="checkbox" checked={periodo.inicio ? true : false}
-                  onChange={() => {handleDataInicio()}}
+                  className="w-[18px] h-[18px]" type="checkbox" 
+                  checked={periodo.inicio ? true : false}
+                  onChange={(e) => {
+                     handleDataInicio(e.target.checked ? ("", true) : (dataInicio, false))}
+                  }
                />
-               <input 
+               <input
                   type="text" 
                   className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="D/M/AAA"
-                  value={periodo.inicio && `${new Date(periodo.inicio).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})}`}
-                  onChange={() =>{}}
+                  value={dataInicio}
+                  onChange={(e)=>{setDataInicio(e.target.value)}}
+                  onKeyDown={(e)=>{(e.key == "Enter") && handleDataInicio(e.target.value)}}
+
                />
             </div>
             <p className="font-semibold mb-1 text-gray-600">Data de entrega</p>
             <div className="flex items-center gap-[6px]  mb-3">
                <input 
                   className="w-[18px] h-[18px]" type="checkbox"
-                  onChange={() => { }}
+                  checked={periodo.fim ? true : false}
+                  onChange={() => {handleDataFim()}}
                />
                <input 
                   type="text" 
                   className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="D/M/AAA" 
-                  value={`${periodo.fim}`}
-                  onChange={() =>{}}
+                  value={new Date(periodo.fim).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})}
+                  onChange={()=>{}}
+                  onKeyDown={(e)=>{(e.key == "Enter") && console.log('foi')}}
                />
                <input type="text" className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="hh:mm"
