@@ -172,13 +172,23 @@ const datas = {
       //Checa se o dia está dentro do periodo analizado.
       if(diaAnalizado >= dataInicio && diaAnalizado <= dataFim) return true;
    },
-   validaData: function(data){
+   validaData: function(data, dataFim){
       //Regex para validar o formato da data recebido.
       const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/;
       if(!regex.test(data)) return false;
 
       //Converte a data para o padrão aceito pelo js.
-      const dataRevesa = this.converteData(data)
+      const dataRevesa = this.converteData(data);
+      
+      const prazo = new Date(dataFim).getTime();
+      if(new Date(dataRevesa).getTime() > prazo){
+         setEditingCardInfos({
+            ...editingCardInfos,
+            periodo: {inicio: data, fim: ''}
+         })
+         editingCardInfos.periodo = {inicio: data, fim: ''};
+         return dataRevesa;
+      }
 
       const anoAtual = new Date().getFullYear();
       const mesAtual = new Date().getMonth();
@@ -190,10 +200,13 @@ const datas = {
 
       return dataRevesa;
    },
-   converteData: function(data){
+   converteData: function(data, padrao){
+      if(padrao == "br"){
+         if(data == '') return '';
+         return new Date(data).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})
+      } 
       //Divide a data 
       const [dia, mes, ano] = data.split('/');
-
       //Converte a data;
       return `${ano}/${mes}/${dia}`
    },
@@ -203,6 +216,9 @@ const datas = {
          periodo: periodo
       })
       editingCardInfos.periodo = periodo;
+   },
+   hoje: function(){
+      return new Date().toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})
    }
 }
 

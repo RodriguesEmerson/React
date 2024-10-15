@@ -26,33 +26,35 @@ export default function ModalData() {
    const [showSelect, setShowSelect] = useState(false);
    const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() });
    const [periodo, setPeriodo] = useState(cardInfos.periodo);
-   const [dataInicio, setDataInicio] = useState(new Date(periodo.inicio).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'}))
+   const [dataInicio, setDataInicio] = useState(datas.converteData(periodo.inicio, 'br'))
 
    function handleOpenSelect() {
       setShowSelect(!showSelect);
    }
-
+   
    function handleDataInicio(data, removeData){
       let novaData;
       if(!removeData){
-         console.log(removeData)
-         novaData = datas.validaData(data);
+         novaData = datas.validaData(data, periodo.fim);
          if(!novaData) return console.log('Data inválida.');
       }else{
          novaData = ""
       }
+
       datas.setPeriodo(
          {...periodo, inicio: novaData}
       );
       setPeriodo(cardInfos.periodo);
+      console.log(periodo)
+      setDataInicio(datas.converteData(novaData, 'br'));
    }
+
    function handleDataFim(){
       datas.setPeriodo(periodo.fim 
          ? {...periodo, fim: ""} 
          : {...periodo, fim: new Date().toLocaleDateString('en', {year: 'numeric', month: '2-digit', day: '2-digit'})}
       );
       setPeriodo(cardInfos.periodo);
-      
    }
 
    return (
@@ -76,13 +78,17 @@ export default function ModalData() {
                   className="w-[18px] h-[18px]" type="checkbox" 
                   checked={periodo.inicio ? true : false}
                   onChange={(e) => {
-                     handleDataInicio(e.target.checked ? ("", true) : (dataInicio, false))}
-                  }
+                     !e.target.checked 
+                     ?  handleDataInicio('', true) 
+                     :  handleDataInicio(datas.hoje(), false);
+                  }}
                />
                <input
                   type="text" 
-                  className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
-                  placeholder="D/M/AAA"
+                  className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400 
+                     ${!periodo.inicio && "bg-gray-200 border-none"}`}
+                  placeholder="dd/mm/aaaa"
+                  disabled={!periodo.inicio ? true : false}
                   value={dataInicio}
                   onChange={(e)=>{setDataInicio(e.target.value)}}
                   onKeyDown={(e)=>{(e.key == "Enter") && handleDataInicio(e.target.value)}}
@@ -98,13 +104,13 @@ export default function ModalData() {
                />
                <input 
                   type="text" 
-                  className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
+                  className="w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="D/M/AAA" 
                   value={new Date(periodo.fim).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})}
                   onChange={()=>{}}
                   onKeyDown={(e)=>{(e.key == "Enter") && console.log('foi')}}
                />
-               <input type="text" className="w-24 h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
+               <input type="text" className="w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="hh:mm"
                   onChange={() =>{}}
                />
