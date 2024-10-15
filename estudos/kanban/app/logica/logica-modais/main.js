@@ -153,72 +153,98 @@ const datas = {
 
       return dadosDoCalendario;
    },
-   incluiNoPeriodo: function(periodo, dia, mes, ano, mesComparacao){
+   incluiNoPeriodo: function (periodo, dia, mes, ano, mesComparacao) {
       let mesAnalizado = (mes + 1) % 12; //Data com ciclo. 
-      mesComparacao == "ante" && ( mesAnalizado = mes );
-      mesComparacao == "prox" && ( mesAnalizado = (mes + 2) % 12 );
+      mesComparacao == "ante" && (mesAnalizado = mes);
+      mesComparacao == "prox" && (mesAnalizado = (mes + 2) % 12);
 
       const dataInicio = new Date(periodo.inicio).getTime();
       const dataFim = new Date(periodo.fim).getTime();
       const diaAnalizado = (new Date(`${ano}/${mesAnalizado}/${dia}`).getTime());
 
       //Verifica se as datas recebidas formam um período, com data de incio e fim.
-      if(!periodo.inicio || !periodo.fim){
-         if(periodo.inicio && (diaAnalizado == dataInicio)) return true;
-         if(periodo.fim && (diaAnalizado == dataFim)) return true;
+      if (!periodo.inicio || !periodo.fim) {
+         if (periodo.inicio && (diaAnalizado == dataInicio)) return true;
+         if (periodo.fim && (diaAnalizado == dataFim)) return true;
       };
 
 
       //Checa se o dia está dentro do periodo analizado.
-      if(diaAnalizado >= dataInicio && diaAnalizado <= dataFim) return true;
+      if (diaAnalizado >= dataInicio && diaAnalizado <= dataFim) return true;
    },
-   validaData: function(data, dataFim){
+   validaData: function (data) {
       //Regex para validar o formato da data recebido.
       const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/;
-      if(!regex.test(data)) return false;
+      if (!regex.test(data)) return false;
 
       //Converte a data para o padrão aceito pelo js.
       const dataRevesa = this.converteData(data);
-      
-      const prazo = new Date(dataFim).getTime();
-      if(new Date(dataRevesa).getTime() > prazo){
-         setEditingCardInfos({
-            ...editingCardInfos,
-            periodo: {inicio: data, fim: ''}
-         })
-         editingCardInfos.periodo = {inicio: data, fim: ''};
-         return dataRevesa;
-      }
 
+      //Vilida se o periodo da data tem o período de um ano.
       const anoAtual = new Date().getFullYear();
       const mesAtual = new Date().getMonth();
       const mesAnalizado = new Date(dataRevesa).getMonth();
       const anoAnalizado = new Date(dataRevesa).getFullYear();
-      if(anoAnalizado < anoAtual - 1 || anoAnalizado > anoAtual + 1) return false;
-      if(anoAnalizado == anoAtual - 1 && mesAnalizado < mesAtual) return false;
-      if(anoAnalizado == anoAtual + 1 && mesAnalizado > mesAtual) return false;
+      if (anoAnalizado < anoAtual - 1 || anoAnalizado > anoAtual + 1) return false;
+      if (anoAnalizado == anoAtual - 1 && mesAnalizado < mesAtual) return false;
+      if (anoAnalizado == anoAtual + 1 && mesAnalizado > mesAtual) return false;
 
       return dataRevesa;
    },
-   converteData: function(data, padrao){
-      if(padrao == "br"){
-         if(data == '') return '';
-         return new Date(data).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})
-      } 
+
+   veirificaPeriodo: function (data, dataFim) {
+      //Se a data final for menor que a data inicial adicionada, é removida.
+      console.log(data, dataFim)
+      console.log(new Date(data).getTime() > new Date(dataFim).getTime())
+      if (new Date(data).getTime() > new Date(dataFim).getTime()) {
+         return true;
+      }
+      return false;
+   },
+
+   converteData: function (data, padrao) {
+      if (padrao == "br") {
+         if (data == '') return '';
+         return new Date(data).toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit', year: 'numeric' })
+      }
       //Divide a data 
       const [dia, mes, ano] = data.split('/');
       //Converte a data;
       return `${ano}/${mes}/${dia}`
    },
-   setPeriodo: function(periodo){
+
+   setPeriodo: function (periodo) {
       setEditingCardInfos({
          ...editingCardInfos,
          periodo: periodo
       })
       editingCardInfos.periodo = periodo;
    },
-   hoje: function(){
-      return new Date().toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})
+   hoje: function () {
+      return new Date().toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit', year: 'numeric' })
+   },
+
+   //**********************HANDLES*************************** */
+   handleDataInicio: function(data, dataFim, removeData, setPeriodo, setDataInicio, setDataFim){
+      let novaData;
+      if(!removeData){
+         novaData = this.validaData(data, dataFim);
+         if(!novaData) return console.log('Data inválida.');
+      }else{
+         novaData = ""
+      }
+
+      //Se a data final for menor que a data inicial adicionada, é removida.
+      let fim = dataFim;
+      if(this.veirificaPeriodo(novaData, dataFim)) fim = '';
+
+      this.setPeriodo(
+         {inicio: novaData, fim: fim}
+      );
+      console.log({inicio: novaData, fim: fim})
+      setPeriodo({inicio: novaData, fim: fim});
+      setDataInicio(datas.converteData(novaData, 'br'));
+      setDataFim(datas.converteData(fim, 'br'))
    }
 }
 

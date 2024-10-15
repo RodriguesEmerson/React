@@ -26,27 +26,15 @@ export default function ModalData() {
    const [showSelect, setShowSelect] = useState(false);
    const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() });
    const [periodo, setPeriodo] = useState(cardInfos.periodo);
-   const [dataInicio, setDataInicio] = useState(datas.converteData(periodo.inicio, 'br'))
+   const [dataInicio, setDataInicio] = useState(datas.converteData(periodo.inicio, 'br'));
+   const [dataFim, setDataFim] = useState(datas.converteData(periodo.fim, 'br'));
 
    function handleOpenSelect() {
       setShowSelect(!showSelect);
    }
    
    function handleDataInicio(data, removeData){
-      let novaData;
-      if(!removeData){
-         novaData = datas.validaData(data, periodo.fim);
-         if(!novaData) return console.log('Data inválida.');
-      }else{
-         novaData = ""
-      }
-
-      datas.setPeriodo(
-         {...periodo, inicio: novaData}
-      );
-      setPeriodo(cardInfos.periodo);
-      console.log(periodo)
-      setDataInicio(datas.converteData(novaData, 'br'));
+      datas.handleDataInicio(data, periodo.fim, removeData, setPeriodo, setDataInicio, setDataFim);
    }
 
    function handleDataFim(){
@@ -106,8 +94,8 @@ export default function ModalData() {
                   type="text" 
                   className="w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="D/M/AAA" 
-                  value={new Date(periodo.fim).toLocaleDateString('pt-br', {day: '2-digit', month: '2-digit', year: 'numeric'})}
-                  onChange={()=>{}}
+                  value={dataFim}
+                  onChange={(e)=>{setDataFim(e.target.value)}}
                   onKeyDown={(e)=>{(e.key == "Enter") && console.log('foi')}}
                />
                <input type="text" className="w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
