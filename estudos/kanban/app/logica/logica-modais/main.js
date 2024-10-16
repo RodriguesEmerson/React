@@ -154,13 +154,21 @@ const datas = {
       return dadosDoCalendario;
    },
    incluiNoPeriodo: function (periodo, dia, mes, ano, mesComparacao) {
-      let mesAnalizado = (mes + 1) % 12; //Data com ciclo. 
-      mesComparacao == "ante" && (mesAnalizado = mes);
-      mesComparacao == "prox" && (mesAnalizado = (mes + 2) % 12);
+      let anoAnalizado = ano
+      let mesAnalizado = mes;
+      if(mes > 12){
+         anoAnalizado++;
+         mesAnalizado = 0;
+      }
+      if(mes < 0){
+         anoAnalizado--; 
+         mesAnalizado = 11;
+      }
+       console.log(`${anoAnalizado}/${mesAnalizado}/${dia}`)
 
       const dataInicio = new Date(periodo.inicio).getTime();
       const dataFim = new Date(periodo.fim).getTime();
-      const diaAnalizado = (new Date(`${ano}/${mesAnalizado}/${dia}`).getTime());
+      const diaAnalizado = (new Date(`${anoAnalizado}/${mesAnalizado}/${dia}`).getTime());
 
       //Verifica se as datas recebidas formam um período, com data de incio e fim.
       if (!periodo.inicio || !periodo.fim) {
@@ -218,6 +226,7 @@ const datas = {
       })
       editingCardInfos.periodo = periodo;
    },
+
    hoje: function () {
       return new Date().toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit', year: 'numeric' })
    },
@@ -251,11 +260,22 @@ const datas = {
          if (!novaData) return console.log('Data inválida.');
       } else {
          novaData = ""
+         this.setPeriodo(
+            { inicio: dataInicio, fim: novaData }
+         );
+         setPeriodo(
+            { inicio: dataInicio, fim: novaData }
+         )
+         setDataInicio(datas.converteData(dataInicio, 'br'));
+         setDataFim(datas.converteData(novaData, 'br'));
+         return;
       }
 
       //Se a data final for menor que a data inicial adicionada, é removida
       //E adiciona a data envida à início.
-      if (!this.veirificaPeriodo(novaData, dataInicio)) {
+      //Se a dataInicio não existir, vai pra 'else'.
+      if (this.veirificaPeriodo(dataInicio, novaData)) {
+         console.log(novaData)
          this.setPeriodo(
             { inicio: novaData, fim: '' }
          );
