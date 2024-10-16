@@ -194,8 +194,6 @@ const datas = {
 
    veirificaPeriodo: function (data, dataFim) {
       //Se a data final for menor que a data inicial adicionada, é removida.
-      console.log(data, dataFim)
-      console.log(new Date(data).getTime() > new Date(dataFim).getTime())
       if (new Date(data).getTime() > new Date(dataFim).getTime()) {
          return true;
       }
@@ -225,26 +223,60 @@ const datas = {
    },
 
    //**********************HANDLES*************************** */
-   handleDataInicio: function(data, dataFim, removeData, setPeriodo, setDataInicio, setDataFim){
+   handleDataInicio: function (data, dataFim, removeDataInicio, setPeriodo, setDataInicio, setDataFim) {
       let novaData;
-      if(!removeData){
-         novaData = this.validaData(data, dataFim);
-         if(!novaData) return console.log('Data inválida.');
-      }else{
+      if (!removeDataInicio) {
+         novaData = this.validaData(data);
+         if (!novaData) return console.log('Data inválida.');
+      } else {
          novaData = ""
       }
 
       //Se a data final for menor que a data inicial adicionada, é removida.
       let fim = dataFim;
-      if(this.veirificaPeriodo(novaData, dataFim)) fim = '';
+      if (this.veirificaPeriodo(novaData, dataFim)) fim = '';
 
       this.setPeriodo(
-         {inicio: novaData, fim: fim}
+         { inicio: novaData, fim: fim }
       );
-      console.log({inicio: novaData, fim: fim})
-      setPeriodo({inicio: novaData, fim: fim});
+      setPeriodo({ inicio: novaData, fim: fim });
       setDataInicio(datas.converteData(novaData, 'br'));
       setDataFim(datas.converteData(fim, 'br'))
+   },
+
+   handleDataFim: function (data, dataInicio, removeDataFim, setPeriodo, setDataInicio, setDataFim) {
+      let novaData;
+      if (!removeDataFim) {
+         novaData = this.validaData(data);
+         if (!novaData) return console.log('Data inválida.');
+      } else {
+         novaData = ""
+      }
+
+      //Se a data final for menor que a data inicial adicionada, é removida
+      //E adiciona a data envida à início.
+      if (!this.veirificaPeriodo(novaData, dataInicio)) {
+         this.setPeriodo(
+            { inicio: novaData, fim: '' }
+         );
+         setPeriodo(
+            { inicio: novaData, fim: '' }
+         )
+         setDataInicio(datas.converteData(novaData, 'br'));
+         setDataFim(datas.converteData('', 'br'))
+
+      }else{
+         this.setPeriodo(
+            { inicio: dataInicio, fim: novaData }
+         );
+         setPeriodo(
+            { inicio: dataInicio, fim: novaData }
+         )
+         setDataInicio(datas.converteData(dataInicio, 'br'));
+         setDataFim(datas.converteData(novaData, 'br'))
+      }
+
+     
    }
 }
 

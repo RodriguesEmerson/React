@@ -28,21 +28,13 @@ export default function ModalData() {
    const [periodo, setPeriodo] = useState(cardInfos.periodo);
    const [dataInicio, setDataInicio] = useState(datas.converteData(periodo.inicio, 'br'));
    const [dataFim, setDataFim] = useState(datas.converteData(periodo.fim, 'br'));
-
-   function handleOpenSelect() {
-      setShowSelect(!showSelect);
-   }
    
-   function handleDataInicio(data, removeData){
-      datas.handleDataInicio(data, periodo.fim, removeData, setPeriodo, setDataInicio, setDataFim);
+   function handleDataInicio(data, removeDataInicio){
+      datas.handleDataInicio(data, periodo.fim, removeDataInicio, setPeriodo, setDataInicio, setDataFim);
    }
 
-   function handleDataFim(){
-      datas.setPeriodo(periodo.fim 
-         ? {...periodo, fim: ""} 
-         : {...periodo, fim: new Date().toLocaleDateString('en', {year: 'numeric', month: '2-digit', day: '2-digit'})}
-      );
-      setPeriodo(cardInfos.periodo);
+   function handleDataFim(data, removeDataFim){
+      datas.handleDataFim(data, periodo.inicio, removeDataFim, setPeriodo, setDataInicio, setDataFim);
    }
 
    return (
@@ -88,7 +80,11 @@ export default function ModalData() {
                <input 
                   className="w-[18px] h-[18px]" type="checkbox"
                   checked={periodo.fim ? true : false}
-                  onChange={() => {handleDataFim()}}
+                  onChange={(e) => {
+                     !e.target.checked 
+                     ?  handleDataFim('', true) 
+                     :  handleDataFim(datas.hoje(), false);
+                  }}
                />
                <input 
                   type="text" 
@@ -96,7 +92,7 @@ export default function ModalData() {
                   placeholder="D/M/AAA" 
                   value={dataFim}
                   onChange={(e)=>{setDataFim(e.target.value)}}
-                  onKeyDown={(e)=>{(e.key == "Enter") && console.log('foi')}}
+                  onKeyDown={(e)=>{(e.key == "Enter") && handleDataFim(e.target.value)}}
                />
                <input type="text" className="w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400"
                   placeholder="hh:mm"
@@ -106,7 +102,7 @@ export default function ModalData() {
             <p className="font-semibold mb-1 text-gray-600">Definir lembrete</p>
             <div className={`flex items-center gap-[6px] relative border border-gray-400 rounded-[3px] pl-2 w-full h-8 cursor-pointer
                ${showSelect && "outline outline-[1px] outline-blue-500 border-blue-500"}`}
-               onClick={() => { handleOpenSelect() }}
+               onClick={() => { setShowSelect(!showSelect) }}
             >
                <p>{lembrete}</p>
                {showSelect &&
