@@ -156,15 +156,14 @@ const datas = {
    incluiNoPeriodo: function (periodo, dia, mes, ano, mesComparacao) {
       let anoAnalizado = ano
       let mesAnalizado = mes;
-      if(mes > 12){
+      if (mes > 12) {
          anoAnalizado++;
-         mesAnalizado = 0;
+         mesAnalizado = 1;
       }
-      if(mes < 0){
-         anoAnalizado--; 
-         mesAnalizado = 11;
+      if (mes < 1) {
+         anoAnalizado--;
+         mesAnalizado = 12;
       }
-       console.log(`${anoAnalizado}/${mesAnalizado}/${dia}`)
 
       const dataInicio = new Date(periodo.inicio).getTime();
       const dataFim = new Date(periodo.fim).getTime();
@@ -188,20 +187,33 @@ const datas = {
       //Converte a data para o padrão aceito pelo js.
       const dataRevesa = this.converteData(data);
 
+      //Valida a data.
+      if (new Date(dataRevesa) == 'Invalid Date') return false;
+
+      //Um ano em milissegundos (365 dias)
+      const umAnoEmMilissegundos = 365 * 24 * 60 * 60 * 1000;
+
+      const dataEmMilissegundos = new Date(dataRevesa).getTime();
+      const hojeEmMilissegundos = new Date(this.converteData(this.hoje())).getTime();
+
       //Vilida se o periodo da data tem o período de um ano.
-      const anoAtual = new Date().getFullYear();
-      const mesAtual = new Date().getMonth();
-      const mesAnalizado = new Date(dataRevesa).getMonth();
-      const anoAnalizado = new Date(dataRevesa).getFullYear();
-      if (anoAnalizado < anoAtual - 1 || anoAnalizado > anoAtual + 1) return false;
-      if (anoAnalizado == anoAtual - 1 && mesAnalizado < mesAtual) return false;
-      if (anoAnalizado == anoAtual + 1 && mesAnalizado > mesAtual) return false;
+      if(dataEmMilissegundos > hojeEmMilissegundos + umAnoEmMilissegundos 
+         || dataEmMilissegundos < hojeEmMilissegundos - umAnoEmMilissegundos
+      ) return false;
+
+      // const anoAtual = new Date().getFullYear();
+      // const mesAtual = new Date().getMonth();
+      // const mesAnalizado = new Date(dataRevesa).getMonth();
+      // const anoAnalizado = new Date(dataRevesa).getFullYear();
+      // if (anoAnalizado < anoAtual - 1 || anoAnalizado > anoAtual + 1) return false;
+      // if (anoAnalizado == anoAtual - 1 && mesAnalizado < mesAtual) return false;
+      // if (anoAnalizado == anoAtual + 1 && mesAnalizado > mesAtual) return false;
 
       return dataRevesa;
    },
 
    veirificaPeriodo: function (data, dataFim) {
-      //Se a data final for menor que a data inicial adicionada, é removida.
+      //Checa se a data enviada é maior que a data final.
       if (new Date(data).getTime() > new Date(dataFim).getTime()) {
          return true;
       }
@@ -215,6 +227,7 @@ const datas = {
       }
       //Divide a data 
       const [dia, mes, ano] = data.split('/');
+
       //Converte a data;
       return `${ano}/${mes}/${dia}`
    },
@@ -285,7 +298,7 @@ const datas = {
          setDataInicio(datas.converteData(novaData, 'br'));
          setDataFim(datas.converteData('', 'br'))
 
-      }else{
+      } else {
          this.setPeriodo(
             { inicio: dataInicio, fim: novaData }
          );
@@ -296,7 +309,7 @@ const datas = {
          setDataFim(datas.converteData(novaData, 'br'))
       }
 
-     
+
    }
 }
 
