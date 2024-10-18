@@ -1,6 +1,6 @@
 import { useEffect, useState, memo } from "react";
 import { useProvidersContext } from "../context/providers";
-import { modalInfos } from "../logica/logica-modais/main";
+import { datas, modalInfos } from "../logica/logica-modais/main";
 
 let c = 1;
 const Cards = memo(({ cards }) => {
@@ -19,7 +19,7 @@ const Card = memo(({ card }) => {
       text: card.content,
       coments: card.coments,
       capa: card.capa,
-      periodo: { inicio: card.data, fim: card.prazo }
+      periodo: card.periodo
    });
 
    return (
@@ -61,17 +61,20 @@ const Card = memo(({ card }) => {
             <p className="max-w-full break-words">{cardInfos.text}</p>
          </div>
          {
-            (<div className="flex flex-row flex-wrap gap-2 text-sm text-gray-500">
+            (<div className="flex flex-row flex-wrap gap-2 text-xs text-gray-500 items-center">
                {cardInfos.coments.length > 0 &&
-                  <div className="flex flex-row items-center gap-1">
-                     <span className="material-icons !text-lg">chat</span>
+                  <div className="h-4 flex flex-row items-center gap-1">
+                     <span className="material-icons !text-lg scale-90 -mt-[2px]">chat</span>
                      <p>{cardInfos.coments.length}</p>
                   </div>
                }
                {cardInfos.periodo.fim &&
-                  <div className="flex flex-row items-center gap-1">
-                     <span className="material-icons !text-lg">schedule</span>
-                     <p>{new Date(cardInfos.periodo.fim).toLocaleDateString('pt-br', { day: '2-digit', month: 'long', year: 'numeric' })}</p>
+                  <div className=" h-4 flex flex-row items-center gap-1">
+                     <span className="material-icons !text-lg scale-90 -mt-[3px]">schedule</span>
+                     <p>
+                        {cardInfos.periodo.inicio &&  `${new Date(cardInfos.periodo.inicio).toLocaleDateString('pt-br', { day: '2-digit', month: 'short'})} - `}
+                        {new Date(cardInfos.periodo.fim).toLocaleDateString('pt-br', { day: '2-digit', month: 'short'})}
+                     </p>
                   </div>
                }{cardInfos.integrants &&
                   <div className="flex flex-row gap-1 justify-end flex-1">

@@ -1,8 +1,5 @@
 
-let editingCard,
-   editingLabels, setEditingLabels,
-   editingIntegrants, setEditingIntegrants,
-   editingCapa, setEditingCapa, editingCardInfos, setEditingCardInfos;
+let editingCard, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao;
 const modalInfos = {
    position: function (e, setPosition, cardInfos, setCardInfos) {
       const card = e.target.closest('.card');
@@ -20,14 +17,16 @@ const modalInfos = {
       const cardsOptions = e.target.closest('.card-options');
       const modal = e.target.closest('.modal');
 
-      if (!cardsOptions && !modal) {
-         setHiddenOptionsModal(true);
-         setHiddenLabelsModal(true);
-         setHiddenMembersModal(true);
-         setHiddenCapaModal(true);
-         setHiddenDataModal(true);
+      //Checa se foi clicado em algum modal.
+      if (cardsOptions || modal) {
+         return;
+      }
 
-      } else { return };
+      setHiddenOptionsModal(true);
+      setHiddenLabelsModal(true);
+      setHiddenMembersModal(true);
+      setHiddenCapaModal(true);
+      setHiddenDataModal(true);
       editingCard.style.zIndex = "auto";
       editingCard = null;
    },
@@ -153,6 +152,7 @@ const datas = {
 
       return dadosDoCalendario;
    },
+
    incluiNoPeriodo: function (periodo, dia, mes, ano, mesComparacao) {
       let anoAnalizado = ano
       let mesAnalizado = mes;
@@ -171,14 +171,16 @@ const datas = {
 
       //Verifica se as datas recebidas formam um período, com data de incio e fim.
       if (!periodo.inicio || !periodo.fim) {
+         //Se tiver apenas a data de inicio
          if (periodo.inicio && (diaAnalizado == dataInicio)) return true;
+         //Se tiver a penas a data final.
          if (periodo.fim && (diaAnalizado == dataFim)) return true;
       };
 
-
-      //Checa se o dia está dentro do periodo analizado.
+      //Checa se a data está dentro do periodo analizado.
       if (diaAnalizado >= dataInicio && diaAnalizado <= dataFim) return true;
    },
+
    validaData: function (data) {
       //Regex para validar o formato da data recebido.
       const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/;
@@ -190,29 +192,19 @@ const datas = {
       //Valida a data.
       if (new Date(dataRevesa) == 'Invalid Date') return false;
 
-      //Um ano em milissegundos (365 dias)
-      const umAnoEmMilissegundos = 365 * 24 * 60 * 60 * 1000;
-
-      const dataEmMilissegundos = new Date(dataRevesa).getTime();
-      const hojeEmMilissegundos = new Date(this.converteData(this.hoje())).getTime();
+      const umAnoEmMilissegundos = 365 * 24 * 60 * 60 * 1000; //Um ano em milissegundos (365 dias);
+      const dataEmMilissegundos = new Date(dataRevesa).getTime(); //data recebida em milissegundos;
+      const hojeEmMilissegundos = new Date(this.converteData(this.hoje())).getTime(); //hoje em milissegundos;
 
       //Vilida se o periodo da data tem o período de um ano.
-      if(dataEmMilissegundos > hojeEmMilissegundos + umAnoEmMilissegundos 
+      if (dataEmMilissegundos > hojeEmMilissegundos + umAnoEmMilissegundos
          || dataEmMilissegundos < hojeEmMilissegundos - umAnoEmMilissegundos
       ) return false;
-
-      // const anoAtual = new Date().getFullYear();
-      // const mesAtual = new Date().getMonth();
-      // const mesAnalizado = new Date(dataRevesa).getMonth();
-      // const anoAnalizado = new Date(dataRevesa).getFullYear();
-      // if (anoAnalizado < anoAtual - 1 || anoAnalizado > anoAtual + 1) return false;
-      // if (anoAnalizado == anoAtual - 1 && mesAnalizado < mesAtual) return false;
-      // if (anoAnalizado == anoAtual + 1 && mesAnalizado > mesAtual) return false;
 
       return dataRevesa;
    },
 
-   veirificaPeriodo: function (data, dataFim) {
+   checaMaiorData: function (data, dataFim) {
       //Checa se a data enviada é maior que a data final.
       if (new Date(data).getTime() > new Date(dataFim).getTime()) {
          return true;
@@ -225,10 +217,10 @@ const datas = {
          if (data == '') return '';
          return new Date(data).toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit', year: 'numeric' })
       }
+
       //Divide a data 
       const [dia, mes, ano] = data.split('/');
-
-      //Converte a data;
+      //Retorna a data no padrão aaaa/mm/dd;
       return `${ano}/${mes}/${dia}`
    },
 
@@ -244,70 +236,48 @@ const datas = {
       return new Date().toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit', year: 'numeric' })
    },
 
-   //**********************HANDLES*************************** */
+   //*************************************************HANDLES***************************************************/
+   /************************************************************************************************************/
    handleDataInicio: function (data, dataFim, removeDataInicio, setPeriodo, setDataInicio, setDataFim) {
       let novaData;
+      removeDataInicio ? novaData = '' : novaData = this.validaData(data);
+      let fim = dataFim;
+
       if (!removeDataInicio) {
-         novaData = this.validaData(data);
          if (!novaData) return console.log('Data inválida.');
-      } else {
-         novaData = ""
+         //Se a data final for menor que a data adicionada, é removida.
+         if (this.checaMaiorData(novaData, dataFim)) fim = '';
       }
 
-      //Se a data final for menor que a data inicial adicionada, é removida.
-      let fim = dataFim;
-      if (this.veirificaPeriodo(novaData, dataFim)) fim = '';
-
-      this.setPeriodo(
-         { inicio: novaData, fim: fim }
-      );
-      setPeriodo({ inicio: novaData, fim: fim });
+      periodoEmEdicao = {...editingCardInfos.periodo, inicio: novaData, fim: fim }
+      setPeriodo({periodoEmEdicao});
       setDataInicio(datas.converteData(novaData, 'br'));
       setDataFim(datas.converteData(fim, 'br'))
    },
 
    handleDataFim: function (data, dataInicio, removeDataFim, setPeriodo, setDataInicio, setDataFim) {
       let novaData;
+      removeDataFim ? novaData = "" : novaData = this.validaData(data);
       if (!removeDataFim) {
-         novaData = this.validaData(data);
          if (!novaData) return console.log('Data inválida.');
-      } else {
-         novaData = ""
-         this.setPeriodo(
-            { inicio: dataInicio, fim: novaData }
-         );
-         setPeriodo(
-            { inicio: dataInicio, fim: novaData }
-         )
-         setDataInicio(datas.converteData(dataInicio, 'br'));
-         setDataFim(datas.converteData(novaData, 'br'));
-         return;
+         //Checa se a data inicial e maior que a final, se sim a data menor vai pra inicial.
+         if (this.checaMaiorData(dataInicio, novaData)) {
+            periodoEmEdicao = {...editingCardInfos.periodo, inicio: novaData, fim: '' };
+            setPeriodo(
+               { periodoEmEdicao }
+            )
+            setDataInicio(datas.converteData(novaData, 'br'));
+            setDataFim(datas.converteData('', 'br'));
+            return;
+         }
       }
 
-      //Se a data final for menor que a data inicial adicionada, é removida
-      //E adiciona a data envida à início.
-      //Se a dataInicio não existir, vai pra 'else'.
-      if (this.veirificaPeriodo(dataInicio, novaData)) {
-         console.log(novaData)
-         this.setPeriodo(
-            { inicio: novaData, fim: '' }
-         );
-         setPeriodo(
-            { inicio: novaData, fim: '' }
-         )
-         setDataInicio(datas.converteData(novaData, 'br'));
-         setDataFim(datas.converteData('', 'br'))
-
-      } else {
-         this.setPeriodo(
-            { inicio: dataInicio, fim: novaData }
-         );
-         setPeriodo(
-            { inicio: dataInicio, fim: novaData }
-         )
-         setDataInicio(datas.converteData(dataInicio, 'br'));
-         setDataFim(datas.converteData(novaData, 'br'))
-      }
+          periodoEmEdicao = {...editingCardInfos.periodo, inicio: dataInicio, fim: novaData }
+      setPeriodo(
+         { periodoEmEdicao }
+      )
+      setDataInicio(datas.converteData(dataInicio, 'br'));
+      setDataFim(datas.converteData(novaData, 'br'));
 
 
    }

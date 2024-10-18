@@ -4,7 +4,10 @@
          "id": "p123456",
          "name": "Pojeto-1",
          "data": "2024/09/28",
-         "autors": ["autor-1", "autor-2"],
+         "autors": [
+            "autor-1",
+            "autor-2"
+         ],
          "integrants": [
             {
                "nome": "integrant-1",
@@ -23,13 +26,17 @@
             {
                "listName": "To do",
                "id": "l123456",
-               "cards":[
+               "cards": [
                   {
                      "content": "Texto do card",
-                     "data": "2024/09/28",
-                     "prazo": "2024/10/28",
+                     "periodo": {
+                        "inicio": "",
+                        "fim": "2024/10/28",
+                        "status": false
+                     },
                      "capa": {
-                        "color":"#F205CB", "full": false,
+                        "color": "#F205CB",
+                        "full": false,
                         "img": ""
                      },
                      "integrants": [
@@ -38,7 +45,10 @@
                            "avatar": "/images/profile-1.png"
                         }
                      ],
-                     "labels": ["#260273","#04D99D"],
+                     "labels": [
+                        "#260273",
+                        "#04D99D"
+                     ],
                      "id": "c123456",
                      "coments": [
                         {
@@ -54,13 +64,17 @@
             {
                "listName": "Doing",
                "id": "l123457",
-               "cards":[
+               "cards": [
                   {
                      "content": "Texto do card",
-                     "data": "2024/09/28",
-                     "prazo": "2024/10/28",
+                     "periodo": {
+                        "inicio": "",
+                        "fim": "2024/10/28",
+                        "status": false
+                     },
                      "capa": {
-                        "color":false, "full": false,
+                        "color": false,
+                        "full": false,
                         "img": "/images/bg-img-2.jpg"
                      },
                      "integrants": [
@@ -69,7 +83,10 @@
                            "avatar": "/images/profile-1.png"
                         }
                      ],
-                     "labels": ["#F205CB","#7C05F2"],
+                     "labels": [
+                        "#F205CB",
+                        "#7C05F2"
+                     ],
                      "id": "c123457",
                      "coments": [
                         {
@@ -85,13 +102,17 @@
             {
                "listName": "Done",
                "id": "l123458",
-               "cards":[
+               "cards": [
                   {
                      "content": "Texto do card",
-                     "data": "2024/09/28",
-                     "prazo": "2024/10/28",
+                     "periodo": {
+                        "inicio": "",
+                        "fim": "2024/10/28",
+                        "status": false
+                     },
                      "capa": {
-                        "color":false, "full": false,
+                        "color": false,
+                        "full": false,
                         "img": ""
                      },
                      "integrants": [
@@ -104,7 +125,10 @@
                            "avatar": "/images/profile-3.png"
                         }
                      ],
-                     "labels": ["#F2E307","#F205CB"],
+                     "labels": [
+                        "#F2E307",
+                        "#F205CB"
+                     ],
                      "id": "c123458",
                      "coments": [
                         {
@@ -117,10 +141,14 @@
                   },
                   {
                      "content": "Texto do card",
-                     "data": "",
-                     "prazo": "2024/10/28",
+                     "periodo": {
+                        "inicio": "",
+                        "fim": "2024/10/28",
+                        "status": false
+                     },
                      "capa": {
-                        "color":false, "full": false,
+                        "color": false,
+                        "full": false,
                         "img": "/images/bg-img-4.jpg"
                      },
                      "integrants": [
@@ -129,7 +157,9 @@
                            "avatar": "/images/profile-2.png"
                         }
                      ],
-                     "labels": ["#260273"],
+                     "labels": [
+                        "#260273"
+                     ],
                      "id": "c1234589",
                      "coments": [
                         {
@@ -148,7 +178,10 @@
          "id": "p1238456",
          "name": "Pojeto-2",
          "data": "2024/09/24",
-         "autors": ["autor-1", "autor-2"],
+         "autors": [
+            "autor-1",
+            "autor-2"
+         ],
          "integrants": [
             {
                "nome": "integrant-1",
@@ -167,13 +200,17 @@
             {
                "listName": "A Fazer",
                "id": "l1238456",
-               "cards":[
+               "cards": [
                   {
                      "content": "Texto do card projeto-2",
-                     "data": "2024/09/28",
-                     "prazo": "2024/09/28",
+                     "periodo": {
+                        "inicio": "",
+                        "fim": "2024/10/28",
+                        "status": false
+                     },
                      "capa": {
-                        "color":false, "full": false,
+                        "color": false,
+                        "full": false,
                         "img": ""
                      },
                      "integrants": [
@@ -182,7 +219,10 @@
                            "avatar": "/images/profile-2.png"
                         }
                      ],
-                     "labels": ["#260273","#04D99D"],
+                     "labels": [
+                        "#260273",
+                        "#04D99D"
+                     ],
                      "id": "c1238456",
                      "coments": [
                         {
@@ -198,13 +238,17 @@
             {
                "listName": "Fazendo",
                "id": "l1238457",
-               "cards":[
+               "cards": [
                   {
                      "content": "Texto do card projeto-2",
-                     "data": "2024/09/28",
-                     "prazo": "2024/09/28",
+                     "periodo": {
+                        "inicio": "",
+                        "fim": "2024/10/28",
+                        "status": false
+                     },
                      "capa": {
-                        "color":false, "full": false,
+                        "color": false,
+                        "full": false,
                         "img": "/images/bg-img-2.jpg"
                      },
                      "integrants": [
@@ -213,7 +257,10 @@
                            "avatar": "/images/profile-1.png"
                         }
                      ],
-                     "labels": ["#F205CB","#7C05F2"],
+                     "labels": [
+                        "#F205CB",
+                        "#7C05F2"
+                     ],
                      "id": "c1238457",
                      "coments": [
                         {
@@ -229,13 +276,17 @@
             {
                "listName": "Feito",
                "id": "l1238458",
-               "cards":[
+               "cards": [
                   {
                      "content": "Texto do card projeto-2",
-                     "data": "2024/09/28",
-                     "prazo": "2024/09/28",
+                     "periodo": {
+                        "inicio": "",
+                        "fim": "2024/10/28",
+                        "status": false
+                     },
                      "capa": {
-                        "color":false, "full": false,
+                        "color": false,
+                        "full": false,
                         "img": "/images/bg-img-3.jpg"
                      },
                      "integrants": [
@@ -248,7 +299,10 @@
                            "avatar": "/images/profile-2.png"
                         }
                      ],
-                     "labels": ["#F2E307","#F205CB"],
+                     "labels": [
+                        "#F2E307",
+                        "#F205CB"
+                     ],
                      "id": "c1238458",
                      "coments": [
                         {
@@ -261,10 +315,14 @@
                   },
                   {
                      "content": "Texto do card projeto-2",
-                     "data": "2024/09/28",
-                     "prazo": "2024/09/28",
+                     "periodo": {
+                        "inicio": "",
+                        "fim": "2024/10/28",
+                        "status": false
+                     },
                      "capa": {
-                        "color":false, "full": false,
+                        "color": false,
+                        "full": false,
                         "img": "/images/bg-img-4.jpg"
                      },
                      "integrants": [
@@ -273,7 +331,9 @@
                            "avatar": "/images/profile-1.png"
                         }
                      ],
-                     "labels": ["#260273"],
+                     "labels": [
+                        "#260273"
+                     ],
                      "id": "c12384589",
                      "coments": [
                         {
