@@ -7,6 +7,7 @@ const modalInfos = {
       editingCard = card;
       editingCardInfos = cardInfos;
       setEditingCardInfos = setCardInfos;
+      periodoEmEdicao = cardInfos.periodo;
 
       const left = card.offsetLeft + card.offsetWidth;
       const top = card.offsetTop;
@@ -37,6 +38,9 @@ const modalInfos = {
 
    getCardInfos: function () {
       return editingCardInfos;
+   },
+   getPeriodo: function(){
+      return periodoEmEdicao;
    },
    setCardInfos: function (dados) {
       setEditingCardInfos(dados);
@@ -219,17 +223,19 @@ const datas = {
       }
 
       //Divide a data 
-      const [dia, mes, ano] = data.split('/');
+      let [dia, mes, ano] = data.split('/');
+
+      if(mes > 12) {mes = 1; ano++} //Se o mes recebido for maior que 12, então é o 1º mês do seguinte.
+      if(mes < 1) {mes = 12; ano--} //Se o mes recebido for menor que 1, então é o 12ª mês do ano anterior.
       //Retorna a data no padrão aaaa/mm/dd;
       return `${ano}/${mes}/${dia}`
    },
 
-   setPeriodo: function (periodo) {
+   setPeriodo: function () {
       setEditingCardInfos({
          ...editingCardInfos,
-         periodo: periodo
+         periodo: periodoEmEdicao
       })
-      editingCardInfos.periodo = periodo;
    },
 
    hoje: function () {
@@ -238,48 +244,36 @@ const datas = {
 
    //*************************************************HANDLES***************************************************/
    /************************************************************************************************************/
-   handleDataInicio: function (data, dataFim, removeDataInicio, setPeriodo, setDataInicio, setDataFim) {
+   handleDataInicio: function (data, dataFim, removeDataInicio, setPeriodo, clickFrom) {
       let novaData;
       removeDataInicio ? novaData = '' : novaData = this.validaData(data);
       let fim = dataFim;
-
+      
       if (!removeDataInicio) {
          if (!novaData) return console.log('Data inválida.');
          //Se a data final for menor que a data adicionada, é removida.
          if (this.checaMaiorData(novaData, dataFim)) fim = '';
       }
-
-      periodoEmEdicao = {...editingCardInfos.periodo, inicio: novaData, fim: fim }
-      setPeriodo({periodoEmEdicao});
-      setDataInicio(datas.converteData(novaData, 'br'));
-      setDataFim(datas.converteData(fim, 'br'))
+      
+      periodoEmEdicao = {...periodoEmEdicao, inicio: novaData, fim: fim };
+      setPeriodo(periodoEmEdicao);
    },
 
-   handleDataFim: function (data, dataInicio, removeDataFim, setPeriodo, setDataInicio, setDataFim) {
+   handleDataFim: function (data, dataInicio, removeDataFim, setPeriodo, clickFrom) {
       let novaData;
       removeDataFim ? novaData = "" : novaData = this.validaData(data);
       if (!removeDataFim) {
          if (!novaData) return console.log('Data inválida.');
          //Checa se a data inicial e maior que a final, se sim a data menor vai pra inicial.
          if (this.checaMaiorData(dataInicio, novaData)) {
-            periodoEmEdicao = {...editingCardInfos.periodo, inicio: novaData, fim: '' };
-            setPeriodo(
-               { periodoEmEdicao }
-            )
-            setDataInicio(datas.converteData(novaData, 'br'));
-            setDataFim(datas.converteData('', 'br'));
+            periodoEmEdicao = {...periodoEmEdicao, inicio: '', fim: novaData };
+            setPeriodo( periodoEmEdicao );
             return;
          }
       }
-
-          periodoEmEdicao = {...editingCardInfos.periodo, inicio: dataInicio, fim: novaData }
-      setPeriodo(
-         { periodoEmEdicao }
-      )
-      setDataInicio(datas.converteData(dataInicio, 'br'));
-      setDataFim(datas.converteData(novaData, 'br'));
-
-
+      //Atualiza o valor de periodoEmEdicao
+      periodoEmEdicao = {...periodoEmEdicao, inicio: dataInicio, fim: novaData };
+      setPeriodo( periodoEmEdicao ); //Seta o novo periodo no estado periodo em Modal-data.js 28;
    }
 }
 

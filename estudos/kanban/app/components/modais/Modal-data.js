@@ -25,15 +25,15 @@ export default function ModalData() {
    const [lembrete, setLembrete] = useState("Nenhum");
    const [showSelect, setShowSelect] = useState(false);
    const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() });
-   const [periodo, setPeriodo] = useState(cardInfos.periodo);
+   const [periodo, setPeriodo] = useState(modalInfos.getPeriodo());
+   const [tipo, setTipo] = useState(true); //true = inicio, false = fim;
 
-
-   function handleDataInicio(data, removeDataInicio, setDataInicio, setDataFim) {
-      datas.handleDataInicio(data, periodo.fim, removeDataInicio, setPeriodo, setDataInicio, setDataFim);
+   function handleDataInicio(data, removeDataInicio, clickFrom) {
+      datas.handleDataInicio(data, periodo.fim, removeDataInicio, setPeriodo, clickFrom);
    }
 
-   function handleDataFim(data, removeDataFim, setDataInicio, setDataFim) {
-      datas.handleDataFim(data, periodo.inicio, removeDataFim, setPeriodo, setDataInicio, setDataFim);
+   function handleDataFim(data, removeDataFim, clickFrom) {
+      datas.handleDataFim(data, periodo.inicio, removeDataFim, setPeriodo, clickFrom);
    }
 
    return (
@@ -53,12 +53,17 @@ export default function ModalData() {
                   setMesAnos={setMesAnos}
                   periodo={periodo}
                   setPeriodo={setPeriodo}
+                  handleDataInicio={handleDataInicio}
+                  handleDataFim={handleDataFim}
+                  tipo={tipo}
+                  setTipo={setTipo}
                />
 
                <ButtonsMudarPeriodo
                   periodo={periodo}
                   handleDataInicio={handleDataInicio}
                   handleDataFim={handleDataFim}
+                  tipo={tipo}
                />
 
                <p className="font-semibold text-xs mb-1 text-gray-600">Definir lembrete</p>
@@ -80,9 +85,13 @@ export default function ModalData() {
                      </ul>
                   }
                </div>
-               <input type="submit" value="Salvar"
+               <input 
+                  type="submit" 
+                  value="Salvar"
                   className="text-xs font-semibold text-white w-full h-8 bg-blue-600 cursor-pointer
                hover:bg-blue-700 transition-all rounded-[3px]"
+                  onClick={(e)=> {e.preventDefault(); datas.setPeriodo(); setHiddenDataModal(true)}}
+
                />
             </div>
          }
@@ -90,10 +99,11 @@ export default function ModalData() {
    )
 }
 
-function Calendario({ mesAno, setMesAnos, periodo }) {
+function Calendario({ mesAno, setMesAnos, periodo, handleDataInicio, handleDataFim,  tipo, setTipo }) {
    const hoje = new Date().getDate();
    const mesAtual = new Date().getMonth();
    const calendario = datas.calendario(mesAno.mes, mesAno.ano);
+   
    let { mes, ano } = mesAno;
 
    function handleChangeMonth(arrow) {
@@ -129,29 +139,50 @@ function Calendario({ mesAno, setMesAnos, periodo }) {
                   className={`text-xs  text-center font-semibold mb-2 ${dia == "Dom" && "text-red-700"}`}
                >{dia}</span>
             ))}
+
             {calendario.ultimosDiasDoMesAnterior.map(dia => (
                <span
                   key={`mAnte${dia}`}
-                  className={`h-8 leading-8 rounded-[3px] text-[14px] text-center  hover:bg-gray-100 text-gray-300 cursor-pointer border border-white
-                     ${(datas.incluiNoPeriodo(periodo, dia, mes, ano, 'ante') && "bg-blue-100 hover:bg-blue-200")}
+                  className={`h-8 leading-8 rounded-[3px] text-[14px] text-center  hover:bg-gray-100 text-gray-400 cursor-pointer border border-white
+                     ${(datas.incluiNoPeriodo(periodo, dia, mes, ano, 'ante') && "bg-blue-100 hover:!bg-blue-300")}
                   `}
+                  onClick={()=> {
+                     tipo 
+                     ? handleDataInicio(`${dia}/${mes}/${ano}`, false,  'caledario') 
+                     : handleDataFim(`${dia}/${mes}/${ano}`, false,  'caledario');
+                     setTipo(!tipo)
+                  }}
                >{dia}</span>
             ))}
+
             {calendario.numeroDeDiasMesAtual.map(dia => (
                <span
                   key={`monthDay${dia}`}
                   className={`h-8 leading-8 rounded-[3px] text-[14px] text-center hover:bg-gray-100   cursor-pointer border border-white
                      ${(hoje == dia && mesAno.mes == mesAtual) && "text-blue-600 font-bold border-b-[3px] border-b-blue-600"}
-                     ${(datas.incluiNoPeriodo(periodo, dia, mes + 1, ano) && "bg-blue-100 hover:bg-blue-200")}
+                     ${(datas.incluiNoPeriodo(periodo, dia, mes + 1, ano) && "bg-blue-100 hover:!bg-blue-300")}
                   `}
+                  onClick={()=> {
+                     tipo 
+                     ? handleDataInicio(`${dia}/${mes + 1}/${ano}`, false, 'caledario') 
+                     : handleDataFim(`${dia}/${mes + 1}/${ano}`, false, 'calemdario');
+                     setTipo(!tipo)
+                  }}
                >{dia}</span>
             ))}
+
             {calendario.primeirosDiasDProxMes.map(dia => (
                <span
                   key={`mAnte${dia}`}
-                  className={`h-8 leading-8 rounded-[3px] text-[14px] text-center  hover:bg-gray-100 text-gray-300 cursor-pointer border border-white
-                     ${(datas.incluiNoPeriodo(periodo, dia, mes + 2, ano, 'prox') && "bg-blue-100 hover:bg-blue-200")}
+                  className={`h-8 leading-8 rounded-[3px] text-[14px] text-center  hover:bg-gray-100 text-gray-400 cursor-pointer border border-white
+                     ${(datas.incluiNoPeriodo(periodo, dia, mes + 2, ano, 'prox') && "bg-blue-100 hover:!bg-blue-300")}
                   `}
+                  onClick={()=> {
+                     tipo 
+                     ? handleDataInicio(`${dia}/${mes + 2}/${ano}`, false, 'caledario') 
+                     : handleDataFim(`${dia}/${mes + 2}/${ano}`, false, 'calemdario');
+                     setTipo(!tipo)
+                  }}
                >{dia}</span>
             ))}
          </div>
@@ -159,7 +190,7 @@ function Calendario({ mesAno, setMesAnos, periodo }) {
    )
 }
 
-function ButtonsMudarPeriodo({ periodo, setPeriodo, handleDataInicio, handleDataFim }) {
+function ButtonsMudarPeriodo({ periodo, tipo, handleDataInicio, handleDataFim }) {
    const [checkDataInicio, setCheckDataInicio] = useState();
    const [checkDataFim, setCheckDataFim] = useState();
    const [dataInicio, setDataInicio] = useState(datas.converteData(periodo.inicio, 'br'));
@@ -168,7 +199,9 @@ function ButtonsMudarPeriodo({ periodo, setPeriodo, handleDataInicio, handleData
    useEffect(() => {
       periodo.inicio && setCheckDataInicio(true);
       periodo.fim && setCheckDataFim(true);
-   }, [])
+      setDataInicio(datas.converteData(periodo.inicio, 'br'));
+      setDataFim(datas.converteData(periodo.fim, 'br'));
+   }, [periodo])
 
    return (
       <div className="text-xs mb-2">
@@ -187,7 +220,8 @@ function ButtonsMudarPeriodo({ periodo, setPeriodo, handleDataInicio, handleData
             <input
                type="text"
                className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400 
-                  ${!checkDataInicio && "bg-gray-200 border-none"}
+                  ${!checkDataInicio && "bg-gray-200 border-none"} 
+                  ${(tipo && checkDataInicio) && ("border-none outline !outline-blue-400")}
                `}
                placeholder="dd/mm/aaaa"
                disabled={!checkDataInicio ? true : false}
@@ -214,7 +248,8 @@ function ButtonsMudarPeriodo({ periodo, setPeriodo, handleDataInicio, handleData
             <input
                type="text"
                className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400
-                  ${!checkDataFim && "bg-gray-200 border-none"}
+                  ${!checkDataFim && "bg-gray-200 border-none"} 
+                  ${(!tipo && checkDataFim) && ("border-none outline !outline-blue-400")}
                `}
                placeholder="D/M/AAA"
                disabled={!checkDataFim ? true : false}
