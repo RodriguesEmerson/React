@@ -156,6 +156,11 @@ const datas = {
 
       return dadosDoCalendario;
    },
+   checkPrazo: function(dataFim){
+      const hoje = new Date(this.converteData(this.hoje())).getTime()
+      if(new Date(dataFim).getTime() == hoje) return "bg-red-100 text-red-400 pt-[6px] pr-[6px]";
+      return;
+   },
 
    incluiNoPeriodo: function (periodo, dia, mes, ano, mesComparacao) {
       let anoAnalizado = ano

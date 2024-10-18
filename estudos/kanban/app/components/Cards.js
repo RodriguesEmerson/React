@@ -69,14 +69,17 @@ const Card = memo(({ card }) => {
                   </div>
                }
                {cardInfos.periodo.fim &&
-                  <div className=" h-4 flex flex-row items-center gap-1">
-                     <span className="material-icons !text-lg scale-90 -mt-[3px]">schedule</span>
+                  <div className={`h-5 flex flex-row items-center gap-1 p-1 rounded ${datas.checkPrazo(cardInfos.periodo.fim)}`}>
+                     <span 
+                        className={`material-icons !text-lg scale-90 -mt-[3px]`}
+                     >schedule</span>
                      <p>
                         {cardInfos.periodo.inicio &&  `${new Date(cardInfos.periodo.inicio).toLocaleDateString('pt-br', { day: '2-digit', month: 'short'})} - `}
                         {new Date(cardInfos.periodo.fim).toLocaleDateString('pt-br', { day: '2-digit', month: 'short'})}
                      </p>
                   </div>
-               }{cardInfos.integrants &&
+               }
+               {cardInfos.integrants &&
                   <div className="flex flex-row gap-1 justify-end flex-1">
                      <Integrants integrantes={cardInfos.integrants} />
                   </div>
