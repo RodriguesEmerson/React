@@ -31,8 +31,8 @@
                      "content": "Texto do card",
                      "periodo": {
                         "inicio": "",
-                        "fim": "2024/10/28",
-                        "status": false
+                        "fim": "2024/10/30",
+                        "status": true
                      },
                      "capa": {
                         "color": "#F205CB",
@@ -68,8 +68,8 @@
                   {
                      "content": "Texto do card",
                      "periodo": {
-                        "inicio": "",
-                        "fim": "2024/10/28",
+                        "inicio": "2024/10/18",
+                        "fim": "",
                         "status": false
                      },
                      "capa": {
@@ -88,14 +88,7 @@
                         "#7C05F2"
                      ],
                      "id": "c123457",
-                     "coments": [
-                        {
-                           "autor": "Name",
-                           "content": "Conteúdo do comentário!!!",
-                           "data": "2024/09/28",
-                           "id": "rc123457"
-                        }
-                     ]
+                     "coments": []
                   }
                ]
             },
@@ -107,7 +100,7 @@
                      "content": "Texto do card",
                      "periodo": {
                         "inicio": "",
-                        "fim": "2024/10/28",
+                        "fim": "2024/10/21",
                         "status": false
                      },
                      "capa": {
@@ -126,7 +119,7 @@
                         }
                      ],
                      "labels": [
-                        "#F2E307",
+                        "#FFC636",
                         "#F205CB"
                      ],
                      "id": "c123458",
@@ -161,14 +154,7 @@
                         "#260273"
                      ],
                      "id": "c1234589",
-                     "coments": [
-                        {
-                           "autor": "Name",
-                           "content": "Conteúdo do comentário!!!",
-                           "data": "2024/09/28",
-                           "id": "rc1234589"
-                        }
-                     ]
+                     "coments": []
                   }
                ]
             }

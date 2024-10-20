@@ -29,7 +29,7 @@ const Card = memo(({ card }) => {
             rounded-md overflow-hidden relative mb-2 `}
          style={{ backgroundColor: `${cardInfos.capa.full ? cardInfos.capa.color : "white"}` }}
       >
-         
+
          <span
             className="edit-button material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px !hidden"
             onClick={(e) => {
@@ -40,7 +40,7 @@ const Card = memo(({ card }) => {
             }
             }
          >edit</span>
-         
+
          {(cardInfos.capa.img) &&
             <div className="h-36 overflow-hidden rounded-t-sm -m-1">
                <img className="w-full h-full object-cover" draggable="false" src={cardInfos.capa.img}></img>
@@ -68,16 +68,12 @@ const Card = memo(({ card }) => {
                      <p>{cardInfos.coments.length}</p>
                   </div>
                }
-               {cardInfos.periodo.fim &&
-                  <div className={`h-5 flex flex-row items-center gap-1 p-1 rounded ${datas.checkPrazo(cardInfos.periodo.fim)}`}>
-                     <span 
-                        className={`material-icons !text-lg scale-90 -mt-[3px]`}
-                     >schedule</span>
-                     <p>
-                        {cardInfos.periodo.inicio &&  `${new Date(cardInfos.periodo.inicio).toLocaleDateString('pt-br', { day: '2-digit', month: 'short'})} - `}
-                        {new Date(cardInfos.periodo.fim).toLocaleDateString('pt-br', { day: '2-digit', month: 'short'})}
-                     </p>
-                  </div>
+               {
+                  <PeriodoCard 
+                     periodo={cardInfos.periodo} 
+                     cardInfos={cardInfos} 
+                     setCardInfos={setCardInfos}
+                  />
                }
                {cardInfos.integrants &&
                   <div className="flex flex-row gap-1 justify-end flex-1">
@@ -89,6 +85,45 @@ const Card = memo(({ card }) => {
       </div>
    );
 })
+
+function PeriodoCard({ periodo, cardInfos, setCardInfos }) {
+   const [hovering, setHovering] = useState(false);
+   function handleMouseOut(e){
+      // Verifica se o cursor realmente saiu do elemento pai e não apenas foi para um filho.
+      if(!e.currentTarget.contains(e.relatedTarget)){
+         setHovering(false)
+      } 
+   }
+
+   const dataInicio = new Date(periodo.inicio).toLocaleDateString('pt-br', { day: '2-digit', month: 'short' });
+   const dataFim = new Date(periodo.fim).toLocaleDateString('pt-br', { day: '2-digit', month: 'short' });
+
+   return (
+      <div
+         className={`card_periodo h-6 flex flex-row items-center gap-1 p-1 rounded-[3px] ${datas.checkPrazo(periodo)}`}
+         onMouseEnter={(e)=> setHovering(true)}
+         onMouseOut={(e)=> handleMouseOut(e)}
+         onClick={(e)=> datas.marcarStatus(periodo, cardInfos, setCardInfos)}
+      >
+         <span
+            className={`material-icons-outlined !text-lg scale-90 -mt-[3px]`}
+         >
+           {!hovering 
+               ? 'schedule' 
+               : periodo.status ? 'check_box' : 'check_box_outline_blank'
+            } 
+         </span>
+         <p>
+            {periodo.inicio && periodo.fim 
+               ? `${dataInicio} - ${dataFim}` 
+               : periodo.inicio && !periodo.fim 
+                  ? `Começou: ${dataInicio}` 
+                  :  !periodo.inicio && periodo.fim && (dataFim)
+            }
+         </p>
+      </div>
+   )
+}
 
 function Labels({ labels }) {
    return (

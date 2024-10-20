@@ -107,6 +107,21 @@ const editCapa = {
 }
 
 const datas = {
+   checkPrazo: function(periodo){
+      const hoje = new Date(this.converteData(this.hoje())).getTime();
+      const prazo = new Date(periodo.fim).getTime();
+      if(periodo.status) return "bg-green-700 text-white";
+      if(prazo == hoje) return "bg-yellow-400 text-gray-700 pt-[5px] pr-[6px]";
+      if(prazo < hoje ) return "bg-red-700 text-white pt-[5px] pr-[6px]";
+   },
+
+   marcarStatus: function(periodo, cardInfos, setCardInfos){
+      const statusAtual = periodo.status;
+      setCardInfos(
+         {...cardInfos, periodo: {...periodo, status: !statusAtual}}
+      ) 
+   },
+
    diasNoMes: function (mes, ano) {
       const diasMesAnterior = new Date(ano, mes, 0).getDate();
       const diasMesAtual = new Date(ano, mes + 1, 0).getDate();
@@ -156,13 +171,8 @@ const datas = {
 
       return dadosDoCalendario;
    },
-   checkPrazo: function(dataFim){
-      const hoje = new Date(this.converteData(this.hoje())).getTime()
-      if(new Date(dataFim).getTime() == hoje) return "bg-red-100 text-red-400 pt-[6px] pr-[6px]";
-      return;
-   },
 
-   incluiNoPeriodo: function (periodo, dia, mes, ano, mesComparacao) {
+   incluiNoPeriodo: function (periodo, dia, mes, ano) {
       let anoAnalizado = ano
       let mesAnalizado = mes;
       if (mes > 12) {

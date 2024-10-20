@@ -16,13 +16,14 @@ const dragDrop = {
       
       //Seta a imagem que aparecerá no card arrastado.
       e.dataTransfer.setDragImage(
-         draggingCard, //Imagem
+         draggingCard, //Imagem 
          (e.clientX - draggingCard.offsetLeft), //EixoX
          (e.clientY - draggingCard.offsetTop + dragableArea.scrollTop) //EixoY
       );
    },
 
    dragEnter: function(e){
+      console.log(e.currentTarget)
       //remove a 'shadowCard' criada anteriomente em outra lista.
       if(currentList !== e.target.closest('.list')){
          shadowCard = document.querySelector('.shadow-card');

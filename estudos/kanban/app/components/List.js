@@ -39,7 +39,7 @@ const EachList = memo(({ list }) => {
    return (
       <div id={list.id} className="list w-72  bg-gray-100 shadow-4xl p-1 rounded-sm text-sm"
          onDragStart={(e) => { dragDrop.dragStart(e) }}
-         onDragEnter={(e) => dragDrop.dragEnter(e)}
+         onDragEnter={(e) => dragDrop.dragEnter(e) }
          onDragOver={(e) => { dragDrop.dragOver(e) }}
          onDragEnd={(e) => { dragDrop.dragEnd(e) }}
       >
