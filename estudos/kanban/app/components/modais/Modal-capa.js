@@ -41,12 +41,11 @@ export default function ModalCapa() {
       setModelo(3);
    }
 
-
    return (
       <>
       {!hiddenCapaModal &&
       <div className="modal absolute text-gray-600 bg-white w-[296px] p-1 pt-2 rounded-lg shadow-md"
-         style={{ top: `${position.top}px`, left: `${position.left}px` }}
+         style={{ top: `${position.top > 205 ? 205 : position.top}px`, left: `${position.left}px` }}
       >
          <h2 className="text-center text-sm font-semibold mb-4">Capa</h2>
          <span

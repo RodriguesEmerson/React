@@ -44,7 +44,7 @@ export default function ModalMembros() {
       <>
       {!hiddenMembersModal &&
          <div className="modal relative bg-white w-64 rounded-lg text-[13px] p-2 pt-4 text-gray-600"
-            style={{ top: `${position.top + 108}px`, left: `${position.left}px` }}
+            style={{ top: `${position.top > 370 ? 465 : position.top + 108}px`, left: `${position.left}px` }}
          >
             <h2 className="text-center font-semibold mb-4">Alterar Membros</h2>
             <span

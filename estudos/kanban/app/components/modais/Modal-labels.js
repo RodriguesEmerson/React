@@ -19,12 +19,11 @@ export default function ModalLabels() {
       hiddenLabelsModal, 
    } = useProvidersContext();
    const cardInfos = modalInfos.getCardInfos();
-
    return (
       <>
       {!hiddenLabelsModal &&
          <div className="modal absolute  bg-white w-64 p-1 pt-2 rounded-lg"
-            style={{ top: `${position.top}px`, left: `${position.left}px` }}
+            style={{ top: `${position.top > 375 ? 375 : position.top}px`, left: `${position.left}px` }}
          >
             <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</h2>
             <span

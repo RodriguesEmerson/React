@@ -11,9 +11,12 @@ const modalInfos = {
       periodoEmEdicao = cardInfos.periodo;
       listaOriginalId = e.target.closest('.list').getAttribute('id');
 
-      const left = card.offsetLeft + card.offsetWidth;
-      const top = card.offsetTop;
-      setPosition({ top: top, left: left + 5 });
+      let scrollCompensation = e.target.closest('.dragableArea').scrollTop;
+      const left = card.offsetLeft + card.offsetWidth + 5;
+      let top = card.offsetTop - scrollCompensation;
+
+      top > 405 && (top = 405);
+      setPosition({ top: top, left: left });
    },
 
    hiddenModal: function (e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal) {

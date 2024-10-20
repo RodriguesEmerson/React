@@ -31,7 +31,10 @@ export default function ModalEditCard(){
    return(
       <>
       {!hiddenOptionsModal &&
-      <div className="card-options absolute" style={{top: `${position.top}px`, left: `${position.left}px`}}>
+      <div 
+         className="card-options absolute" 
+         style={{top: `${position.top}px`, left: `${position.left}px`}}
+      >
          <ul className="flex gap-1 flex-col">
             {cardsOptions.map(option => (
                <li 
