@@ -21,7 +21,7 @@ export default function ModalMover({ arrLists, setLists }) {
          <h2 className="text-center !text-sm font-semibold text-gray-600 mb-3">Mover Cartão</h2>
          <span
             className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
-            onClick={(e) => { setHiddenMoverModal(true)}}
+            onClick={() => { setHiddenMoverModal(true)}}
          >close</span>
          <div className="flex flex-col gap-1  text-gray-60 mb-4">
             <div className="flex items-center gap-1">

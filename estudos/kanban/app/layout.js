@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${poppins.className} ${geistMono.variable} antialiased`}
       >
-        <header className="flex flex-row items-center justify-around px-5 w-full h-16 bg-blue-950 text-white">
+        <header className="flex flex-row items-center justify-around px-5 w-full h-16 bg-blue-950 text-white fixed">
          <div className="text-2xl">Kanban</div>
          <nav>
             <ul className="flex flex-row gap-5">

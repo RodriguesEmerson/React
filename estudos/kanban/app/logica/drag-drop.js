@@ -1,19 +1,24 @@
 
-let currentList, currentListId, draggingCard,
-   draggingCardHeight, currentCard,
-   dragableArea, shadowCard, listaOriginalId;
+let currentList, currentListId, draggingCard, draggingCardId,
+   draggingCardHeight, currentCard, listaCardsOrigem, setListaCardsOrigem,
+   dragableArea, shadowCard, listaOrigemId, draggingCardInfos, listaCardsDestino,
+   setListaCardsDestino;
 
 
 const dragDrop = {
+
    //Acionado quando o usuário começa a arrastar um elemento válido.
-   dragStart: function (e) {
+   dragStart: function (e, cardInfos, cards, setCards) {
       draggingCard = e.target.closest('.card');
       draggingCardHeight = e.target.offsetHeight;
-
+      draggingCardId = draggingCard.getAttribute('id');
+      listaCardsOrigem = [...cards];
+      setListaCardsOrigem = setCards;
       //Seleciona a lista de origem do card.
       currentList = e.target.closest('.list');
-      listaOriginalId = currentList.getAttribute('id');
+      listaOrigemId = currentList.getAttribute('id');
       dragableArea = document.querySelector(`#${currentList.getAttribute('id')} .dragableArea`);
+      draggingCardInfos = cardInfos;
 
       //Seta a imagem que aparecerá no card arrastado.
       e.dataTransfer.setDragImage(
@@ -23,12 +28,14 @@ const dragDrop = {
       );
    },
 
-   dragEnter: function (e) {
+   dragEnter: function (e, cards, setCards) {
       //remove a 'shadowCard' criada anteriomente em outra lista.
       if (currentList !== e.target.closest('.list')) {
          shadowCard = document.querySelector('.shadow-card');
          shadowCard && shadowCard.remove();
       }
+      listaCardsDestino = [...cards];
+      setListaCardsDestino = setCards;
       //Atualiza a lista sobre qual o draging está.
       currentList = e.target.closest('.list');
       if (!currentList) return;
@@ -68,7 +75,7 @@ const dragDrop = {
 
          //Insere um shadowCard acima do card, se não haver um.
          if (!card.previousSibling || !card.previousSibling.isEqualNode(shadowCard)) {
-            card.insertAdjacentElement('beforebegin', shadowCard)
+            card.insertAdjacentElement('beforebegin', shadowCard);
          }
       } else {
          draggingCard.style.display = 'none';
@@ -83,29 +90,49 @@ const dragDrop = {
       }
    },
 
-   dragEnd: function (e, lists, setLists) {
+   dragEnd: function (e, cardInfos) {
       draggingCard.style.display = 'flex';
       shadowCard = (document.querySelector(`#${currentListId} .shadow-card`));
       if (shadowCard) {
-         //Cria uma cópia de das lista sem alterar a origianl
-         const editingLists = [...lists];
+         //Index da sombra do card.
+         const shadowCardIndex = this.getShadowCardIndex(shadowCard);
+         shadowCard.remove();
 
-         //Percorre todas as listas
-         editingLists.forEach(list => {
-            if (list.id == listaOriginalId) {
-               //Filtra os cards, removendo o card clicado.
-               list.cards = list.cards.filter(card => card.id != editingCardID)
-            };
+         if (currentListId == listaOrigemId) {
+            //Filtra os cards, removendo o card arrastado.
+            listaCardsOrigem = listaCardsOrigem.filter(card => card.id != draggingCardId);
+            // Adiciona o card à lista de destino
+            listaCardsOrigem = [
+               ...listaCardsOrigem.slice(0, shadowCardIndex),  // itens antes do índice
+               cardInfos,                                       // o novo item a ser inserido
+               ...listaCardsOrigem.slice(shadowCardIndex)      // itens após o índice
+            ];
+            setListaCardsDestino(listaCardsOrigem);
+            return;
+         }
 
-            if (list.id == listaDestino) {
-               // Adiciona o card à lista de destino
-               list.cards = [editingCardInfos, ...list.cards]
-            }
+         //Filtra os cards, removendo o card clicado.
+         listaCardsOrigem = listaCardsOrigem.filter(card => card.id != draggingCardId);
 
-         });
-         setLists(editingLists);
+         // Adiciona o card à lista de destino
+         listaCardsDestino = [
+            ...listaCardsDestino.slice(0, shadowCardIndex),  // itens antes do índice
+            cardInfos,                                       // o novo item a ser inserido
+            ...listaCardsDestino.slice(shadowCardIndex)      // itens após o índice
+         ];
+
+         setListaCardsOrigem(listaCardsOrigem);
+         setListaCardsDestino(listaCardsDestino);
       }
       dragDrop.reseteVariables();
+   },
+
+   getShadowCardIndex: function (shadowCard) {
+      const childrenELements = dragableArea.children;
+      for (let i = 0; i <= childrenELements.length; i++) {
+         if (childrenELements[i] == shadowCard) return i;
+      }
+
    },
 
    reseteVariables: function () {

@@ -30,24 +30,36 @@ const EachList = (({ list, lists, setLists }) => {
    const [novoCard, setNovoCard] = useState(false);
    const [cards, setCards] = useState(list.cards);
 
-   
+   //Atualiza as listas dos cards quando algum card é arrastado para outro lugar.
+   useEffect(()=> {
+      const listsCopy = [...lists];
+      const listCopy = {...list};
+
+      listsCopy.forEach(element => {
+         if(element.id == listCopy.id){
+            element.cards = cards;
+         }
+      });
+
+     setLists(listsCopy);
+
+   },[cards])
+
    useEffect(()=>{
       setCards(list.cards);
    }, [list.cards])
 
-   console.log(cards)
-
    return (
-      <div id={list.id} className="list w-72  bg-gray-100 shadow-4xl p-1 rounded-sm text-sm"
-         onDragStart={(e) => { dragDrop.dragStart(e) }}
-         onDragEnter={(e) => dragDrop.dragEnter(e) }
+      <div id={list.id} className="list w-72  bg-gray-100 shadow-4xl p-1 rounded-md text-sm transition-all"
+         // onDragStart={(e) => { dragDrop.dragStart(e) }}
+         onDragEnter={(e) => dragDrop.dragEnter(e, cards, setCards) }
          onDragOver={(e) => { dragDrop.dragOver(e) }}
-         onDragEnd={(e) => { dragDrop.dragEnd(e, lists, setLists) }}
+        
       >
          <h2 className="mb-3 text-base font-bold">{list.listName}</h2>
          <div className="dragableArea overflow-y-auto scroll-presonalizada  max-h-100vh-105px" >
 
-            <Cards cards={cards} />
+            <Cards cards={cards} setCards={setCards} />
             
             {novoCard &&
                <form id={`f${list.id}`} className="novo-card p-1 cursor-grab flex flex-col gap-1 w-full min-h-14 shadow-4xl rounded-md overflow-hidden bg-white relative mb-2">

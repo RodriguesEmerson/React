@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { useProvidersContext } from "../context/providers";
 import { datas, modalInfos } from "../logica/logica-modais/main";
-
-const Cards = (({ cards }) => {
-   console.log(cards)
+import dragDrop from "../logica/drag-drop";
+const Cards = (({ cards, setCards }) => {
    return (
       cards.map(card => (
-         <Card key={card.id}  card={card} />
+         <Card key={card.id}  card={card} cards={cards} setCards={setCards} />
       ))
    );
 })
  
-const Card = (({ card  }) => {
+const Card = (({ card, cards, setCards  }) => {
    const { setPosition, setHiddenOptionsModal } = useProvidersContext();
    const [cardInfos, setCardInfos] = useState({
       labels: card.labels,
@@ -30,6 +29,8 @@ const Card = (({ card  }) => {
          className={`card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl 
             rounded-md overflow-hidden relative mb-2 `}
          style={{ backgroundColor: `${cardInfos.capa.full ? cardInfos.capa.color : "white"}` }}
+         onDragStart={(e)=> dragDrop.dragStart(e, cardInfos, cards, setCards)}
+         onDragEnd={(e) =>  dragDrop.dragEnd(e, cardInfos)}
       >
 
          <span
