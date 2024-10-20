@@ -8,6 +8,7 @@ import ModalLabels from "./modais/Modal-labels";
 import ModalMembros from "./modais/Modal-membros";
 import ModalCapa from "./modais/Modal-capa";
 import ModalData from "./modais/Modal-data";
+import ModalMover from "./modais/Modal-mover";
 import Skeleton from "./skeleton";
 let c = 1;
 
@@ -46,22 +47,26 @@ export default function Board({ id }){
       </Providers>
    )
 }
+
 const BoardBody = memo(({ data, id }) => {
    // console.log('Board: ', c++)
 
    const { 
       hiddenOptionsModal, setHiddenOptionsModal,
-      hiddenLabelsModal, setHiddenLabelsModal,
-      projectIntegrants, setProjectIntegrants,
+      setHiddenLabelsModal, setProjectIntegrants,
       setHiddenMembersModal, setHiddenCapaModal,
-      hiddenDataModal, setHiddenDataModal,
+      setHiddenDataModal, setHiddenMoverModal,
       projectId, setProjectId,
    } = useProvidersContext();
-   
+
+   const [lists, setLists] = useState();
+   console.log(lists)
+
    useEffect(() => {
       setProjectIntegrants(data.integrants);
-      setProjectId(id)
-   }, []);
+      setProjectId(id);
+      setLists(data.lists)
+   }, [data]);
    
    const handleDragOver = (e) =>{
       e.preventDefault();
@@ -71,17 +76,18 @@ const BoardBody = memo(({ data, id }) => {
       <section className={`board flex flex-row items-start p-2 ml-2 gap-3`}
          onDragOver={(e)=> {handleDragOver(e)}}
          >
-            <List  arrLists={data.lists}/>
+            <List  lists={lists} setLists={setLists}/>
             {(!hiddenOptionsModal) &&
                <div 
                   className="absolute bg-black bg-opacity-35 top-0 left-0 w-full h-svh"
-                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal,setHiddenCapaModal, setHiddenDataModal)}}
+                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal,setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal)}}
                   >
                   <ModalEditCard />
                   <ModalLabels />
                   <ModalMembros />
                   <ModalCapa />
                   <ModalData /> 
+                  <ModalMover arrLists={lists} setLists={setLists}/>
                </div>
             }
          </section>

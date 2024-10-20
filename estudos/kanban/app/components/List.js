@@ -8,13 +8,7 @@ import Skeleton from "./skeleton";
 import { criarNova } from "../logica/nova-lista";
 let c = 1
 
-const List = memo(({ arrLists }) => {
-
-   const [lists, setLists] = useState();
-   
-   useEffect(()=>{
-      setLists(arrLists);
-   }, [arrLists])
+const List = memo(({ lists, setLists }) => {
    
    //Retorna o skeleton enquanto lists não estiver disponível.
    if (!lists) {
@@ -23,7 +17,7 @@ const List = memo(({ arrLists }) => {
    return (
       <>
          {lists.map(list => (
-            <EachList key={list.id} list={list} />
+            <EachList key={list.id} list={list} lists={lists} setLists={setLists} />
          ))}
          <AddNewList lists={lists} setLists={setLists}/>
       </>
@@ -32,16 +26,23 @@ const List = memo(({ arrLists }) => {
 
 export default List;
 
-const EachList = memo(({ list }) => {
+const EachList = (({ list, lists, setLists }) => {
    const [novoCard, setNovoCard] = useState(false);
    const [cards, setCards] = useState(list.cards);
+
+   
+   useEffect(()=>{
+      setCards(list.cards);
+   }, [list.cards])
+
+   console.log(cards)
 
    return (
       <div id={list.id} className="list w-72  bg-gray-100 shadow-4xl p-1 rounded-sm text-sm"
          onDragStart={(e) => { dragDrop.dragStart(e) }}
          onDragEnter={(e) => dragDrop.dragEnter(e) }
          onDragOver={(e) => { dragDrop.dragOver(e) }}
-         onDragEnd={(e) => { dragDrop.dragEnd(e) }}
+         onDragEnd={(e) => { dragDrop.dragEnd(e, lists, setLists) }}
       >
          <h2 className="mb-3 text-base font-bold">{list.listName}</h2>
          <div className="dragableArea overflow-y-auto scroll-presonalizada  max-h-100vh-105px" >

@@ -1,29 +1,31 @@
-import { useEffect, useState, memo } from "react";
+import { useEffect, useState } from "react";
 import { useProvidersContext } from "../context/providers";
 import { datas, modalInfos } from "../logica/logica-modais/main";
 
-let c = 1;
-const Cards = memo(({ cards }) => {
+const Cards = (({ cards }) => {
+   console.log(cards)
    return (
       cards.map(card => (
-         <Card key={card.id} card={card} />
+         <Card key={card.id}  card={card} />
       ))
    );
 })
-
-const Card = memo(({ card }) => {
+ 
+const Card = (({ card  }) => {
    const { setPosition, setHiddenOptionsModal } = useProvidersContext();
    const [cardInfos, setCardInfos] = useState({
       labels: card.labels,
       integrants: card.integrants,
-      text: card.content,
+      content: card.content,
       coments: card.coments,
       capa: card.capa,
-      periodo: card.periodo
+      periodo: card.periodo,
+      id: card.id
    });
 
    return (
-      <div id={card.id}
+      <div id={cardInfos.id}
+         key={cardInfos.key}
          draggable="true"
          className={`card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl 
             rounded-md overflow-hidden relative mb-2 `}
@@ -58,7 +60,7 @@ const Card = memo(({ card }) => {
          }
 
          <div className="min-h-8 flex items-center">
-            <p className="max-w-full break-words">{cardInfos.text}</p>
+            <p className="max-w-full break-words">{cardInfos.content}</p>
          </div>
          {
             (<div className="flex flex-row flex-wrap gap-2 text-xs text-gray-500 items-center">

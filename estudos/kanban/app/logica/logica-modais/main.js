@@ -1,20 +1,22 @@
 
-let editingCard, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao;
+let editingCard, editingCardID, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId;
 const modalInfos = {
    position: function (e, setPosition, cardInfos, setCardInfos) {
       const card = e.target.closest('.card');
+      editingCardID = card.getAttribute('id');
       card.style.zIndex = "8";
       editingCard = card;
       editingCardInfos = cardInfos;
       setEditingCardInfos = setCardInfos;
       periodoEmEdicao = cardInfos.periodo;
+      listaOriginalId = e.target.closest('.list').getAttribute('id');
 
       const left = card.offsetLeft + card.offsetWidth;
       const top = card.offsetTop;
       setPosition({ top: top, left: left + 5 });
    },
 
-   hiddenModal: function (e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal, setHiddenDataModal) {
+   hiddenModal: function (e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal) {
       const cardsOptions = e.target.closest('.card-options');
       const modal = e.target.closest('.modal');
 
@@ -28,6 +30,7 @@ const modalInfos = {
       setHiddenMembersModal(true);
       setHiddenCapaModal(true);
       setHiddenDataModal(true);
+      setHiddenMoverModal(true);
       editingCard.style.zIndex = "auto";
       editingCard = null;
    },
@@ -39,7 +42,7 @@ const modalInfos = {
    getCardInfos: function () {
       return editingCardInfos;
    },
-   getPeriodo: function(){
+   getPeriodo: function () {
       return periodoEmEdicao;
    },
    setCardInfos: function (dados) {
@@ -107,19 +110,19 @@ const editCapa = {
 }
 
 const datas = {
-   checkPrazo: function(periodo){
+   checkPrazo: function (periodo) {
       const hoje = new Date(this.converteData(this.hoje())).getTime();
       const prazo = new Date(periodo.fim).getTime();
-      if(periodo.status) return "bg-green-700 text-white";
-      if(prazo == hoje) return "bg-yellow-400 text-gray-700 pt-[5px] pr-[6px]";
-      if(prazo < hoje ) return "bg-red-700 text-white pt-[5px] pr-[6px]";
+      if (periodo.status) return "bg-green-700 text-white";
+      if (prazo == hoje) return "bg-yellow-400 text-gray-700 pt-[5px] pr-[6px]";
+      if (prazo < hoje) return "bg-red-700 text-white pt-[5px] pr-[6px]";
    },
 
-   marcarStatus: function(periodo, cardInfos, setCardInfos){
+   marcarStatus: function (periodo, cardInfos, setCardInfos) {
       const statusAtual = periodo.status;
       setCardInfos(
-         {...cardInfos, periodo: {...periodo, status: !statusAtual}}
-      ) 
+         { ...cardInfos, periodo: { ...periodo, status: !statusAtual } }
+      )
    },
 
    diasNoMes: function (mes, ano) {
@@ -240,8 +243,8 @@ const datas = {
       //Divide a data 
       let [dia, mes, ano] = data.split('/');
 
-      if(mes > 12) {mes = 1; ano++} //Se o mes recebido for maior que 12, então é o 1º mês do seguinte.
-      if(mes < 1) {mes = 12; ano--} //Se o mes recebido for menor que 1, então é o 12ª mês do ano anterior.
+      if (mes > 12) { mes = 1; ano++ } //Se o mes recebido for maior que 12, então é o 1º mês do seguinte.
+      if (mes < 1) { mes = 12; ano-- } //Se o mes recebido for menor que 1, então é o 12ª mês do ano anterior.
       //Retorna a data no padrão aaaa/mm/dd;
       return `${ano}/${mes}/${dia}`
    },
@@ -263,14 +266,14 @@ const datas = {
       let novaData;
       removeDataInicio ? novaData = '' : novaData = this.validaData(data);
       let fim = dataFim;
-      
+
       if (!removeDataInicio) {
          if (!novaData) return console.log('Data inválida.');
          //Se a data final for menor que a data adicionada, é removida.
          if (this.checaMaiorData(novaData, dataFim)) fim = '';
       }
-      
-      periodoEmEdicao = {...periodoEmEdicao, inicio: novaData, fim: fim };
+
+      periodoEmEdicao = { ...periodoEmEdicao, inicio: novaData, fim: fim };
       setPeriodo(periodoEmEdicao);
    },
 
@@ -281,15 +284,53 @@ const datas = {
          if (!novaData) return console.log('Data inválida.');
          //Checa se a data inicial e maior que a final, se sim a data menor vai pra inicial.
          if (this.checaMaiorData(dataInicio, novaData)) {
-            periodoEmEdicao = {...periodoEmEdicao, inicio: '', fim: novaData };
-            setPeriodo( periodoEmEdicao );
+            periodoEmEdicao = { ...periodoEmEdicao, inicio: '', fim: novaData };
+            setPeriodo(periodoEmEdicao);
             return;
          }
       }
       //Atualiza o valor de periodoEmEdicao
-      periodoEmEdicao = {...periodoEmEdicao, inicio: dataInicio, fim: novaData };
-      setPeriodo( periodoEmEdicao ); //Seta o novo periodo no estado periodo em Modal-data.js 28;
+      periodoEmEdicao = { ...periodoEmEdicao, inicio: dataInicio, fim: novaData };
+      setPeriodo(periodoEmEdicao); //Seta o novo periodo no estado periodo em Modal-data.js 28;
    }
 }
 
-export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas }
+const moverCard = {
+   getLists: function (lists) {
+      const listsNames = [];
+      lists.forEach(list => {
+         listsNames.push({ listName: list.listName, listId: list.id })
+      });
+      return listsNames;
+   },
+   getNomeListaAtual: function (lists) {
+      let nomeLitaAtual;
+      lists.forEach(list => {
+         if (list.id == listaOriginalId) nomeLitaAtual = list.listName;
+      });
+      return nomeLitaAtual;
+   },
+
+   mover: function (listaDestino, lists, setLists) {
+      //Cria uma cópia de das lista sem alterar a origianl
+      const editingLists = [...lists];
+
+       //Percorre todas as listas
+      editingLists.forEach(list => {
+         if (list.id == listaOriginalId) {
+            //Filtra os cards, removendo o card clicado.
+            list.cards = list.cards.filter(card => card.id != editingCardID)
+         };
+
+         if (list.id == listaDestino) {
+            // Adiciona o card à lista de destino
+            list.cards = [editingCardInfos, ...list.cards]
+         }
+
+      });
+      setLists(editingLists);
+   }
+
+}
+
+export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas, moverCard }
