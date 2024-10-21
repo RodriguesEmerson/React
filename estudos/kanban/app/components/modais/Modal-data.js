@@ -67,8 +67,9 @@ export default function ModalData() {
                />
 
                <p className="font-semibold text-xs mb-1 text-gray-600">Definir lembrete</p>
-               <div className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 w-full h-8 cursor-pointer
-               ${showSelect && "outline outline-[1px] outline-blue-500 border-blue-500"}`}
+               <div 
+                  className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 w-full h-8   cursor-pointer ${showSelect && "outline outline-[1px] outline-blue-500 border-blue-500"}`
+                  }
                   onClick={() => { setShowSelect(!showSelect) }}
                >
                   <p>{lembrete}</p>
