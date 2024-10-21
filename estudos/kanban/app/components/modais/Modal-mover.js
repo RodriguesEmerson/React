@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useProvidersContext } from "../../context/providers";
 import { moverCard } from "@/app/logica/logica-modais/main";
+import { ButtonSaveDefault } from "./buttons";
 
 
 export default function ModalMover({ arrLists, setLists }) {
@@ -48,66 +49,68 @@ export default function ModalMover({ arrLists, setLists }) {
                </button>
             ))}
          </div>
-         <SelecionarDestino listasDisponiveis={listasDisponiveis}/>
+         <SelecionarDestino listasDisponiveis={listasDisponiveis} />
       </div>
    )
 }
 
 function SelecionarDestino({ listasDisponiveis }) {
-   const [quadro, seteQuadro] = useState('To do');
-   const [index, setIndex] = useState(1)
-   const [showSelect, setShowSelect] = useState(false);
 
-   //Cria uma função para pegar quantos cards tem na lista slecionadas e jogar num arry para criar
-   //as options da seleção do index.
-   
+   const [destino, setDestino] = useState({listName: listasDisponiveis[0].listName, index: 1});
+   const [index, setIndex] = useState(1);
+
    return (
       <div className="flex flex-col gap-1  text-gray-60">
          <div className="flex items-center gap-1">
             <span className="text-xs font-semibold pt-[2px]">Selecionar destino</span>
          </div>
-            <span className="text-xs font-bold pt-[2px]">Lista</span>
-         <div className="flex flex-row gap-1">
-            <div 
-               className="flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 pr-1 w-[70%] h-8 cursor-pointer justify-between"
-               onClick={()=> setShowSelect(!showSelect)}
-            >
-               <p>{quadro}</p>
-               {showSelect &&
-                  <ul className="border text-[13px] border-gray-200 py-2 -ml-2 absolute rounded-md bg-white bottom-8 w-full">
-                  {listasDisponiveis.map(list =>(
-                     <li key={`dlM${list.id}`} className="option-modal-data  relative h-7 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
-                     onClick={() => { seteQuadro(list.listName)}}
-                  >
-                     <span className={`w-[3px] h-full ${list.listName == quadro ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
-                     <p>{list.listName}</p>
-                  </li>
-                  ))}
-               </ul>
-               }
-               <span className={`material-icons !text-base transition-all ${showSelect && "rotate-180"}`}>keyboard_arrow_up</span>
-            </div>
+         <span className="text-xs font-bold pt-[2px]">Lista</span>
 
-            <div 
-               className="flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 pr-1 w-[29%] h-8 cursor-pointer justify-between"
-               onClick={()=> setShowSelect(!showSelect)}
-            >
-               <p>{quadro}</p>
-               {showSelect &&
-                  <ul className="border text-[13px] border-gray-200 py-2 -ml-2 absolute rounded-md bg-white bottom-8 w-full">
-                  {listasDisponiveis.map(list =>(
-                     <li key={`dlM${list.id}`} className="option-modal-data  relative h-7 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
-                     onClick={() => { seteQuadro(list.listName)}}
-                  >
-                     <span className={`w-[3px] h-full ${list.listName == quadro ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
-                     <p>{list.listName}</p>
-                  </li>
-                  ))}
-               </ul>
-               }
-               <span className={`material-icons !text-base transition-all ${showSelect && "rotate-180"}`}>keyboard_arrow_up</span>
-            </div>
+         <div className="flex flex-row gap-1">
+            <Select option={destino.listName} setOption={setDestino} optionList={listasDisponiveis} chave={"listName"} width={'70%'}/>
+            <Select option={destino.index} setOption={setIndex} optionList={listasDisponiveis} chave={"indexes"} width={'29%'}/>
          </div>
+
+         <ButtonSaveDefault
+            type={'submit'}
+            value={'Mover'}
+            width={'32'}
+            handleClick={'w'}
+         />
+      </div>
+   )
+}
+
+function Select({option, setOption, optionList, chave, width }) {
+
+   const [showOptions, setShowOptions] = useState(false);
+   const randonKey = () => {
+      const min = Math.ceil(10);
+      const max = Math.floor(10000);
+      return Math.floor(Math.random() * (max - min) + min);
+   }
+
+   //Criar uma função que idenfica se é os nomes ou os indexes;
+
+   return (
+      <div
+         className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 pr-1 h-8 cursor-pointer justify-between`} style={{width: width}}
+         onClick={() => setShowOptions(!showOptions)}
+      >
+         <p>{option}</p>
+         {showOptions &&
+            <ul className="border text-[13px] border-gray-200 py-2 -ml-2 absolute rounded-md bg-white bottom-8 w-full">
+               {optionList.map(element => (
+                  <li key={`ilM${randonKey()}`} className="option-modal-data relative h-7 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
+                     onClick={() => { setOption(element[chave]) }}
+                  >
+                     <span className={`w-[3px] h-full ${option == element[chave] ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
+                     <p>{element[chave]}</p>
+                  </li>
+               ))}
+            </ul>
+         }
+         <span className={`material-icons !text-base transition-all ${showOptions && "rotate-180"}`}>keyboard_arrow_up</span>
       </div>
    )
 }

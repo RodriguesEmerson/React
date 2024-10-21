@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { useProvidersContext } from "../../context/providers"
 import { datas, modalInfos } from "@/app/logica/logica-modais/main";
+import { ButtonSaveDefault } from "./buttons";
+
 
 const selectOptions = [
    "Nenhum", "Na hora da entrega", "5 minutos antes",
@@ -34,6 +36,10 @@ export default function ModalData() {
 
    function handleDataFim(data, removeDataFim, clickFrom) {
       datas.handleDataFim(data, periodo.inicio, removeDataFim, setPeriodo, clickFrom);
+   }
+
+   function handleClickSave(e){
+      e.preventDefault(); datas.setPeriodo(); setHiddenDataModal(true)
    }
 
    return (
@@ -86,13 +92,11 @@ export default function ModalData() {
                      </ul>
                   }
                </div>
-               <input 
-                  type="submit" 
-                  value="Salvar"
-                  className="text-xs font-semibold text-white w-full h-8 bg-blue-600 cursor-pointer
-               hover:bg-blue-700 transition-all rounded-[3px]"
-                  onClick={(e)=> {e.preventDefault(); datas.setPeriodo(); setHiddenDataModal(true)}}
-
+               <ButtonSaveDefault 
+                  type={'submit'} 
+                  value={'Salvar'} 
+                  width={'full'}
+                  handleClick={handleClickSave} 
                />
             </div>
          }

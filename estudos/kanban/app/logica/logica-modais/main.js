@@ -302,7 +302,11 @@ const moverCard = {
    getLists: function (lists) {
       const listsNames = [];
       lists.forEach(list => {
-         listsNames.push({ listName: list.listName, listId: list.id })
+         const indexCardsLength = [];
+         for(let i = 1; i < list.cards.length + 2; i++){
+            indexCardsLength.push(i);
+         }
+         listsNames.push({ listName: list.listName, listId: list.id, indexes: indexCardsLength })
       });
       return listsNames;
    },
