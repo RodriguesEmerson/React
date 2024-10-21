@@ -3,7 +3,7 @@ let currentList, currentListId, draggingCard, draggingCardId,
    draggingCardHeight, currentCard, listaCardsOrigem, setListaCardsOrigem,
    dragableArea, shadowCard, listaOrigemId, draggingCardInfos, listaCardsDestino,
    setListaCardsDestino;
-
+ let indexCompensation = 0;
 
 const dragDrop = {
 
@@ -76,6 +76,9 @@ const dragDrop = {
          //Insere um shadowCard acima do card, se não haver um.
          if (!card.previousSibling || !card.previousSibling.isEqualNode(shadowCard)) {
             card.insertAdjacentElement('beforebegin', shadowCard);
+
+            //Compensa o index do shadowCard
+            indexCompensation = 0
          }
       } else {
          draggingCard.style.display = 'none';
@@ -86,6 +89,9 @@ const dragDrop = {
          if (!card.nextSibling || !card.nextSibling.isEqualNode(shadowCard)) {
             //Insere a caixa temporaria abaixo do card
             card.insertAdjacentElement('afterend', shadowCard);
+
+            //Compensa o index do shadowCard
+            indexCompensation = 1;
          }
       }
    },
@@ -130,7 +136,7 @@ const dragDrop = {
    getShadowCardIndex: function (shadowCard) {
       const childrenELements = dragableArea.children;
       for (let i = 0; i <= childrenELements.length; i++) {
-         if (childrenELements[i] == shadowCard) return i;
+         if (childrenELements[i] == shadowCard) return i - indexCompensation;
       }
 
    },

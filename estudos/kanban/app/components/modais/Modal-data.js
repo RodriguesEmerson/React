@@ -35,7 +35,6 @@ export default function ModalData() {
    function handleDataFim(data, removeDataFim, clickFrom) {
       datas.handleDataFim(data, periodo.inicio, removeDataFim, setPeriodo, clickFrom);
    }
-   console.log(position)
 
    return (
       <>
