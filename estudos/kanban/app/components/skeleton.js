@@ -1,6 +1,6 @@
 export default function Skeleton(){
    return (
-      <section className={`flex flex-row items-start ml-2 mt-16 p-2 gap-3`}>
+      <section className={`flex flex-row items-start ml-2  pt-[68px] p-2 gap-3`}>
          <div className="w-72  bg-gray-100 shadow-4xl p-1 rounded-sm ">
             <div className="w-28 h-7 bg-gray-200 rounded-md mb-2 animate-pulse dark:bg-gray-400"></div>
             <div className="w-full h-32 bg-gray-200 rounded-md mb-1 animate-pulse dark:bg-gray-400"></div>

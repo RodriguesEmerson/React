@@ -95,7 +95,7 @@ export default function ModalData() {
                <ButtonSaveDefault 
                   type={'submit'} 
                   value={'Salvar'} 
-                  width={'full'}
+                  width={'100%'}
                   handleClick={handleClickSave} 
                />
             </div>

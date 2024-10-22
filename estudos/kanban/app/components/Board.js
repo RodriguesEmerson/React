@@ -72,15 +72,15 @@ const BoardBody = memo(({ data, id }) => {
    }
 
    return(
-      <section className={`board flex flex-row items-start p-2 ml-2 gap-3 mt-16`}
+      <section className={`board flex flex-row items-start p-2 ml-2 gap-3 pt-[68px]`}
          onDragOver={(e)=> {handleDragOver(e)}}
          >
             <List  lists={lists} setLists={setLists}/>
             {(!hiddenOptionsModal) &&
                <div 
-                  className={`absolute bg-black bg-opacity-35 top-0 left-0  h-full`}
+                  className={`absolute bg-black bg-opacity-55 top-0 left-0 w-full  h-full`}
                   onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal,setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal)}}
-                  style={{width: `${document.querySelector('.board').offsetWidth + 10}px`}}
+                  
                   >
                   <ModalEditCard />
                   <ModalLabels />

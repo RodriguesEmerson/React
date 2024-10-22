@@ -90,7 +90,7 @@ function SelecionarDestino({ listasDisponiveis, arrLists, setLists, setHiddenMov
          <ButtonSaveDefault
             type={'submit'}
             value={'Mover'}
-            width={'32'}
+            width={'50%'}
             handleClick={handleClickMover}
          />
       </div>

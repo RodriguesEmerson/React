@@ -50,14 +50,14 @@ const EachList = (({ list, lists, setLists }) => {
    }, [list.cards])
 
    return (
-      <div id={list.id} className="list w-72  bg-gray-100 shadow-4xl p-1 rounded-md text-sm transition-all"
+      <div id={list.id} className="list w-72 min-w-72  bg-gray-100 shadow-4xl p-1 rounded-md text-sm transition-all"
          // onDragStart={(e) => { dragDrop.dragStart(e) }}
          onDragEnter={(e) => dragDrop.dragEnter(e, cards, setCards) }
          onDragOver={(e) => { dragDrop.dragOver(e) }}
         
       >
          <h2 className="mb-3 text-base font-bold">{list.listName}</h2>
-         <div className="dragableArea overflow-y-auto scroll-presonalizada  max-h-100vh-105px" >
+         <div className="dragableArea overflow-y-auto scroll-presonalizada p-1  max-h-100vh-105px" >
 
             <Cards cards={cards} setCards={setCards} />
             

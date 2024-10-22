@@ -11,7 +11,7 @@ const Cards = (({ cards, setCards }) => {
 })
  
 const Card = (({ card, cards, setCards  }) => {
-   const { setPosition, setHiddenOptionsModal } = useProvidersContext();
+   const { setPosition, setHiddenOptionsModal, hiddenOptionsModal } = useProvidersContext();
    const [cardInfos, setCardInfos] = useState({
       labels: card.labels,
       integrants: card.integrants,
@@ -27,7 +27,7 @@ const Card = (({ card, cards, setCards  }) => {
          key={cardInfos.key}
          draggable="true"
          className={`card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl 
-            rounded-md overflow-hidden relative mb-2 `}
+            rounded-md overflow-hidden relative mb-2 hover:${hiddenOptionsModal && "outline"} outline-2 outline-blue-400`}
          style={{ backgroundColor: `${cardInfos.capa.full ? cardInfos.capa.color : "white"}` }}
          onDragStart={(e)=> dragDrop.dragStart(e, cardInfos, cards, setCards)}
          onDragEnd={(e) =>  dragDrop.dragEnd(e, cardInfos)}

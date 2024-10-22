@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
       <body
-        className={`${poppins.className} ${geistMono.variable} antialiased min-w-full`}
+        className={`${poppins.className} ${geistMono.variable} antialiased bg-pink-300`}
       >
         <header className="flex flex-row items-center justify-around px-5 w-full h-16 bg-blue-950 text-white fixed">
          <div className="text-2xl">Kanban</div>
