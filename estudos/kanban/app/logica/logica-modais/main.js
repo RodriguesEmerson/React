@@ -306,7 +306,7 @@ const moverCard = {
          for(let i = 1; i < list.cards.length + 2; i++){
             indexCardsLength.push(i);
          }
-         listsNames.push({ listName: list.listName, listId: list.id, indexes: indexCardsLength })
+         listsNames.push({ listName: list.listName, listId: list.id, index: indexCardsLength })
       });
       return listsNames;
    },
@@ -318,7 +318,7 @@ const moverCard = {
       return nomeLitaAtual;
    },
 
-   mover: function (listaDestino, lists, setLists) {
+   mover: function (listaDestino, lists, setLists, index) {
       //Cria uma cópia de das lista sem alterar a origianl
       const editingLists = [...lists];
 
@@ -326,16 +326,31 @@ const moverCard = {
       editingLists.forEach(list => {
          if (list.id == listaOriginalId) {
             //Filtra os cards, removendo o card clicado.
-            list.cards = list.cards.filter(card => card.id != editingCardID)
+            list.cards = list.cards.filter(card => card.id != editingCardID);
          };
 
-         if (list.id == listaDestino) {
+         if(!index){
+            if (list.id == listaDestino) {
+               // Adiciona o card à lista de destino
+               list.cards = [editingCardInfos, ...list.cards];
+            }
+         }
+
+         if(list.id == listaDestino && index){
             // Adiciona o card à lista de destino
-            list.cards = [editingCardInfos, ...list.cards]
+            list.cards = [
+               ...list.cards.slice(0, index - 1),  // itens antes do índice
+               editingCardInfos,                   // o novo item a ser inserido
+               ...list.cards.slice(index - 1)      // itens após o índice
+            ];
          }
 
       });
       setLists(editingLists);
+   },
+
+   getListsDestino: function(listId, lists){
+
    }
 
 }
