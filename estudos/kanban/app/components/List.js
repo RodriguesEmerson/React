@@ -50,13 +50,13 @@ const EachList = (({ list, lists, setLists }) => {
    }, [list.cards])
 
    return (
-      <div id={list.id} className="list w-72 min-w-72  bg-gray-100 shadow-4xl p-1 rounded-md text-sm transition-all"
+      <div id={list.id} className="list w-[270px] min-w-[270px]  bg-gray-100 shadow-4xl p-1 rounded-xl text-sm transition-all"
          // onDragStart={(e) => { dragDrop.dragStart(e) }}
          onDragEnter={(e) => dragDrop.dragEnter(e, cards, setCards) }
          onDragOver={(e) => { dragDrop.dragOver(e) }}
         
       >
-         <h2 className="mb-3 text-base font-bold">{list.listName}</h2>
+         <h2 className="mb-2 ml-3 mt-2 text-sm font-bold text-gray-700">{list.listName}</h2>
          <div className="dragableArea overflow-y-auto scroll-presonalizada p-1  max-h-100vh-105px" >
 
             <Cards cards={cards} setCards={setCards} />
@@ -108,23 +108,26 @@ function AddNewList({ lists, setLists }) {
       <div className="flex flex-col">
          {hidden ?
             <div
-               className="flex gap-1 items-center justify-center w-72 bg-gray-200 hover:bg-gray-300 
+               className="flex gap-1 items-center justify-center bg-white bg-opacity-30 w-72 hover:bg-opacity-20 
             transition-all cursor-pointer rounded-md h-9"
                onClick={() => {handleShowTextArea()}}
             >
-               <span className="material-icons !text-lg">add</span>
-               <p className="font-semibold text-gray-500 text-13px">Adicionar nova lista</p>
+               <span className="material-icons text-white !text-lg">add</span>
+               <p className="font-semibold text-white text-13px">Adicionar nova lista</p>
             </div>
             :
             <div className="flex flex-col gap-1 p-1 h-9 w-72">
                <form className="new-list p-1 cursor-grab flex flex-col gap-2 w-full min-h-20 shadow-4xl rounded-md overflow-hidden bg-white relative mb-2" > 
-                  <textarea name="new-list-name"  id="new-list-name"
+                  <textarea 
+                     name="new-list-name"  
+                     id="new-list-name"
                      className="p-1 h-7 text-sm outline-none resize-none overflow-hidden rounded-sm outline-blue-600"
                      placeholder="Digite o nome da lista..."
+                     onKeyDown={(e)=> {e.key == "Enter" && criarNova.lista(e, lists, setLists, setHidden)}}
                   ></textarea>
                   <div className="flex items-center gap-1">
                      <button
-                        onClick={(e) => {criarNova.lista(e, lists, setLists); setHidden(true)}}
+                        onClick={(e) => {criarNova.lista(e, lists, setLists, setHidden)}}
                         type="sumit"
                         className="font-semibold text-white text-[13px] bg-blue-600 h-8 leading-8 px-2 rounded-sm cursor-pointer hover:bg-blue-700 transition-all"
                      >Adicionar Lista</button>

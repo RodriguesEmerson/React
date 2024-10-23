@@ -16,6 +16,11 @@ export default function ModalMover({ arrLists, setLists }) {
    const nomeListaAtual = moverCard.getNomeListaAtual(arrLists);
    const listasDisponiveis = moverCard.getLists(arrLists);
 
+   function handleClickMover(idListDestino, indexDestino){
+      moverCard.mover(idListDestino, arrLists, setLists, indexDestino);
+      moverCard.hiddenModal(setHiddenMoverModal, setHiddenOptionsModal)
+   }
+
    return (
       !hiddenMoverModal &&
       <div className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
@@ -31,6 +36,7 @@ export default function ModalMover({ arrLists, setLists }) {
                <span className="material-icons-outlined rotate-180 !text-base">wb_incandescent</span>
                <span className="text-xs font-semibold pt-[2px]">Sugeridas</span>
             </div>
+            
             {listasDisponiveis.map(lista => (
                lista.listName != nomeListaAtual &&
                <button
@@ -38,11 +44,7 @@ export default function ModalMover({ arrLists, setLists }) {
                   key={`btnList${lista.listId}`}
                   type="button"
                   data-listref-id={lista.listId}
-                  onClick={() => {
-                     moverCard.mover(lista.listId, arrLists, setLists);
-                     setHiddenOptionsModal(true);
-                     setHiddenMoverModal(true);
-                  }}
+                  onClick={(e) => {handleClickMover(lista.listId)}}
                >
                   <span className="material-icons !text-lg">arrow_forward</span>
                   {lista.listName}
@@ -53,14 +55,13 @@ export default function ModalMover({ arrLists, setLists }) {
             listasDisponiveis={listasDisponiveis} 
             arrLists={arrLists} 
             setLists={setLists} 
-            setHiddenMoverModal={setHiddenMoverModal}
-            setHiddenOptionsModal={setHiddenOptionsModal}
+            handleClickMover={handleClickMover}
          />
       </div>
    )
 }
 
-function SelecionarDestino({ listasDisponiveis, arrLists, setLists, setHiddenMoverModal, setHiddenOptionsModal }) {
+function SelecionarDestino({ listasDisponiveis, handleClickMover }) {
    const [options, setOptions] = useState(listasDisponiveis[0]);
    const [index, setIndex] = useState(1);
    const [destino, setDestino] = useState({listName: options.listName, listId: options.listId, index: index});
@@ -70,9 +71,9 @@ function SelecionarDestino({ listasDisponiveis, arrLists, setLists, setHiddenMov
       setDestino({listName: options.listName, listId: options.listId, index: index});
    },[options, index])
 
-   function handleClickMover(){
-      moverCard.mover(destino.listId, arrLists, setLists, destino.index);
-      setHiddenMoverModal(true); setHiddenOptionsModal(true)
+   function handleClickMoverFull(){
+      handleClickMover(destino.listId, destino.index);
+      
    }
 
    return (
@@ -91,7 +92,7 @@ function SelecionarDestino({ listasDisponiveis, arrLists, setLists, setHiddenMov
             type={'submit'}
             value={'Mover'}
             width={'50%'}
-            handleClick={handleClickMover}
+            handleClick={handleClickMoverFull}
          />
       </div>
    )

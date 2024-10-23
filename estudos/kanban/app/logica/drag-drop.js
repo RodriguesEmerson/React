@@ -19,11 +19,12 @@ const dragDrop = {
       listaOrigemId = currentList.getAttribute('id');
       dragableArea = document.querySelector(`#${currentList.getAttribute('id')} .dragableArea`);
       draggingCardInfos = cardInfos;
+      const htmlScrollLeft = document.querySelector('html').scrollLeft;
 
       //Seta a imagem que aparecerá no card arrastado.
       e.dataTransfer.setDragImage(
          draggingCard, //Imagem 
-         (e.clientX - draggingCard.offsetLeft), //EixoX
+         (e.clientX - draggingCard.offsetLeft + htmlScrollLeft), //EixoX
          (e.clientY - draggingCard.offsetTop + dragableArea.scrollTop) //EixoY
       );
    },

@@ -80,7 +80,7 @@ const BoardBody = memo(({ data, id }) => {
                <div 
                   className={`absolute bg-black bg-opacity-55 top-0 left-0 w-full  h-full`}
                   onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal,setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal)}}
-                  
+                  style={{width: `${document.querySelector('.board').offsetWidth + 12}px`}}
                   >
                   <ModalEditCard />
                   <ModalLabels />

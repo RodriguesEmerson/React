@@ -38,6 +38,12 @@ body {
     scrollbar-width: thin;
     scrollbar-color: rgba(9, 30, 66, 0.141) rgb(231, 231, 231);
   } 
+
+  .html-scroll{
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(9, 30, 66, 0.141) rgba(8, 8, 8, 0.242);
+  }
   .option-modal-data:hover > span{
     display: block;
   } 

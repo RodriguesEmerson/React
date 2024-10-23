@@ -27,8 +27,8 @@ const Card = (({ card, cards, setCards  }) => {
          key={cardInfos.key}
          draggable="true"
          className={`card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl 
-            rounded-md overflow-hidden relative mb-2 hover:${hiddenOptionsModal && "outline"} outline-2 outline-blue-400`}
-         style={{ backgroundColor: `${cardInfos.capa.full ? cardInfos.capa.color : "white"}` }}
+            rounded-md overflow-hidden relative mb-2 hover:outline outline-2 outline-blue-400 ${!hiddenOptionsModal && "!outline-none"}`}
+         style={{ backgroundColor: `${cardInfos.capa.full ? cardInfos.capa.color : "white"}`}}
          onDragStart={(e)=> dragDrop.dragStart(e, cardInfos, cards, setCards)}
          onDragEnd={(e) =>  dragDrop.dragEnd(e, cardInfos)}
       >
@@ -90,6 +90,9 @@ const Card = (({ card, cards, setCards  }) => {
 })
 
 function PeriodoCard({ periodo, cardInfos, setCardInfos }) {
+
+   if(!periodo.inicio && !periodo.fim) return <></>;
+
    const [hovering, setHovering] = useState(false);
    function handleMouseOut(e){
       // Verifica se o cursor realmente saiu do elemento pai e não apenas foi para um filho.

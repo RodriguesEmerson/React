@@ -27,6 +27,8 @@ const modalInfos = {
       if (cardsOptions || modal) {
          return;
       }
+      editingCard.style.zIndex = "auto";
+      editingCard = null;
 
       setHiddenOptionsModal(true);
       setHiddenLabelsModal(true);
@@ -34,8 +36,6 @@ const modalInfos = {
       setHiddenCapaModal(true);
       setHiddenDataModal(true);
       setHiddenMoverModal(true);
-      editingCard.style.zIndex = "auto";
-      editingCard = null;
    },
 
    getEditingCardId: function () {
@@ -349,10 +349,13 @@ const moverCard = {
       setLists(editingLists);
    },
 
-   getListsDestino: function(listId, lists){
+   hiddenModal: function(setHiddenMoverModal, setHiddenOptionsModal){
+      editingCard.style.zIndex = "auto";
+      editingCard = null;
 
+      setHiddenOptionsModal(true);
+      setHiddenMoverModal(true);
    }
-
 }
 
 export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas, moverCard }

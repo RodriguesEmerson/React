@@ -9,7 +9,7 @@ class NovaLista {
 }
 
 const criarNova = {
-   lista: function(e, lists, setLists){
+   lista: function(e, lists, setLists, setHidden){
       e.preventDefault();
       //Pega os dados do formulário
       const form = document.querySelector(".new-list");
@@ -22,7 +22,8 @@ const criarNova = {
       const novaLista = new NovaLista(listName);
 
       //Renderiza a nova lista.
-      setLists([...lists, novaLista])
+      setLists([...lists, novaLista]);
+      setHidden(true);
    }
 }
 
