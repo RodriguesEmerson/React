@@ -15,7 +15,7 @@ const modalInfos = {
       const left = card.offsetLeft + card.offsetWidth + 5;
       let top = card.offsetTop - scrollCompensation;
 
-      top > 405 && (top = 405);
+      top > 395 && (top = 395);
       setPosition({ top: top, left: left });
    },
 

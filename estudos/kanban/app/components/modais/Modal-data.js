@@ -46,7 +46,7 @@ export default function ModalData() {
       <>
          {!hiddenDataModal &&
             <div className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
-               style={{ top: `${position.top > 193 ? 193 : position.top}px`, left: `${position.left}px` }}
+               style={{ top: `${position.top > 182 ? 182 : position.top}px`, left: `${position.left}px` }}
             >
                <h2 className="text-center text-sm font-semibold text-gray-600 mb-3">Data</h2>
                <span

@@ -70,8 +70,9 @@ const EachList = (({ list, lists, setLists }) => {
          {!novoCard ?
             <div
                onClick={() => setNovoCard(true)}
-               className="flex items-center justify-center w-9/12 p-1 hover:bg-gray-300 transition-all cursor-pointer rounded-md h-9">
-               <span className="material-icons">add</span>
+               className="flex gap-1 items-center justify-center w-9/12 p-1 hover:bg-gray-300 transition-all cursor-pointer rounded-md h-9"
+            >
+               <span className="material-icons text-gray-500 !text-lg">add</span>
                <p className="font-semibold text-gray-500 text-13px">Adicionar novo cartão</p>
             </div>
             :
@@ -108,12 +109,12 @@ function AddNewList({ lists, setLists }) {
       <div className="flex flex-col">
          {hidden ?
             <div
-               className="flex gap-1 items-center justify-center bg-white bg-opacity-30 w-72 hover:bg-opacity-20 
-            transition-all cursor-pointer rounded-md h-9"
+               className="flex gap-1 items-center justify-center bg-white bg-opacity-30 w-[270px] hover:bg-opacity-20 
+            transition-all cursor-pointer rounded-xl h-9"
                onClick={() => {handleShowTextArea()}}
             >
                <span className="material-icons text-white !text-lg">add</span>
-               <p className="font-semibold text-white text-13px">Adicionar nova lista</p>
+               <p className=" text-white text-13px">Adicionar nova lista</p>
             </div>
             :
             <div className="flex flex-col gap-1 p-1 h-9 w-72">

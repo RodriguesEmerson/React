@@ -15,6 +15,7 @@ export default function ModalMover({ arrLists, setLists }) {
 
    const nomeListaAtual = moverCard.getNomeListaAtual(arrLists);
    const listasDisponiveis = moverCard.getLists(arrLists);
+   let maxListasSugeridas = 3;
 
    function handleClickMover(idListDestino, indexDestino){
       moverCard.mover(idListDestino, arrLists, setLists, indexDestino);
@@ -23,7 +24,7 @@ export default function ModalMover({ arrLists, setLists }) {
 
    return (
       !hiddenMoverModal &&
-      <div className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
+      <div className="modal modal-mover absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
          style={{ top: `${position.top}px`, left: `${position.left}px` }}
       >
          <h2 className="text-center !text-sm font-semibold text-gray-600 mb-3">Mover Cartão</h2>
@@ -36,10 +37,9 @@ export default function ModalMover({ arrLists, setLists }) {
                <span className="material-icons-outlined rotate-180 !text-base">wb_incandescent</span>
                <span className="text-xs font-semibold pt-[2px]">Sugeridas</span>
             </div>
-            
             {listasDisponiveis.map(lista => (
-               lista.listName != nomeListaAtual &&
-               <button
+               (lista.listName != nomeListaAtual && maxListasSugeridas-- > 0) &&
+               (<button
                   className="flex items-center gap-1 text-[13px] font-semibold h-9 pl-3 bg-gray-100 rounded-sm hover:bg-gray-200 transition-all"
                   key={`btnList${lista.listId}`}
                   type="button"
@@ -48,7 +48,7 @@ export default function ModalMover({ arrLists, setLists }) {
                >
                   <span className="material-icons !text-lg">arrow_forward</span>
                   {lista.listName}
-               </button>
+               </button>)
             ))}
          </div>
          <SelecionarDestino 
@@ -81,7 +81,10 @@ function SelecionarDestino({ listasDisponiveis, handleClickMover }) {
          <div className="flex items-center gap-1">
             <span className="text-xs font-semibold pt-[2px]">Selecionar destino</span>
          </div>
-         <span className="text-xs font-bold pt-[2px]">Lista</span>
+         <div className="flex flex-rows justify-between pr-6">
+            <span className="text-xs font-bold pt-[2px]">Lista</span>
+            <span className="text-xs font-bold pt-[2px]">Posição</span>
+         </div>
 
          <div className="flex flex-row gap-1">
             <Select option={destino.listName} setOptions={setOptions} optionList={listasDisponiveis} chave={"listName"} width={'70%'}/>
@@ -104,7 +107,7 @@ function Select({option, setOptions, optionList, chave, width }) {
 
    return (
       <div
-         className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 pr-1 h-9 cursor-pointer justify-between`} 
+         className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 pr-1 h-9 cursor-pointer justify-between ${showOptions && "!border !border-blue-500 outline outline-1 outline-blue-500"}`} 
          style={{width: width}}
          onClick={() => setShowOptions(!showOptions)}
       >
