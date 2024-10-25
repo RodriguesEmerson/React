@@ -1,18 +1,18 @@
+import { moverCard } from "@/app/logica/logica-modais/main";
 import { useEffect, useState } from "react";
 import { useProvidersContext } from "../../context/providers";
-import { moverCard } from "@/app/logica/logica-modais/main";
-import { ButtonSaveDefault } from "./buttons";
+import { ButtonSaveDefault } from "../buttons";
+import Select from "../select";
+import ModalBox from "./Modal-Box";
 
 
 export default function ModalMover({ arrLists, setLists }) {
    if(!arrLists) return;
    const {
-      position,
-      hiddenMoverModal, setHiddenMoverModal,
+      position, setHiddenMoverModal,
       setHiddenOptionsModal
    } = useProvidersContext();
    
-   const [topCompensation, setTopCompensation] = useState(0);
    const nomeListaAtual = moverCard.getNomeListaAtual(arrLists);
    const listasDisponiveis = moverCard.getLists(arrLists);
    let maxListasSugeridas = 3;
@@ -21,26 +21,18 @@ export default function ModalMover({ arrLists, setLists }) {
       moverCard.mover(idListDestino, arrLists, setLists, indexDestino);
       moverCard.hiddenModal(setHiddenMoverModal, setHiddenOptionsModal)
    }
-   useEffect(() => {
-      try{
-         const modal = document.querySelector('.modal-mover');
-         const calculoTop = (modal.offsetHeight + modal.offsetTop - document.querySelector('.bg-modal').offsetHeight);
-         setTopCompensation(prevCompensation => {
-            const newCompensation = calculoTop < 0 ? 0 : calculoTop + 4;
-            return newCompensation})
-      }catch(error){}
-   },[])
    
+   const top = arrLists.length == 1 ? 0 : arrLists.leading  < 3 ? 44 : 84; 
+   const bgModalHeight = document.querySelector('.bg-modal').offsetHeight;
+   const topCompensation = (250 + top + position.top - bgModalHeight)
 
    return (
-      <div className="modal modal-mover absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
-         style={{ top: `${position.top - topCompensation}px`, left: `${position.left}px` }}
+      <ModalBox 
+         modalName={'Mover Cartão'} 
+         maxTop={position.top - topCompensation} 
+         position={position} 
+         setHiddenModal={setHiddenMoverModal}
       >
-         <h2 className="text-center !text-sm font-semibold text-gray-600 mb-3">Mover Cartão</h2>
-         <span
-            className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
-            onClick={() => { setHiddenMoverModal(true) }}
-         >close</span>
          <div className="flex flex-col gap-1  text-gray-60 mb-4">
             <div className="flex items-center gap-1">
                <span className="material-icons-outlined rotate-180 !text-base">wb_incandescent</span>
@@ -66,7 +58,7 @@ export default function ModalMover({ arrLists, setLists }) {
             setLists={setLists} 
             handleClickMover={handleClickMover}
          />
-      </div>
+      </ModalBox>
    )
 }
 
@@ -106,46 +98,6 @@ function SelecionarDestino({ listasDisponiveis, handleClickMover }) {
             width={'50%'}
             handleClick={handleClickMoverFull}
          />
-      </div>
-   )
-}
-
-function Select({option, setOptions, optionList, chave, width }) {
-
-   const [showOptions, setShowOptions] = useState(false);
-
-   return (
-      <div
-         className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 pr-1 h-9 cursor-pointer justify-between ${showOptions && "!border !border-blue-500 outline outline-1 outline-blue-500"}`} 
-         style={{width: width}}
-         onClick={() => setShowOptions(!showOptions)}
-      >
-         <p>{option}</p>
-         {showOptions &&
-            <ul className="border text-[13px] border-gray-200 py-2 -ml-2 absolute rounded-md bg-white bottom-9 w-full">
-               {typeof(optionList[0]) == "object"
-               ?  optionList.map(element => (
-                     <li key={`slM${element.listId}`} className="option-modal-data relative h-8 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
-                        onClick={() => { setOptions(element) }}
-                     >
-                        <span className={`w-[3px] h-full ${option == element[chave] ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
-                        <p>{element[chave]}</p>
-                     </li>
-                    
-                  ))
-               :  optionList.map(element => (
-                     <li key={`ilM${element}`} className="option-modal-data relative h-8 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
-                        onClick={() => { setOptions(element) }}
-                     >
-                        <span className={`w-[3px] h-full ${option == element ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
-                        <p>{element}</p>
-                     </li>
-                  
-                  ))
-               }
-            </ul>
-         }
-         <span className={`material-icons !text-base transition-all ${showOptions && "rotate-180"}`}>keyboard_arrow_up</span>
       </div>
    )
 }

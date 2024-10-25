@@ -1,8 +1,10 @@
 
-import { useState, useEffect } from "react";
-import { useProvidersContext } from "../../context/providers"
 import { datas, modalInfos } from "@/app/logica/logica-modais/main";
-import { ButtonSaveDefault } from "./buttons";
+import { useEffect, useState } from "react";
+import { useProvidersContext } from "../../context/providers";
+import { ButtonSaveDefault } from "../buttons";
+import Select from "../select";
+import ModalBox from "./Modal-Box";
 
 
 const selectOptions = [
@@ -19,13 +21,10 @@ const mesesDoAno = [
 
 export default function ModalData() {
    const {
-      position,
-      hiddenDataModal, setHiddenDataModal
+      position, setHiddenDataModal
    } = useProvidersContext();
 
-   const cardInfos = modalInfos.getCardInfos();
    const [lembrete, setLembrete] = useState("Nenhum");
-   const [showSelect, setShowSelect] = useState(false);
    const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() });
    const [periodo, setPeriodo] = useState(modalInfos.getPeriodo());
    const [tipo, setTipo] = useState(true); //true = inicio, false = fim;
@@ -43,15 +42,7 @@ export default function ModalData() {
    }
 
    return (
-      <div className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
-         style={{ top: `${position.top > 182 ? 182 : position.top}px`, left: `${position.left}px` }}
-      >
-         <h2 className="text-center text-sm font-semibold text-gray-600 mb-3">Data</h2>
-         <span
-            className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
-            onClick={() => { setHiddenDataModal(true) }}
-         >close</span>
-
+      <ModalBox modalName={'Data'} maxTop={182} position={position} setHiddenModal={setHiddenDataModal}>
          <Calendario
             mesAno={mesAno}
             setMesAnos={setMesAnos}
@@ -71,32 +62,21 @@ export default function ModalData() {
          />
 
          <p className="font-semibold text-xs mb-1 text-gray-600">Definir lembrete</p>
-         <div
-            className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 w-full h-8   cursor-pointer ${showSelect && "outline outline-[1px] outline-blue-500 border-blue-500"}`
-            }
-            onClick={() => { setShowSelect(!showSelect) }}
-         >
-            <p>{lembrete}</p>
-            {showSelect &&
-               <ul className="bg-white border text-[13px] border-gray-200 py-2 -ml-2 rounded-md  absolute bottom-9 w-full">
-                  {selectOptions.map(option => (
-                     <li key={`select${option}`} className="option-modal-data relative h-7 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
-                        onClick={() => setLembrete(option)}
-                     >
-                        <span className={`w-[3px] h-full ${lembrete == option ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
-                        <p>{option}</p>
-                     </li>
-                  ))}
-               </ul>
-            }
-         </div>
+         <Select 
+            option={lembrete} 
+            setOptions={setLembrete} 
+            optionList={selectOptions} 
+            chave={'none'} 
+            width={'100%'}
+         />
+
          <ButtonSaveDefault
             type={'submit'}
             value={'Salvar'}
             width={'100%'}
             handleClick={handleClickSave}
          />
-      </div>
+      </ModalBox>
    )
 }
 

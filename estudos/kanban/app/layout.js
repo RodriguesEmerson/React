@@ -28,9 +28,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br" className="html-scroll">
       <body
-        className={`${poppins.className} ${geistMono.variable} bg-indigo-700 overflow-y-hidden overflow-x-auto h-[100vh]`}
+        className={`${poppins.className} ${geistMono.variable} bg-indigo-800 overflow-y-hidden overflow-x-auto h-[100vh]`}
       >
-        <header className="flex flex-row items-center justify-between px-5 w-full h-16 bg-gradient-to-r from-cyan-600 to-indigo-700 text-white fixed border-b border-b-gray-400">
+        <header className="flex flex-row items-center justify-between px-5 w-full h-16 bg-gradient-to-r from-cyan-700 to-indigo-900 text-white fixed border-b border-b-gray-400">
          <div className="text-2xl">Kanban</div>
          <nav>
             <ul className="flex flex-row gap-5">
