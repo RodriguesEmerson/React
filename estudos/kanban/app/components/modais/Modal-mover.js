@@ -5,14 +5,14 @@ import { ButtonSaveDefault } from "./buttons";
 
 
 export default function ModalMover({ arrLists, setLists }) {
-   if (!arrLists) return;
-
+   if(!arrLists) return;
    const {
       position,
       hiddenMoverModal, setHiddenMoverModal,
       setHiddenOptionsModal
    } = useProvidersContext();
-
+   
+   const [topCompensation, setTopCompensation] = useState(0);
    const nomeListaAtual = moverCard.getNomeListaAtual(arrLists);
    const listasDisponiveis = moverCard.getLists(arrLists);
    let maxListasSugeridas = 3;
@@ -21,11 +21,20 @@ export default function ModalMover({ arrLists, setLists }) {
       moverCard.mover(idListDestino, arrLists, setLists, indexDestino);
       moverCard.hiddenModal(setHiddenMoverModal, setHiddenOptionsModal)
    }
+   function getTop() {
+      try{
+         const modal = document.querySelector('.modal-mover');
+         setTopCompensation (modal.offsetHeight + modal.offsetTop - document.querySelector('.bg-modal').offsetHeight);
+         topCompensation < 0 ? (setTopCompensation(0)) : (setTopCompensation(topCompensation + 4));
+         console.log(topCompensation)
+      }catch(error){}
+   }
+   
 
    return (
       !hiddenMoverModal &&
       <div className="modal modal-mover absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
-         style={{ top: `${position.top}px`, left: `${position.left}px` }}
+         style={{ top: `${position.top - topCompensation}px`, left: `${position.left}px` }}
       >
          <h2 className="text-center !text-sm font-semibold text-gray-600 mb-3">Mover Cartão</h2>
          <span
