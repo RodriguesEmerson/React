@@ -38,77 +38,73 @@ export default function ModalData() {
       datas.handleDataFim(data, periodo.inicio, removeDataFim, setPeriodo, clickFrom);
    }
 
-   function handleClickSave(e){
+   function handleClickSave(e) {
       e.preventDefault(); datas.setPeriodo(); setHiddenDataModal(true)
    }
 
    return (
-      <>
-         {!hiddenDataModal &&
-            <div className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
-               style={{ top: `${position.top > 182 ? 182 : position.top}px`, left: `${position.left}px` }}
-            >
-               <h2 className="text-center text-sm font-semibold text-gray-600 mb-3">Data</h2>
-               <span
-                  className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
-                  onClick={() => { setHiddenDataModal(true) }}
-               >close</span>
+      <div className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
+         style={{ top: `${position.top > 182 ? 182 : position.top}px`, left: `${position.left}px` }}
+      >
+         <h2 className="text-center text-sm font-semibold text-gray-600 mb-3">Data</h2>
+         <span
+            className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
+            onClick={() => { setHiddenDataModal(true) }}
+         >close</span>
 
-               <Calendario
-                  mesAno={mesAno}
-                  setMesAnos={setMesAnos}
-                  periodo={periodo}
-                  setPeriodo={setPeriodo}
-                  handleDataInicio={handleDataInicio}
-                  handleDataFim={handleDataFim}
-                  tipo={tipo}
-                  setTipo={setTipo}
-               />
+         <Calendario
+            mesAno={mesAno}
+            setMesAnos={setMesAnos}
+            periodo={periodo}
+            setPeriodo={setPeriodo}
+            handleDataInicio={handleDataInicio}
+            handleDataFim={handleDataFim}
+            tipo={tipo}
+            setTipo={setTipo}
+         />
 
-               <ButtonsMudarPeriodo
-                  periodo={periodo}
-                  handleDataInicio={handleDataInicio}
-                  handleDataFim={handleDataFim}
-                  tipo={tipo}
-               />
+         <ButtonsMudarPeriodo
+            periodo={periodo}
+            handleDataInicio={handleDataInicio}
+            handleDataFim={handleDataFim}
+            tipo={tipo}
+         />
 
-               <p className="font-semibold text-xs mb-1 text-gray-600">Definir lembrete</p>
-               <div 
-                  className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 w-full h-8   cursor-pointer ${showSelect && "outline outline-[1px] outline-blue-500 border-blue-500"}`
-                  }
-                  onClick={() => { setShowSelect(!showSelect) }}
-               >
-                  <p>{lembrete}</p>
-                  {showSelect &&
-                     <ul className="bg-white border text-[13px] border-gray-200 py-2 -ml-2 rounded-md  absolute bottom-9 w-full">
-                        {selectOptions.map(option => (
-                           <li key={`select${option}`} className="option-modal-data relative h-7 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
-                              onClick={() => setLembrete(option)}
-                           >
-                              <span className={`w-[3px] h-full ${lembrete == option ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
-                              <p>{option}</p>
-                           </li>
-                        ))}
-                     </ul>
-                  }
-               </div>
-               <ButtonSaveDefault 
-                  type={'submit'} 
-                  value={'Salvar'} 
-                  width={'100%'}
-                  handleClick={handleClickSave} 
-               />
-            </div>
-         }
-      </>
+         <p className="font-semibold text-xs mb-1 text-gray-600">Definir lembrete</p>
+         <div
+            className={`flex items-center text-xs gap-[6px] mb-1 relative border border-gray-400 rounded-[3px] pl-2 w-full h-8   cursor-pointer ${showSelect && "outline outline-[1px] outline-blue-500 border-blue-500"}`
+            }
+            onClick={() => { setShowSelect(!showSelect) }}
+         >
+            <p>{lembrete}</p>
+            {showSelect &&
+               <ul className="bg-white border text-[13px] border-gray-200 py-2 -ml-2 rounded-md  absolute bottom-9 w-full">
+                  {selectOptions.map(option => (
+                     <li key={`select${option}`} className="option-modal-data relative h-7 leading-7 pl-2 cursor-pointer hover:bg-gray-100 "
+                        onClick={() => setLembrete(option)}
+                     >
+                        <span className={`w-[3px] h-full ${lembrete == option ? "block" : "hidden"} bg-blue-500 absolute left-0 top-0 -m-[1px]`}></span>
+                        <p>{option}</p>
+                     </li>
+                  ))}
+               </ul>
+            }
+         </div>
+         <ButtonSaveDefault
+            type={'submit'}
+            value={'Salvar'}
+            width={'100%'}
+            handleClick={handleClickSave}
+         />
+      </div>
    )
 }
 
-function Calendario({ mesAno, setMesAnos, periodo, handleDataInicio, handleDataFim,  tipo, setTipo }) {
+function Calendario({ mesAno, setMesAnos, periodo, handleDataInicio, handleDataFim, tipo, setTipo }) {
    const hoje = new Date().getDate();
    const mesAtual = new Date().getMonth();
    const calendario = datas.calendario(mesAno.mes, mesAno.ano);
-   
+
    let { mes, ano } = mesAno;
 
    function handleChangeMonth(arrow) {
@@ -151,10 +147,10 @@ function Calendario({ mesAno, setMesAnos, periodo, handleDataInicio, handleDataF
                   className={`h-8 leading-8 rounded-[3px] text-[14px] text-center  hover:bg-gray-100 text-gray-400 cursor-pointer border border-white
                      ${(datas.incluiNoPeriodo(periodo, dia, mes, ano, 'ante') && "bg-blue-100 hover:!bg-blue-300")}
                   `}
-                  onClick={()=> {
-                     tipo 
-                     ? handleDataInicio(`${dia}/${mes}/${ano}`, false,  'caledario') 
-                     : handleDataFim(`${dia}/${mes}/${ano}`, false,  'caledario');
+                  onClick={() => {
+                     tipo
+                        ? handleDataInicio(`${dia}/${mes}/${ano}`, false, 'caledario')
+                        : handleDataFim(`${dia}/${mes}/${ano}`, false, 'caledario');
                      setTipo(!tipo)
                   }}
                >{dia}</span>
@@ -167,10 +163,10 @@ function Calendario({ mesAno, setMesAnos, periodo, handleDataInicio, handleDataF
                      ${(hoje == dia && mesAno.mes == mesAtual) && "text-blue-600 font-bold border-b-[3px] border-b-blue-600"}
                      ${(datas.incluiNoPeriodo(periodo, dia, mes + 1, ano) && "bg-blue-100 hover:!bg-blue-300")}
                   `}
-                  onClick={()=> {
-                     tipo 
-                     ? handleDataInicio(`${dia}/${mes + 1}/${ano}`, false, 'caledario') 
-                     : handleDataFim(`${dia}/${mes + 1}/${ano}`, false, 'calemdario');
+                  onClick={() => {
+                     tipo
+                        ? handleDataInicio(`${dia}/${mes + 1}/${ano}`, false, 'caledario')
+                        : handleDataFim(`${dia}/${mes + 1}/${ano}`, false, 'calemdario');
                      setTipo(!tipo)
                   }}
                >{dia}</span>
@@ -182,10 +178,10 @@ function Calendario({ mesAno, setMesAnos, periodo, handleDataInicio, handleDataF
                   className={`h-8 leading-8 rounded-[3px] text-[14px] text-center  hover:bg-gray-100 text-gray-400 cursor-pointer border border-white
                      ${(datas.incluiNoPeriodo(periodo, dia, mes + 2, ano, 'prox') && "bg-blue-100 hover:!bg-blue-300")}
                   `}
-                  onClick={()=> {
-                     tipo 
-                     ? handleDataInicio(`${dia}/${mes + 2}/${ano}`, false, 'caledario') 
-                     : handleDataFim(`${dia}/${mes + 2}/${ano}`, false, 'calemdario');
+                  onClick={() => {
+                     tipo
+                        ? handleDataInicio(`${dia}/${mes + 2}/${ano}`, false, 'caledario')
+                        : handleDataFim(`${dia}/${mes + 2}/${ano}`, false, 'calemdario');
                      setTipo(!tipo)
                   }}
                >{dia}</span>
@@ -262,8 +258,8 @@ function ButtonsMudarPeriodo({ periodo, tipo, handleDataInicio, handleDataFim })
                onChange={(e) => { setDataFim(e.target.value) }}
                onKeyDown={(e) => { (e.key == "Enter") && handleDataFim(e.target.value, false, setDataInicio, setDataFim) }}
             />
-            <input 
-               type="text" 
+            <input
+               type="text"
                className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400
                   ${!checkDataFim && "bg-gray-200 border-none"}
                `}

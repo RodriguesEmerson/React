@@ -16,32 +16,32 @@ let c = 1;
 //procurei outras formas, mas ainda não encontrei.
 let dataLoaded = false;
 
-export default function Board({ id }){
+export default function Board({ id }) {
 
    const [data, setData] = useState();
 
-   const updateData = useCallback((response)=>{
+   const updateData = useCallback((response) => {
       setData(response);
-   },[]);
-   
-   useEffect(()=>{ 
-      const getData = async () =>{
-         if(dataLoaded) return;
+   }, []);
+
+   useEffect(() => {
+      const getData = async () => {
+         if (dataLoaded) return;
          dataLoaded = true;
          try {
             const res = await fetch(`/api/projects/${id}`);
             const project = await res.json();
             updateData(project);
-            
-         } catch (error) { 
+
+         } catch (error) {
             console.log('Erro: ' + error);
          }
       }
       getData();
    }, []);
-   
-   if(!data) return <Skeleton />;
-   return(
+
+   if (!data) return <Skeleton />;
+   return (
       <Providers>
          <BoardBody data={data} id={id} />
       </Providers>
@@ -51,11 +51,14 @@ export default function Board({ id }){
 const BoardBody = memo(({ data, id }) => {
    // console.log('Board: ', c++)
 
-   const { 
+   const {
       hiddenOptionsModal, setHiddenOptionsModal,
-      setHiddenLabelsModal, setProjectIntegrants,
-      setHiddenMembersModal, setHiddenCapaModal,
-      setHiddenDataModal, setHiddenMoverModal,
+      hiddenLabelsModal, setHiddenLabelsModal,
+      hiddenMembersModal, setHiddenMembersModal,
+      hiddenCapaModal, setHiddenCapaModal,
+      hiddenDataModal, setHiddenDataModal,
+      projectIntegrants, setProjectIntegrants,
+      hiddenMoverModal, setHiddenMoverModal,
       projectId, setProjectId,
    } = useProvidersContext();
 
@@ -66,30 +69,40 @@ const BoardBody = memo(({ data, id }) => {
       setProjectId(id);
       setLists(data.lists);
    }, [data]);
-   
-   const handleDragOver = (e) =>{
+
+   const handleDragOver = (e) => {
       e.preventDefault();
    }
 
-   return(
+   return (
       <section className={`board flex flex-row items-start p-2 ml-2 gap-3 pt-[68px]`}
-         onDragOver={(e)=> {handleDragOver(e)}}
-         >
-            <List  lists={lists} setLists={setLists}/>
-            {(!hiddenOptionsModal) &&
-               <div 
-                  className={`bg-modal absolute bg-black bg-opacity-55 top-0 left-0 w-full  h-full`}
-                  onClick={(e)=> {modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal,setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal)}}
-                  style={{width: `${document.querySelector('.board').offsetWidth + 12}px`}}
-                  >
-                  <ModalEditCard />
+         onDragOver={(e) => { handleDragOver(e) }}
+      >
+         <List lists={lists} setLists={setLists} />
+         {(!hiddenOptionsModal) &&
+            <div
+               className={`bg-modal absolute bg-black bg-opacity-55 top-0 left-0 w-full  h-full`}
+               onClick={(e) => { modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal) }}
+               style={{ width: `${document.querySelector('.board').offsetWidth + 12}px` }}
+            >
+               <ModalEditCard />
+               {!hiddenLabelsModal &&
                   <ModalLabels />
+               }
+               {!hiddenMembersModal &&
                   <ModalMembros />
+               }
+               {!hiddenCapaModal &&
                   <ModalCapa />
-                  <ModalData /> 
-                  <ModalMover arrLists={lists} setLists={setLists}/>
-               </div>
-            }
-         </section>
+               }
+               {!hiddenDataModal &&
+                  <ModalData />
+               }
+               {! hiddenMoverModal &&
+                  <ModalMover arrLists={lists} setLists={setLists} />
+               }
+            </div>
+         }
+      </section>
    )
 })

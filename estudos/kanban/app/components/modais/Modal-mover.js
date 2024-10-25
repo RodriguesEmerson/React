@@ -21,18 +21,18 @@ export default function ModalMover({ arrLists, setLists }) {
       moverCard.mover(idListDestino, arrLists, setLists, indexDestino);
       moverCard.hiddenModal(setHiddenMoverModal, setHiddenOptionsModal)
    }
-   function getTop() {
+   useEffect(() => {
       try{
          const modal = document.querySelector('.modal-mover');
-         setTopCompensation (modal.offsetHeight + modal.offsetTop - document.querySelector('.bg-modal').offsetHeight);
-         topCompensation < 0 ? (setTopCompensation(0)) : (setTopCompensation(topCompensation + 4));
-         console.log(topCompensation)
+         const calculoTop = (modal.offsetHeight + modal.offsetTop - document.querySelector('.bg-modal').offsetHeight);
+         setTopCompensation(prevCompensation => {
+            const newCompensation = calculoTop < 0 ? 0 : calculoTop + 4;
+            return newCompensation})
       }catch(error){}
-   }
+   },[])
    
 
    return (
-      !hiddenMoverModal &&
       <div className="modal modal-mover absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"
          style={{ top: `${position.top - topCompensation}px`, left: `${position.left}px` }}
       >
