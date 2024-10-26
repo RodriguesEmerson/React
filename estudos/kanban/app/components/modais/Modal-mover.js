@@ -17,8 +17,8 @@ export default function ModalMover({ arrLists, setLists }) {
    const listasDisponiveis = moverCard.getLists(arrLists);
    let maxListasSugeridas = 3;
 
-   function handleClickMover(idListDestino, indexDestino) {
-      moverCard.mover(idListDestino, arrLists, setLists, indexDestino);
+   function handleClickMover(idListDestino, indexDestino, acao = "mover") {
+      moverCard.mover(idListDestino, arrLists, setLists, indexDestino, acao);
       moverCard.hiddenModal(setHiddenMoverModal, setHiddenOptionsModal)
    }
 
@@ -45,15 +45,15 @@ export default function ModalMover({ arrLists, setLists }) {
          </div>
          <SelecionarDestino
             listasDisponiveis={listasDisponiveis}
-            arrLists={arrLists}
-            setLists={setLists}
             handleClickMover={handleClickMover}
+            fieldName={'Selecionar destino'}
+            buttonValue={'Mover'}
          />
       </ModalBox>
    )
 }
 
-function SelecionarDestino({ listasDisponiveis, handleClickMover }) {
+function SelecionarDestino({ listasDisponiveis, handleClickMover, fieldName, buttonValue }) {
    const [options, setOptions] = useState(listasDisponiveis[0]);
    const [index, setIndex] = useState(1);
    const [destino, setDestino] = useState({ listName: options.listName, listId: options.listId, index: index });
@@ -65,13 +65,12 @@ function SelecionarDestino({ listasDisponiveis, handleClickMover }) {
 
    function handleClickMoverFull() {
       handleClickMover(destino.listId, destino.index);
-
    }
 
    return (
       <div className="flex flex-col gap-1  text-gray-60">
          <div className="flex items-center gap-1">
-            <span className="text-xs font-semibold pt-[2px]">Selecionar destino</span>
+            <span className="text-xs font-semibold pt-[2px]">{fieldName}</span>
          </div>
          <div className="flex flex-rows justify-between pr-6">
             <span className="text-xs font-bold pt-[2px]">Lista</span>
@@ -85,10 +84,13 @@ function SelecionarDestino({ listasDisponiveis, handleClickMover }) {
 
          <ButtonSaveDefault
             type={'submit'}
-            value={'Mover'}
+            value={buttonValue}
             width={'50%'}
             handleClick={handleClickMoverFull}
          />
       </div>
    )
 }
+
+
+export { SelecionarDestino };

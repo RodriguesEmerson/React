@@ -2,22 +2,21 @@ import { useEffect, useRef, useState } from "react"
 import { useProvidersContext } from "@/app/context/providers";
 
 
-export default function ModalBox({modalName, setHiddenModal, children}){
+export default function ModalBox({ modalName, setHiddenModal, children }) {
    const { position } = useProvidersContext();
-   const bgModalHeight = document.querySelector('.bg-modal').offsetHeight;
    let top = position.top;
-   
    const componentRef = useRef(null);
    const [topPosition, setTopPosition] = useState(position.top);
-   
-   useEffect(()=>{
+
+   useEffect(() => {
       //Calcula o top do modal, para que não passe para fora da tela.
-      if(componentRef.current){
+      if (componentRef.current) {
          const modalHeight = componentRef.current.offsetHeight;
-         if(modalHeight + top > bgModalHeight - 10) { top = top - (modalHeight + top  - bgModalHeight + 11) };
+         const windowHeight = window.innerHeight - 11;
+         if (modalHeight + top > windowHeight) { top = top - (modalHeight + top - windowHeight + 11) };
          setTopPosition(top);
       }
-    },[])
+   }, [])
 
    return (
       <div ref={componentRef} className="modal absolute  bg-white w-[276px] p-[10px] pt-2 rounded-lg"

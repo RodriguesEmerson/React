@@ -299,6 +299,9 @@ const datas = {
 }
 
 const moverCard = {
+   randonId: function(){
+     return `ri${Date.now()}-${Math.floor(Math.random() * 1000) + 1}` 
+   },
    getLists: function (lists) {
       const listsNames = [];
       lists.forEach(list => {
@@ -318,21 +321,26 @@ const moverCard = {
       return nomeLitaAtual;
    },
 
-   mover: function (listaDestino, lists, setLists, index) {
+   mover: function (listaDestino, lists, setLists, index, acao, texto) {
       //Cria uma cópia de das lista sem alterar a origianl
       const editingLists = [...lists];
-
-       //Percorre todas as listas
+      const copyEditingCardInfos = {...editingCardInfos}
+      if(acao == 'copiar') {
+         copyEditingCardInfos.id = this.randonId();
+         copyEditingCardInfos.content = texto;
+      }
+      
+      //Percorre todas as listas
       editingLists.forEach(list => {
-         if (list.id == listaOriginalId) {
+         if (list.id == listaOriginalId && acao == "mover") {
             //Filtra os cards, removendo o card clicado.
             list.cards = list.cards.filter(card => card.id != editingCardID);
          };
-
+         
          if(!index){
             if (list.id == listaDestino) {
                // Adiciona o card à lista de destino
-               list.cards = [editingCardInfos, ...list.cards];
+               list.cards = [copyEditingCardInfos, ...list.cards];
             }
          }
 
@@ -340,15 +348,23 @@ const moverCard = {
             // Adiciona o card à lista de destino
             list.cards = [
                ...list.cards.slice(0, index - 1),  // itens antes do índice
-               editingCardInfos,                   // o novo item a ser inserido
+               copyEditingCardInfos,                   // o novo item a ser inserido
                ...list.cards.slice(index - 1)      // itens após o índice
             ];
          }
 
-      });
-      setLists(editingLists);
-   },
+      })
 
+      
+      setLists(editingLists);
+      editingCard.style.zIndex = "auto";
+      editingCard = null;
+   },
+   
+   copiar: function(){
+
+   },
+   
    hiddenModal: function(setHiddenMoverModal, setHiddenOptionsModal){
       editingCard.style.zIndex = "auto";
       editingCard = null;
