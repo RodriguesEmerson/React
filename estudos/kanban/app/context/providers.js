@@ -11,7 +11,8 @@ export function Providers({ children }){
    const [hiddenMembersModal, setHiddenMembersModal] = useState(true);  //Toggle hidden no modal de membros.
    const [hiddenCapaModal, setHiddenCapaModal] = useState(true);        //Toggle hidden no modal Capas.
    const [hiddenDataModal, setHiddenDataModal] = useState(true);        //Toggle hidden no modal Datas.
-   const [hiddenMoverModal, setHiddenMoverModal] = useState(true);        //Toggle hidden no modal Datas.
+   const [hiddenMoverModal, setHiddenMoverModal] = useState(true);      //Toggle hidden no modal Mover.
+   const [hiddenCopiarModal, setHiddenCopiarModal] = useState(true);      //Toggle hidden no modal Mover.
    const [projectIntegrants, setProjectIntegrants] = useState([]);      //Integrantes do projeto aberto.
    const [projectId, setProjectId] = useState();
 
@@ -27,6 +28,7 @@ export function Providers({ children }){
                hiddenDataModal, setHiddenDataModal,
                projectIntegrants, setProjectIntegrants,
                hiddenMoverModal, setHiddenMoverModal,
+               hiddenCopiarModal, setHiddenCopiarModal,
                projectId, setProjectId,
             }
          }>

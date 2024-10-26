@@ -9,6 +9,7 @@ import ModalMembros from "./modais/Modal-membros";
 import ModalCapa from "./modais/Modal-capa";
 import ModalData from "./modais/Modal-data";
 import ModalMover from "./modais/Modal-mover";
+import ModalCopiar from "./modais/Modal-copiar";
 import Skeleton from "./skeleton";
 let c = 1;
 
@@ -59,6 +60,7 @@ const BoardBody = memo(({ data, id }) => {
       hiddenDataModal, setHiddenDataModal,
       projectIntegrants, setProjectIntegrants,
       hiddenMoverModal, setHiddenMoverModal,
+      hiddenCopiarModal, setHiddenCopiarModal,
       projectId, setProjectId,
    } = useProvidersContext();
 
@@ -98,8 +100,11 @@ const BoardBody = memo(({ data, id }) => {
                {!hiddenDataModal &&
                   <ModalData />
                }
-               {! hiddenMoverModal &&
+               {!hiddenMoverModal &&
                   <ModalMover arrLists={lists} setLists={setLists} />
+               }
+               {!hiddenCopiarModal && 
+                  <ModalCopiar arrLists={lists} setLists={setLists}/>
                }
             </div>
          }

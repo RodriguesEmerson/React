@@ -26,11 +26,7 @@ const arrayImages = [
 
 
 export default function ModalCapa() {
-   const {
-      position,
-      hiddenCapaModal,
-      setHiddenCapaModal
-   } = useProvidersContext();
+   const { setHiddenCapaModal } = useProvidersContext();
 
    const cardInfos = modalInfos.getCardInfos();
    const [modelo, setModelo] = useState();

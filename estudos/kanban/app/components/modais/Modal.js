@@ -17,7 +17,7 @@ export default function ModalEditCard(){
    const { position, hiddenOptionsModal, 
       setHiddenLabelsModal, setHiddenMembersModal,
       setHiddenCapaModal, setHiddenDataModal,
-      setHiddenMoverModal
+      setHiddenMoverModal, setHiddenCopiarModal
    } = useProvidersContext();
 
    function handleClick(text){
@@ -26,6 +26,7 @@ export default function ModalEditCard(){
       text == 'web_asset' && setHiddenCapaModal(false);
       text == 'calendar_month' && setHiddenDataModal(false);
       text == 'arrow_right_alt' && setHiddenMoverModal(false);
+      text == 'content_copy' && setHiddenCopiarModal(false);
    }
 
    return(
