@@ -1,6 +1,7 @@
 import { useProvidersContext } from "@/app/context/providers";
 import { useState, useEffect } from "react";
 import { editCapa, modalInfos } from "@/app/logica/logica-modais/main";
+import ModalBox from "./Modal-Box";
 
 
 //********************************************************************************************* */
@@ -40,16 +41,10 @@ export default function ModalCapa() {
       setCapa(cardInfos.capa)
       setModelo(3);
    }
+   //486
 
    return (
-      <div className="modal absolute text-gray-600 bg-white w-[296px] p-1 pt-2 rounded-lg shadow-md"
-         style={{ top: `${position.top > 195 ? 195 : position.top}px`, left: `${position.left}px` }}
-      >
-         <h2 className="text-center text-sm font-semibold mb-4">Capa</h2>
-         <span
-            className="material-icons !text-base  absolute top-1 right-2 cursor-pointer"
-            onClick={() => { setHiddenCapaModal(true) }}
-         >close</span>
+      <ModalBox modalName={'Capa'} setHiddenModal={setHiddenCapaModal}>
          {capa &&
             <div className="flex flex-col gap-2 p-1">
                <PreviewCapa capa={capa} setCapa={setCapa} modelo={modelo} setModelo={setModelo} />
@@ -62,8 +57,7 @@ export default function ModalCapa() {
                <Imagens setCapa={setCapa} />
             </div>
          }
-
-      </div>
+      </ModalBox>
    )
 }
 

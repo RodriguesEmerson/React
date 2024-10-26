@@ -1,6 +1,7 @@
 import { useProvidersContext } from "../../context/providers"
 import { modalInfos, AddRemoveLabels } from "@/app/logica/logica-modais/main";
 import { useEffect, useState } from "react";
+import ModalBox from "./Modal-Box";
 
 const labelsList = [
    { color: '#FFC636' },
@@ -12,28 +13,25 @@ const labelsList = [
    { color: '#7C05F2' },
 ]
 
+//316
+
 export default function ModalLabels() {
    const {
       position,
       setHiddenLabelsModal,
-      hiddenLabelsModal,
    } = useProvidersContext();
+
    const cardInfos = modalInfos.getCardInfos();
+
    return (
-      <div className="modal absolute  bg-white w-64 p-1 pt-2 rounded-lg"
-         style={{ top: `${position.top > 365 ? 365 : position.top}px`, left: `${position.left}px` }}
-      >
-         <h2 className="text-center text-sm font-semibold text-gray-600 mb-4">Etiquetas</h2>
-         <span
-            className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
-            onClick={() => { setHiddenLabelsModal(true) }}
-         >close</span>
+      <ModalBox modalName={'Etiquetas'} setHiddenModal={setHiddenLabelsModal}>
+     
          <ul className="flex flex-col gap-[6px]  p-1">
             {labelsList.map(label => (
                <Label label={label} editingLabels={cardInfos.labels} cardInfos={cardInfos} key={label.color} />
             ))}
          </ul>
-      </div>
+      </ModalBox>
    )
 }
 

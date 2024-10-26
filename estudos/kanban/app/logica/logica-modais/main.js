@@ -116,7 +116,7 @@ const datas = {
    checkPrazo: function (periodo) {
       const hoje = new Date(this.converteData(this.hoje())).getTime();
       const prazo = new Date(periodo.fim).getTime();
-      if (periodo.status) return "bg-green-700 text-white";
+      if (periodo.status) return "bg-green-700 text-white pt-[5px] pr-[6px]";
       if (prazo == hoje) return "bg-yellow-400 text-gray-700 pt-[5px] pr-[6px]";
       if (prazo < hoje) return "bg-red-700 text-white pt-[5px] pr-[6px]";
    },

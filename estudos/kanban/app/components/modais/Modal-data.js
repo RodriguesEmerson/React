@@ -21,7 +21,7 @@ const mesesDoAno = [
 
 export default function ModalData() {
    const {
-      position, setHiddenDataModal
+      setHiddenDataModal
    } = useProvidersContext();
 
    const [lembrete, setLembrete] = useState("Nenhum");
@@ -42,7 +42,7 @@ export default function ModalData() {
    }
 
    return (
-      <ModalBox modalName={'Data'} maxTop={182} position={position} setHiddenModal={setHiddenDataModal}>
+      <ModalBox modalName={'Data'} setHiddenModal={setHiddenDataModal}>
          <Calendario
             mesAno={mesAno}
             setMesAnos={setMesAnos}

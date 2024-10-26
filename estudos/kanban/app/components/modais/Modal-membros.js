@@ -1,6 +1,7 @@
 import { useProvidersContext } from "@/app/context/providers";
 import { editIntegrants, modalInfos } from "@/app/logica/logica-modais/main";
 import { useEffect, useState } from "react";
+import ModalBox from "./Modal-Box";
 
 export default function ModalMembros() {
    const {
@@ -41,14 +42,8 @@ export default function ModalMembros() {
    }, [integrants]);
 
    return (
-      <div className="modal relative bg-white w-64 rounded-lg text-[13px] p-2 pt-4 text-gray-600"
-         style={{ top: `${position.top > 370 ? 453 : position.top + 108}px`, left: `${position.left}px` }}
-      >
-         <h2 className="text-center font-semibold mb-4">Alterar Membros</h2>
-         <span
-            className="material-icons !text-base absolute top-1 right-2 cursor-pointer"
-            onClick={() => { setHiddenMembersModal(true) }}
-         >close</span>
+
+      <ModalBox modalName={'Alterar Membros'} setHiddenModal={setHiddenMembersModal} >
          {(!integrants || integrants.length === 0) ? <></> :
             <div>
                <p className="text-xs font-semibold pb-1">Membros do Cartão</p>
@@ -62,7 +57,7 @@ export default function ModalMembros() {
                         <div key={integrant.nome} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden">
                            <img src={integrant.avatar} className="max-w-full object-cover"></img>
                         </div>
-                        <p>{integrant.nome}</p>
+                        <p className="text-sm">{integrant.nome}</p>
                         <span className="material-icons !text-sm absolute right-2">remove</span>
                      </li>
                   ))}
@@ -82,13 +77,13 @@ export default function ModalMembros() {
                         <div key={integrant.nome} className="h-7 w-7 rounded-full bg-gray-600 overflow-hidden">
                            <img src={integrant.avatar} className="max-w-full object-cover"></img>
                         </div>
-                        <p>{integrant.nome}</p>
+                        <p className="text-sm">{integrant.nome}</p>
                         <span className="material-icons !text-sm absolute right-2">add</span>
                      </li>
                   ))}
                </ul>
             </div>
          }
-      </div>
+      </ModalBox>
    )
 }
