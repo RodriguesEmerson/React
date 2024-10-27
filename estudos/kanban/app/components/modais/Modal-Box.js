@@ -12,8 +12,8 @@ export default function ModalBox({ modalName, setHiddenModal, children }) {
       //Calcula o top do modal, para que não passe para fora da tela.
       if (componentRef.current) {
          const modalHeight = componentRef.current.offsetHeight;
-         const windowHeight = window.innerHeight - 11;
-         if (modalHeight + top > windowHeight) { top = top - (modalHeight + top - windowHeight + 11) };
+         const windowHeight = window.innerHeight - 5;
+         if (modalHeight + top > windowHeight) { top = top - (modalHeight + top - windowHeight + 5) };
          setTopPosition(top);
       }
    }, [])
@@ -24,7 +24,7 @@ export default function ModalBox({ modalName, setHiddenModal, children }) {
       >
          <h2 className="text-center text-sm font-semibold text-gray-600 mb-3">{modalName}</h2>
          <span
-            className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer"
+            className="material-icons !text-base text-gray-600 absolute top-1 right-2 cursor-pointer rounded-lg w-8 h-8 !leading-8 text-center hover:bg-gray-200"
             onClick={() => { setHiddenModal(true) }}
          >close</span>
          {children}

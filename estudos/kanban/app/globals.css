@@ -47,7 +47,7 @@ body {
     display: block;
   } 
   
-  .card:hover > .edit-button{
+  .card-hovering:hover > .edit-button{
     display: block !important;
   }
 

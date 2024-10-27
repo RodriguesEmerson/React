@@ -1,7 +1,7 @@
 
-let editingCard, editingCardID, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId;
+let editingCard, editingCardID, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId, setEditingStatus;
 const modalInfos = {
-   position: function (e, setPosition, cardInfos, setCardInfos) {
+   position: function (e, setPosition, cardInfos, setCardInfos, setEditingCardStatus) {
       const card = e.target.closest('.card');
       editingCardID = card.getAttribute('id');
       card.style.zIndex = "8";
@@ -10,12 +10,12 @@ const modalInfos = {
       setEditingCardInfos = setCardInfos;
       periodoEmEdicao = cardInfos.periodo;
       listaOriginalId = e.target.closest('.list').getAttribute('id');
+      setEditingStatus = setEditingCardStatus;
 
       let scrollCompensation = e.target.closest('.dragableArea').scrollTop;
       const left = card.offsetLeft + card.offsetWidth + 5;
       let top = card.offsetTop - scrollCompensation;
 
-      top > 395 && (top = 395);
       setPosition({ top: top, left: left });
    },
 
@@ -36,6 +36,7 @@ const modalInfos = {
       setHiddenCapaModal(true);
       setHiddenDataModal(true);
       setHiddenMoverModal(true);
+      setEditingStatus(false);
    },
 
    getEditingCardId: function () {
@@ -332,7 +333,7 @@ const moverCard = {
       
       //Percorre todas as listas
       editingLists.forEach(list => {
-         if (list.id == listaOriginalId && acao == "mover") {
+         if (list.id == listaOriginalId && acao == "mover" || acao == "arquivar") {
             //Filtra os cards, removendo o card clicado.
             list.cards = list.cards.filter(card => card.id != editingCardID);
          };
@@ -354,23 +355,20 @@ const moverCard = {
          }
 
       })
-
-      
+ 
       setLists(editingLists);
-      editingCard.style.zIndex = "auto";
-      editingCard = null;
+      this.hiddenModal();
    },
-   
-   copiar: function(){
 
-   },
-   
    hiddenModal: function(setHiddenMoverModal, setHiddenOptionsModal){
-      editingCard.style.zIndex = "auto";
-      editingCard = null;
-
-      setHiddenOptionsModal(true);
-      setHiddenMoverModal(true);
+      try{
+         editingCard.style.zIndex = "auto";
+         editingCard = null;
+         setEditingStatus(false);
+   
+         setHiddenOptionsModal(true);
+         setHiddenMoverModal(true);
+      }catch(error){}
    }
 }
 

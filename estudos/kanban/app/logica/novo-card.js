@@ -66,7 +66,7 @@ const criarNovo = {
    },
    notificar: function (tipo) {
       tipo == 'novoCard' && console.log('Novo card criado com sucesso!');
-   }
+   },
 }
 
 

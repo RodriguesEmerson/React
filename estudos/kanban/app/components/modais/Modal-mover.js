@@ -18,8 +18,8 @@ export default function ModalMover({ arrLists, setLists }) {
    let maxListasSugeridas = 3;
 
    function handleClickMover(idListDestino, indexDestino, acao = "mover") {
-      moverCard.mover(idListDestino, arrLists, setLists, indexDestino, acao);
       moverCard.hiddenModal(setHiddenMoverModal, setHiddenOptionsModal)
+      moverCard.mover(idListDestino, arrLists, setLists, indexDestino, acao);
    }
 
    return (

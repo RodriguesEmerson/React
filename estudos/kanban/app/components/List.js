@@ -47,7 +47,26 @@ const EachList = (({ list, lists, setLists }) => {
 
    useEffect(()=>{
       setCards(list.cards);
-   }, [list.cards])
+   }, [list.cards]);
+
+
+   function eventCloseNovoCard(){
+      document.querySelector('body').removeEventListener('click', closeNovoCard);
+      document.querySelector('body').addEventListener('click', closeNovoCard);
+   }
+   
+   //Adiciona um evento ao body para fechar a criação de um card caso seja clicado fora do form.
+   function closeNovoCard(e){
+      if(!e.target.closest('.novo-card') || !e.target.closest('button')){
+         setNovoCard(false);
+         document.querySelector('body').removeEventListener('click', closeNovoCard);
+      }
+   }
+
+   function handleCriarCard(e){
+      criarNovo.card(e, cards, setCards);
+      setNovoCard(false);
+   }
 
    return (
       <div id={list.id} className="list w-[270px] min-w-[270px]  bg-gray-100 shadow-4xl p-1 rounded-xl text-sm transition-all"
@@ -63,13 +82,22 @@ const EachList = (({ list, lists, setLists }) => {
             
             {novoCard &&
                <form id={`f${list.id}`} className="novo-card p-1 cursor-grab flex flex-col gap-1 w-full min-h-14 shadow-4xl rounded-md overflow-hidden bg-white relative mb-2">
-                  <textarea id={`nctxt${list.id}`} name="texto" className="p-1 outline-none resize-none" placeholder="Insira um texto"></textarea>
+                  <textarea 
+                     id={`nctxt${list.id}`} 
+                     name="texto" 
+                     data-parent={list.id}
+                     className="p-1 outline-none resize-none" 
+                     placeholder="Insira um texto" 
+                     autoFocus
+                     onKeyDown={(e)=> e.code == "Enter" && handleCriarCard(e) }
+                  >
+                  </textarea>
                </form>
             }
          </div>
          {!novoCard ?
             <div
-               onClick={() => setNovoCard(true)}
+               onClick={() => {setNovoCard(true); eventCloseNovoCard()}}
                className="flex gap-1 items-center justify-center w-9/12 p-1 hover:bg-gray-300 transition-all cursor-pointer rounded-md h-9"
             >
                <span className="material-icons text-gray-500 !text-lg">add</span>
@@ -78,7 +106,7 @@ const EachList = (({ list, lists, setLists }) => {
             :
             <div className="flex items-center gap-1 w-9/12 p-1 h-9">
                <button
-                  onClick={(e) => { criarNovo.card(e, cards, setCards); setNovoCard(false) }}
+                  onClick={(e) => handleCriarCard(e) }
                   type="sumit"
                   form={`f${list.id}`}
                   data-parent={list.id}
@@ -93,6 +121,10 @@ const EachList = (({ list, lists, setLists }) => {
       </div>
    )
 })
+
+function AddNewCard(){
+
+}
 
 function AddNewList({ lists, setLists }) {
    const [hidden, setHidden] = useState(true);

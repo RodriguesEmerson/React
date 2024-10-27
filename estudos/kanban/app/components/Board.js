@@ -87,7 +87,7 @@ const BoardBody = memo(({ data, id }) => {
                onClick={(e) => { modalInfos.hiddenModal(e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal) }}
                style={{ width: `${document.querySelector('.board').offsetWidth + 12}px` }}
             >
-               <ModalEditCard />
+               <ModalEditCard arrLists={lists} setLists={setLists} />
                {!hiddenLabelsModal &&
                   <ModalLabels />
                }

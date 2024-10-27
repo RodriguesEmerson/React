@@ -11,8 +11,8 @@ export default function ModalCopiar({ arrLists, setLists}){
    const [texto, setTexto] = useState(cardInfos.content);
    const listasDisponiveis = moverCard.getLists(arrLists);
 
-   function handleChange(e){
-      const textArea = e.target;
+   function handleEditingText(e){
+      const textArea = textAreaRef.current;
       setTexto(e.target.value);
       textArea.style.height = `${textArea.scrollHeight}px`
    }
@@ -20,6 +20,7 @@ export default function ModalCopiar({ arrLists, setLists}){
    function handleClickCopiar(idListDestino, indexDestino, acao = 'copiar'){
       moverCard.mover(idListDestino, arrLists, setLists, indexDestino, acao, texto);
       setHiddenCopiarModal(true); setHiddenOptionsModal(true);
+      moverCard.hiddenModal()
    }
    
    const textAreaRef = useRef(null);
@@ -40,7 +41,7 @@ export default function ModalCopiar({ arrLists, setLists}){
                name="texto" 
                placeholder="Insira um texto"
                value={texto}
-               onChange={(e)=> handleChange(e)}
+               onChange={(e)=> handleEditingText(e)}
             >
             </textarea>
          </div>

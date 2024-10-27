@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useProvidersContext } from "../context/providers";
 import { datas, modalInfos } from "../logica/logica-modais/main";
 import dragDrop from "../logica/drag-drop";
@@ -12,6 +12,8 @@ const Cards = (({ cards, setCards }) => {
  
 const Card = (({ card, cards, setCards  }) => {
    const { setPosition, setHiddenOptionsModal, hiddenOptionsModal } = useProvidersContext();
+   const [editingCardStatus, setEditingCardStatus] = useState(false);
+
    const [cardInfos, setCardInfos] = useState({
       labels: card.labels,
       integrants: card.integrants,
@@ -22,12 +24,34 @@ const Card = (({ card, cards, setCards  }) => {
       id: card.id
    });
 
+   const [texto, setTexto] = useState(cardInfos.content);
+
+   function handleEditingText(e){
+      const textArea = textAreaRef.current;
+      setTexto(e.target.value);
+      textArea.style.height = `${textArea.scrollHeight}px`
+   }
+
+   function handleSaveEditions(){
+      setCardInfos({...cardInfos, content: texto});
+      setHiddenOptionsModal(true);
+      setEditingCardStatus(false);
+
+   }
+
+   const textAreaRef = useRef(null);
+   useEffect(()=>{
+      if(!editingCardStatus) return;
+      textAreaRef.current.select();
+      textAreaRef.current.focus();
+   },[editingCardStatus])
+
    return (
       <div id={cardInfos.id}
          key={cardInfos.key}
          draggable="true"
          className={`card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl 
-            rounded-md overflow-hidden relative mb-2 hover:outline outline-2 outline-blue-400 ${!hiddenOptionsModal && "!outline-none"}`}
+            rounded-md overflow-hidden relative mb-2 hover:outline outline-2 outline-blue-400 ${!hiddenOptionsModal && "!outline-none"} ${!editingCardStatus && "card-hovering"}`}
          style={{ backgroundColor: `${cardInfos.capa.full ? cardInfos.capa.color : "white"}`}}
          onDragStart={(e)=> dragDrop.dragStart(e, cardInfos, cards, setCards)}
          onDragEnd={(e) =>  dragDrop.dragEnd(e, cardInfos)}
@@ -36,10 +60,8 @@ const Card = (({ card, cards, setCards  }) => {
          <span
             className="edit-button material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px !hidden"
             onClick={(e) => {
-               modalInfos.position(
-                  e, setPosition, cardInfos, setCardInfos
-               );
-               setHiddenOptionsModal(false);
+               modalInfos.position(e, setPosition, cardInfos, setCardInfos, setEditingCardStatus);
+               setHiddenOptionsModal(false), setEditingCardStatus(true);
             }
             }
          >edit</span>
@@ -55,13 +77,29 @@ const Card = (({ card, cards, setCards  }) => {
             </div>
          }
          {
-            <div className="labels flex flex-row gap-1">
+            <div className="labels flex flex-row gap-1 mb-1">
                <Labels labels={cardInfos.labels} />
             </div>
          }
 
          <div className="min-h-8 flex items-center">
-            <p className="max-w-full break-words">{cardInfos.content}</p>
+            {!editingCardStatus 
+               ? <p className="max-w-full break-words">{cardInfos.content}</p>
+               :<textarea 
+                  id={`editingCardStatus${cardInfos.id}`} 
+                  name="texto" 
+                  ref={textAreaRef}
+                  className="p-1 outline-none resize-none" 
+                  placeholder="Insira um texto" 
+                  value={texto}
+                  autoFocus
+                  onChange={(e)=> handleEditingText(e)}
+                  onKeyDown={(e)=>{ e.code == "Enter" && handleSaveEditions()}}
+                  // onKeyDown={(e)=>console.log(e.code == "Enter") }
+               >
+               </textarea>
+            }
+            
          </div>
          {
             (<div className="flex flex-row flex-wrap gap-2 text-xs text-gray-500 items-center">
