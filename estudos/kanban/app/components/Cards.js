@@ -11,7 +11,7 @@ const Cards = (({ cards, setCards }) => {
 })
  
 const Card = (({ card, cards, setCards  }) => {
-   const { setPosition, setHiddenOptionsModal, hiddenOptionsModal } = useProvidersContext();
+   const { setPosition, setHiddenOptionsModal, hiddenOptionsModal, projectId } = useProvidersContext();
    const [editingCardStatus, setEditingCardStatus] = useState(false);
 
    const [cardInfos, setCardInfos] = useState({
@@ -60,7 +60,7 @@ const Card = (({ card, cards, setCards  }) => {
          <span
             className="edit-button material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px !hidden"
             onClick={(e) => {
-               modalInfos.position(e, setPosition, cardInfos, setCardInfos, setEditingCardStatus);
+               modalInfos.position(e, setPosition, cardInfos, setCardInfos, setEditingCardStatus, projectId);
                setHiddenOptionsModal(false), setEditingCardStatus(true);
             }
             }

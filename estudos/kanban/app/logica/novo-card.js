@@ -2,7 +2,6 @@ export class NovoCard {
    constructor(content, UUID, dataHoje) {
       this.content = content;
       this.data = dataHoje;
-      this.prazo = false;
       this.periodo = {
          inicio: "",
          fim: "",
@@ -21,7 +20,7 @@ export class NovoCard {
 }
 
 const criarNovo = {
-   card: function (e, cards, setCards) {
+   card: function (e, cards, setCards, projectId) {
       e.preventDefault();
       const parentId = e.target.getAttribute('data-parent');
       const form = document.querySelector(`#f${parentId}`);
@@ -39,7 +38,7 @@ const criarNovo = {
       //Adiciona um novo card no fim dos cards, sem re-renderizar todos os outros.
       setCards([...cards, novoCard]);
 
-      this.salvarCard(novoCard, parentId);
+      this.salvarCard(novoCard, parentId, projectId);
 
    },
    gerarUUID: function () {
@@ -52,8 +51,8 @@ const criarNovo = {
       return new Date().toLocaleDateString('pt-br', { year: 'numeric', month: '2-digit', day: '2-digit' });
    },
 
-   salvarCard: async function (novoCard, parentId) {
-      await fetch(`/api/projects/${parentId}`,
+   salvarCard: async function (novoCard, parentId, projectId) {
+      await fetch(`/api/projects/${projectId}/${parentId}`,
          {
             method: 'POST',
             headers: {

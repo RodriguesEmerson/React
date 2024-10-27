@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, memo } from "react";
+import { useProvidersContext } from "../context/providers";
 import Cards from "./Cards";
 import dragDrop from "../logica/drag-drop";
 import criarNovo from "../logica/novo-card";
@@ -29,6 +30,7 @@ export default List;
 const EachList = (({ list, lists, setLists }) => {
    const [novoCard, setNovoCard] = useState(false);
    const [cards, setCards] = useState(list.cards);
+   const { projectId } = useProvidersContext();
 
    //Atualiza as listas dos cards quando algum card é arrastado para outro lugar.
    useEffect(()=> {
@@ -64,7 +66,7 @@ const EachList = (({ list, lists, setLists }) => {
    }
 
    function handleCriarCard(e){
-      criarNovo.card(e, cards, setCards);
+      criarNovo.card(e, cards, setCards, projectId);
       setNovoCard(false);
    }
 
@@ -122,19 +124,13 @@ const EachList = (({ list, lists, setLists }) => {
    )
 })
 
-function AddNewCard(){
-
-}
-
 function AddNewList({ lists, setLists }) {
    const [hidden, setHidden] = useState(true);
+   const { projectId } = useProvidersContext();
 
-   function handleShowTextArea(){
-      setHidden(false);
-      //Isso garante que só selecionará o elemento após ele ser carregado.
-      setTimeout(()=>{
-         document.querySelector('#new-list-name').focus();
-      },50)
+
+   function handleCriarLista(){
+      criarNova.lista(lists, setLists, setHidden, projectId);
    }
 
    return (
@@ -143,7 +139,7 @@ function AddNewList({ lists, setLists }) {
             <div
                className="flex gap-1 items-center justify-center bg-white bg-opacity-30 w-[270px] hover:bg-opacity-20 
             transition-all cursor-pointer rounded-xl h-9"
-               onClick={() => {handleShowTextArea()}}
+               onClick={() => {setHidden(false)}}
             >
                <span className="material-icons text-white !text-lg">add</span>
                <p className=" text-white text-13px">Adicionar nova lista</p>
@@ -156,11 +152,12 @@ function AddNewList({ lists, setLists }) {
                      id="new-list-name"
                      className="p-1 h-7 text-sm outline-none resize-none overflow-hidden rounded-sm outline-blue-600"
                      placeholder="Digite o nome da lista..."
-                     onKeyDown={(e)=> {e.key == "Enter" && criarNova.lista(e, lists, setLists, setHidden)}}
+                     onKeyDown={(e)=> {e.key == "Enter" && handleCriarLista()}}
+                     autoFocus
                   ></textarea>
                   <div className="flex items-center gap-1">
                      <button
-                        onClick={(e) => {criarNova.lista(e, lists, setLists, setHidden)}}
+                        onClick={(e) => {e.preventDefault(); handleCriarLista()}}
                         type="sumit"
                         className="font-semibold text-white text-[13px] bg-blue-600 h-8 leading-8 px-2 rounded-sm cursor-pointer hover:bg-blue-700 transition-all"
                      >Adicionar Lista</button>

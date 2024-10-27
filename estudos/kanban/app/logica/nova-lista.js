@@ -9,8 +9,7 @@ class NovaLista {
 }
 
 const criarNova = {
-   lista: function(e, lists, setLists, setHidden){
-      e.preventDefault();
+   lista: function(lists, setLists, setHidden, projectId){
       //Pega os dados do formulário
       const form = document.querySelector(".new-list");
       const formData = new FormData(form);
@@ -24,7 +23,24 @@ const criarNova = {
       //Renderiza a nova lista.
       setLists([...lists, novaLista]);
       setHidden(true);
-   }
+      this.salvarLista(novaLista, projectId)
+   },
+
+   salvarLista: async function (novaLista, projectId) {
+      await fetch(`/api/projects/${projectId}`,
+         {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify(novaLista)
+         })
+         .then(respose => respose.status == 201 && this.notificar('novaLista'))
+         .catch(error => console.log(error));
+   },
+   notificar: function (tipo) {
+      tipo == 'novaLista' && console.log('Nova lista criada com sucesso!');
+   },
 }
 
 export { criarNova }

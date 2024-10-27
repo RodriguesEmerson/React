@@ -1,7 +1,7 @@
 
-let editingCard, editingCardID, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId, setEditingStatus;
+let editingCard, editingCardID, projectId, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId, setEditingStatus;
 const modalInfos = {
-   position: function (e, setPosition, cardInfos, setCardInfos, setEditingCardStatus) {
+   position: function (e, setPosition, cardInfos, setCardInfos, setEditingCardStatus, id) {
       const card = e.target.closest('.card');
       editingCardID = card.getAttribute('id');
       card.style.zIndex = "8";
@@ -11,6 +11,7 @@ const modalInfos = {
       periodoEmEdicao = cardInfos.periodo;
       listaOriginalId = e.target.closest('.list').getAttribute('id');
       setEditingStatus = setEditingCardStatus;
+      projectId = id
 
       let scrollCompensation = e.target.closest('.dragableArea').scrollTop;
       const left = card.offsetLeft + card.offsetWidth + 5;
@@ -336,6 +337,7 @@ const moverCard = {
          if (list.id == listaOriginalId && acao == "mover" || acao == "arquivar") {
             //Filtra os cards, removendo o card clicado.
             list.cards = list.cards.filter(card => card.id != editingCardID);
+            this.deletarCard(listaOriginalId, editingCardID);
          };
          
          if(!index){
@@ -343,6 +345,7 @@ const moverCard = {
                // Adiciona o card à lista de destino
                list.cards = [copyEditingCardInfos, ...list.cards];
             }
+            this.adicionarCard(listaDestino, copyEditingCardInfos)
          }
 
          if(list.id == listaDestino && index){
@@ -352,10 +355,11 @@ const moverCard = {
                copyEditingCardInfos,                   // o novo item a ser inserido
                ...list.cards.slice(index - 1)      // itens após o índice
             ];
+            this.adicionarCard(listaDestino, copyEditingCardInfos, index)
          }
 
       })
- 
+      
       setLists(editingLists);
       this.hiddenModal();
    },
@@ -369,7 +373,38 @@ const moverCard = {
          setHiddenOptionsModal(true);
          setHiddenMoverModal(true);
       }catch(error){}
-   }
+   },
+
+   deletarCard: async function(listId, cardId){
+      
+      await fetch(`/api/projects/${projectId}/${listId}/${cardId}`,{
+         method: 'DELETE',
+         headers: {
+            'Content-Type' : 'application/json'
+         }
+      })
+      .then(reponse => reponse.status == 200 && this.notificar('deleteCard'))
+      .catch(error => console.log(error));
+
+   },
+
+   adicionarCard: async function(listId, card, index = 1){
+      await fetch(`/api/projects/${projectId}/${listId}?index=${index}`,{
+         method: 'POST',
+         headers:{
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(card)
+      })
+      .then(respose => respose.status == 201 && this.notificar('movido'))
+      .catch(error => console.log(error));
+
+   },
+
+   notificar: function (tipo) {
+      tipo == 'deleteCard' && console.log('Card removido da lista!');
+      tipo == 'movido' && console.log('Card movido!');
+   },
 }
 
 export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas, moverCard }
