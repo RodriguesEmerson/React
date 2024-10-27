@@ -79,6 +79,12 @@ const BoardBody = memo(({ data, id }) => {
    return (
       <section className={`board flex flex-row items-start p-2 ml-2 gap-3 pt-[68px]`}
          onDragOver={(e) => { handleDragOver(e) }}
+         // style={{
+         //    backgroundImage: 'url(/images/bg-img-5.jpg)', 
+         //    backgroundRepeat: "no-repeat", 
+         //    backgroundSize: "cover",
+         //    backgroundPosition: "center"
+         // }}
       >
          <List lists={lists} setLists={setLists} />
          {(!hiddenOptionsModal) &&

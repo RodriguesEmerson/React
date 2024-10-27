@@ -48,7 +48,6 @@ export default function ModalEditCard({ arrLists, setLists}){
       setHiddenOptionsModal(true);
    }
 
-
    return(
       <>
       {!hiddenOptionsModal &&
