@@ -1,9 +1,9 @@
-import ModalBox from "./Modal-Box";
 import { useProvidersContext } from "@/app/context/providers";
 import { modalInfos } from "@/app/logica/logica-modais/main";
-import { moverCard } from "@/app/logica/mover-card";
-import { SelecionarDestino } from "./Modal-mover";
+import { moverCard } from "@/app/logica/logica-modais/mover-card";
 import { useEffect, useRef, useState } from "react";
+import ModalBox from "./Modal-Box";
+import { SelecionarDestino } from "./Modal-mover";
 
 export default function ModalCopiar({ arrLists, setLists}){
 

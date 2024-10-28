@@ -1,8 +1,8 @@
 "use client";
 
+import { moverCard } from "@/app/logica/logica-modais/mover-card";
 import { useEffect, useRef } from "react";
 import { useProvidersContext } from "../../context/providers";
-import { moverCard } from "@/app/logica/mover-card";
 const cardsOptions = [
    {icon: 'credit_card', text: 'Abrir Cartão'},
    {icon: 'sell', text: 'Editar Etiquetas'},

@@ -1,5 +1,6 @@
 import { useProvidersContext } from "../../context/providers"
-import { modalInfos, AddRemoveLabels } from "@/app/logica/logica-modais/main";
+import { modalInfos } from "@/app/logica/logica-modais/main";
+import { labelsHandler } from "@/app/logica/logica-modais/editar-labels";
 import { useEffect, useState } from "react";
 import ModalBox from "./Modal-Box";
 
@@ -17,7 +18,6 @@ const labelsList = [
 
 export default function ModalLabels() {
    const {
-      position,
       setHiddenLabelsModal,
    } = useProvidersContext();
 
@@ -28,14 +28,14 @@ export default function ModalLabels() {
      
          <ul className="flex flex-col gap-[6px]  p-1">
             {labelsList.map(label => (
-               <Label label={label} editingLabels={cardInfos.labels} cardInfos={cardInfos} key={label.color} />
+               <Label label={label} editingLabels={cardInfos.labels} key={label.color} />
             ))}
          </ul>
       </ModalBox>
    )
 }
 
-function Label({ label, editingLabels, cardInfos }) {
+function Label({ label, editingLabels }) {
    const [checked, setChecked] = useState(false);
    useEffect(() => {
       editingLabels.includes(label.color) && setChecked(true);
@@ -45,7 +45,7 @@ function Label({ label, editingLabels, cardInfos }) {
       <li className="flex gap-2 w-full" key={label.color}>
          <input className="w-[18px]" type="checkbox" id={`check${label.color}`}
             checked={checked} //Verifica se há alguma cor selecionada, se sim, seta checcked;
-            onChange={() => { AddRemoveLabels.setLabels(label.color); setChecked(!checked) }}
+            onChange={() => { labelsHandler.setLabels(label.color); setChecked(!checked) }}
          />
          <label
             className={"w-full block"}

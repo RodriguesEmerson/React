@@ -69,32 +69,6 @@ const modalInfos = {
 
 }
 
-const AddRemoveLabels = {
-   setLabels: function (color) {
-      let labels = editingCardInfos.labels;
-      const cardInfos = editingCardInfos;
-      //Se a cor clicada já estiver no card, é removida.
-      if (labels.includes(color)) {
-         //cria um array sem a cor clicada.
-         labels = labels.filter((currColor) => currColor != color);
-         setEditingCardInfos({
-            //Mentem todas as outras propriedaes e atualiza apenas as labels.
-            ...cardInfos,
-            labels: labels
-         });
-         //Atualiza o valor das labels em editingCard.
-         cardInfos.labels = labels;
-         return;
-      };
-
-      setEditingCardInfos({
-         ...cardInfos,
-         labels: [...labels, color]
-      });
-      cardInfos.labels = [...labels, color];
-   },
-}
-
 const editIntegrants = {
    setIntegrants: function (integrantes) {
       const cardInfos = editingCardInfos;
@@ -103,27 +77,6 @@ const editIntegrants = {
          integrants: integrantes
       });
       cardInfos.integrants = integrantes;
-   }
-}
-
-const editCapa = {
-   capa: function () {
-      return editingCapa;
-   },
-   setCapa: function (capa) {
-      setEditingCardInfos({
-         ...editingCardInfos,
-         capa: capa
-      })
-      editingCardInfos.capa = capa;
-   },
-   removeCapa: function () {
-      //Remove imagens e cores da capa do card.
-      setEditingCardInfos({
-         ...editingCardInfos,
-         capa: { color: "", full: false, img: "" }
-      })
-      editingCardInfos.capa = { color: "", full: false, img: "" };
    }
 }
 
@@ -313,6 +266,4 @@ const datas = {
    }
 }
 
-
-
-export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas }
+export { editIntegrants, modalInfos, datas }

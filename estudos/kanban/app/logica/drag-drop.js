@@ -5,7 +5,7 @@ let currentList, currentListId, draggingCard, draggingCardId,
    setListaCardsDestino, lists, setLists, projectId;
 let indexCompensation = 0;
 
-import { moverCard } from "./mover-card";
+import { moverCard } from "./logica-modais/mover-card";
 
 const dragDrop = {
 

@@ -1,4 +1,4 @@
-import { moverCard } from "@/app/logica/mover-card";
+import { moverCard } from "@/app/logica/logica-modais/mover-card";
 import { useEffect, useState } from "react";
 import { useProvidersContext } from "../../context/providers";
 import { ButtonSaveDefault } from "../buttons";

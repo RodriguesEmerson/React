@@ -1,4 +1,4 @@
-import { modalInfos } from "./logica-modais/main";
+import { modalInfos } from "./main";
 
 const moverCard = {
    randonId: function () {
@@ -112,4 +112,4 @@ const moverCard = {
 
 }
 
-export { moverCard }
+export { moverCard };
