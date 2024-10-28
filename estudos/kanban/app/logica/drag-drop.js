@@ -1,9 +1,11 @@
 
 let currentList, currentListId, draggingCard, draggingCardId,
    draggingCardHeight, currentCard, listaCardsOrigem, setListaCardsOrigem,
-   dragableArea, shadowCard, listaOrigemId, draggingCardInfos, listaCardsDestino,
-   setListaCardsDestino;
- let indexCompensation = 0;
+   dragableArea, shadowCard, listaOrigemId, listaCardsDestino,
+   setListaCardsDestino, lists, setLists, projectId;
+let indexCompensation = 0;
+
+import { moverCard } from "./mover-card";
 
 const dragDrop = {
 
@@ -18,7 +20,6 @@ const dragDrop = {
       currentList = e.target.closest('.list');
       listaOrigemId = currentList.getAttribute('id');
       dragableArea = document.querySelector(`#${currentList.getAttribute('id')} .dragableArea`);
-      draggingCardInfos = cardInfos;
       const htmlScrollLeft = document.querySelector('html').scrollLeft;
 
       //Seta a imagem que aparecerá no card arrastado.
@@ -29,7 +30,7 @@ const dragDrop = {
       );
    },
 
-   dragEnter: function (e, cards, setCards) {
+   dragEnter: function (e, cards, setCards, arrLists, setArrLists, project) {
       //remove a 'shadowCard' criada anteriomente em outra lista.
       if (currentList !== e.target.closest('.list')) {
          shadowCard = document.querySelector('.shadow-card');
@@ -37,6 +38,9 @@ const dragDrop = {
       }
       listaCardsDestino = [...cards];
       setListaCardsDestino = setCards;
+      lists = arrLists;
+      setLists = setArrLists;
+      projectId = project;
       //Atualiza a lista sobre qual o draging está.
       currentList = e.target.closest('.list');
       if (!currentList) return;
@@ -48,7 +52,7 @@ const dragDrop = {
       e.preventDefault(); //obrigatório.
 
       shadowCard = TemporarieCard(draggingCardHeight);
-      // Se a dragableArea não tiver nenhum card, adicioana um shadowCard
+      //Mesmo se a dragableArea não tiver nenhum card, adicioana um shadowCard.
       !dragableArea.hasChildNodes() && dragableArea.appendChild(shadowCard)
       if (dragableArea.childNodes.length == 1 && dragableArea.firstChild.isEqualNode(draggingCard)) {
          draggingCard.style.display = 'none';
@@ -100,11 +104,17 @@ const dragDrop = {
    dragEnd: function (e, cardInfos) {
       draggingCard.style.display = 'flex';
       shadowCard = (document.querySelector(`#${currentListId} .shadow-card`));
+
+      /////////////////////////////////////////////////////////////////////////////////////////////////////
+      //*****************RENDERIZA OS CARDS MOVIDOS E LISTAS ALTERADAS INSTANTANEAMENTE NA TELA**********//
+      //-> Pordeira ser movido lá na opção mover card, e não precisaria dessa função, porém ficaria com  //
+      // a famosa 'piscada' quando os cards fossem movidos.                                              //
+      //*************************************************************************************************//
       if (shadowCard) {
          //Index da sombra do card.
          const shadowCardIndex = this.getShadowCardIndex(shadowCard);
          shadowCard.remove();
-
+         
          if (currentListId == listaOrigemId) {
             //Filtra os cards, removendo o card arrastado.
             listaCardsOrigem = listaCardsOrigem.filter(card => card.id != draggingCardId);
@@ -117,19 +127,24 @@ const dragDrop = {
             setListaCardsDestino(listaCardsOrigem);
             return;
          }
-
+         
          //Filtra os cards, removendo o card clicado.
          listaCardsOrigem = listaCardsOrigem.filter(card => card.id != draggingCardId);
-
+         
          // Adiciona o card à lista de destino
          listaCardsDestino = [
             ...listaCardsDestino.slice(0, shadowCardIndex),  // itens antes do índice
             cardInfos,                                       // o novo item a ser inserido
             ...listaCardsDestino.slice(shadowCardIndex)      // itens após o índice
          ];
-
+         
          setListaCardsOrigem(listaCardsOrigem);
          setListaCardsDestino(listaCardsDestino);
+      /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+         //Salva as alterações na DB
+         moverCard.adicionarCard_DB(currentListId, shadowCardIndex + 1, cardInfos, projectId);
+         moverCard.deletarCard_DB(listaOrigemId,cardInfos.id, projectId)
       }
       dragDrop.reseteVariables();
    },

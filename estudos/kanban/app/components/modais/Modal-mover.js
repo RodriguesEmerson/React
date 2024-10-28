@@ -1,10 +1,9 @@
-import { moverCard } from "@/app/logica/logica-modais/main";
+import { moverCard } from "@/app/logica/mover-card";
 import { useEffect, useState } from "react";
 import { useProvidersContext } from "../../context/providers";
 import { ButtonSaveDefault } from "../buttons";
 import Select from "../select";
 import ModalBox from "./Modal-Box";
-
 
 export default function ModalMover({ arrLists, setLists }) {
    if (!arrLists) return;
@@ -17,9 +16,9 @@ export default function ModalMover({ arrLists, setLists }) {
    const listasDisponiveis = moverCard.getLists(arrLists);
    let maxListasSugeridas = 3;
 
-   function handleClickMover(idListDestino, indexDestino, acao = "mover") {
-      moverCard.hiddenModal(setHiddenMoverModal, setHiddenOptionsModal)
-      moverCard.mover(idListDestino, arrLists, setLists, indexDestino, acao);
+   function handleClickMoverCard(idListDestino, indexDestino,) {
+      moverCard.mover(idListDestino, arrLists, setLists, indexDestino);
+      setHiddenMoverModal(true), setHiddenOptionsModal(true);
    }
 
    return (
@@ -36,7 +35,7 @@ export default function ModalMover({ arrLists, setLists }) {
                   key={`btnList${lista.listId}`}
                   type="button"
                   data-listref-id={lista.listId}
-                  onClick={(e) => { handleClickMover(lista.listId) }}
+                  onClick={(e) => { handleClickMoverCard(lista.listId) }}
                >
                   <span className="material-icons !text-lg">arrow_forward</span>
                   {lista.listName}
@@ -45,7 +44,7 @@ export default function ModalMover({ arrLists, setLists }) {
          </div>
          <SelecionarDestino
             listasDisponiveis={listasDisponiveis}
-            handleClickMover={handleClickMover}
+            handleClickMoverCard={handleClickMoverCard}
             fieldName={'Selecionar destino'}
             buttonValue={'Mover'}
          />
@@ -53,7 +52,7 @@ export default function ModalMover({ arrLists, setLists }) {
    )
 }
 
-function SelecionarDestino({ listasDisponiveis, handleClickMover, fieldName, buttonValue }) {
+function SelecionarDestino({ listasDisponiveis, handleClickMoverCard, fieldName, buttonValue }) {
    const [options, setOptions] = useState(listasDisponiveis[0]);
    const [index, setIndex] = useState(1);
    const [destino, setDestino] = useState({ listName: options.listName, listId: options.listId, index: index });
@@ -63,8 +62,8 @@ function SelecionarDestino({ listasDisponiveis, handleClickMover, fieldName, but
       setDestino({ listName: options.listName, listId: options.listId, index: index });
    }, [options, index])
 
-   function handleClickMoverFull() {
-      handleClickMover(destino.listId, destino.index);
+   function handleClickMoverCardFull() {
+      handleClickMoverCard(destino.listId, destino.index);
    }
 
    return (
@@ -86,7 +85,7 @@ function SelecionarDestino({ listasDisponiveis, handleClickMover, fieldName, but
             type={'submit'}
             value={buttonValue}
             width={'50%'}
-            handleClick={handleClickMoverFull}
+            handleClick={handleClickMoverCardFull}
          />
       </div>
    )

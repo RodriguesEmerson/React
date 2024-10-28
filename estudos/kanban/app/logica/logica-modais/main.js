@@ -1,5 +1,5 @@
 
-let editingCard, editingCardID, projectId, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId, setEditingStatus;
+let editingCard, editingCardID, projectId, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId, setIsEditingCard;
 const modalInfos = {
    position: function (e, setPosition, cardInfos, setCardInfos, setEditingCardStatus, id) {
       const card = e.target.closest('.card');
@@ -10,7 +10,7 @@ const modalInfos = {
       setEditingCardInfos = setCardInfos;
       periodoEmEdicao = cardInfos.periodo;
       listaOriginalId = e.target.closest('.list').getAttribute('id');
-      setEditingStatus = setEditingCardStatus;
+      setIsEditingCard = setEditingCardStatus;
       projectId = id
 
       let scrollCompensation = e.target.closest('.dragableArea').scrollTop;
@@ -21,31 +21,44 @@ const modalInfos = {
    },
 
    hiddenModal: function (e, setHiddenOptionsModal, setHiddenLabelsModal, setHiddenMembersModal, setHiddenCapaModal, setHiddenDataModal, setHiddenMoverModal) {
-      const cardsOptions = e.target.closest('.card-options');
-      const modal = e.target.closest('.modal');
+      try {
+         const cardsOptions = e.target.closest('.card-options');
+         const modal = e.target.closest('.modal');
+         
+         //Checa se foi clicado em algum modal.
+         if (cardsOptions || modal) {
+            return;
+         }
+         this.resetEditingStyle();
+         setHiddenOptionsModal(true);
+         setHiddenLabelsModal(true);
+         setHiddenMembersModal(true);
+         setHiddenCapaModal(true);
+         setHiddenDataModal(true);
+         setHiddenMoverModal(true);
+      } catch (error) { }
 
-      //Checa se foi clicado em algum modal.
-      if (cardsOptions || modal) {
-         return;
-      }
-      editingCard.style.zIndex = "auto";
-      editingCard = null;
-
-      setHiddenOptionsModal(true);
-      setHiddenLabelsModal(true);
-      setHiddenMembersModal(true);
-      setHiddenCapaModal(true);
-      setHiddenDataModal(true);
-      setHiddenMoverModal(true);
-      setEditingStatus(false);
+   },
+   resetEditingStyle(){
+      try {
+         editingCard.style.zIndex = "auto";
+         editingCard = null;
+         setIsEditingCard(false);
+         
+      } catch(error) {}
    },
 
    getEditingCardId: function () {
-      return editingCard.target.getAttribute('id');
+      return editingCardID;
    },
-
+   getListOrigemId: function () {
+      return listaOriginalId;
+   },
    getCardInfos: function () {
       return editingCardInfos;
+   },
+   getProjectId: function(){
+      return projectId;
    },
    getPeriodo: function () {
       return periodoEmEdicao;
@@ -300,111 +313,6 @@ const datas = {
    }
 }
 
-const moverCard = {
-   randonId: function(){
-     return `ri${Date.now()}-${Math.floor(Math.random() * 1000) + 1}` 
-   },
-   getLists: function (lists) {
-      const listsNames = [];
-      lists.forEach(list => {
-         const indexCardsLength = [];
-         for(let i = 1; i < list.cards.length + 2; i++){
-            indexCardsLength.push(i);
-         }
-         listsNames.push({ listName: list.listName, listId: list.id, index: indexCardsLength })
-      });
-      return listsNames;
-   },
-   getNomeListaAtual: function (lists) {
-      let nomeLitaAtual;
-      lists.forEach(list => {
-         if (list.id == listaOriginalId) nomeLitaAtual = list.listName;
-      });
-      return nomeLitaAtual;
-   },
 
-   mover: function (listaDestino, lists, setLists, index, acao, texto) {
-      //Cria uma cópia de das lista sem alterar a origianl
-      const editingLists = [...lists];
-      const copyEditingCardInfos = {...editingCardInfos}
-      if(acao == 'copiar') {
-         copyEditingCardInfos.id = this.randonId();
-         copyEditingCardInfos.content = texto;
-      }
-      
-      //Percorre todas as listas
-      editingLists.forEach(list => {
-         if (list.id == listaOriginalId && acao == "mover" || acao == "arquivar") {
-            //Filtra os cards, removendo o card clicado.
-            list.cards = list.cards.filter(card => card.id != editingCardID);
-            this.deletarCard(listaOriginalId, editingCardID);
-         };
-         
-         if(!index){
-            if (list.id == listaDestino) {
-               // Adiciona o card à lista de destino
-               list.cards = [copyEditingCardInfos, ...list.cards];
-            }
-            this.adicionarCard(listaDestino, copyEditingCardInfos)
-         }
 
-         if(list.id == listaDestino && index){
-            // Adiciona o card à lista de destino
-            list.cards = [
-               ...list.cards.slice(0, index - 1),  // itens antes do índice
-               copyEditingCardInfos,                   // o novo item a ser inserido
-               ...list.cards.slice(index - 1)      // itens após o índice
-            ];
-            this.adicionarCard(listaDestino, copyEditingCardInfos, index)
-         }
-
-      })
-      
-      setLists(editingLists);
-      this.hiddenModal();
-   },
-
-   hiddenModal: function(setHiddenMoverModal, setHiddenOptionsModal){
-      try{
-         editingCard.style.zIndex = "auto";
-         editingCard = null;
-         setEditingStatus(false);
-   
-         setHiddenOptionsModal(true);
-         setHiddenMoverModal(true);
-      }catch(error){}
-   },
-
-   deletarCard: async function(listId, cardId){
-      
-      await fetch(`/api/projects/${projectId}/${listId}/${cardId}`,{
-         method: 'DELETE',
-         headers: {
-            'Content-Type' : 'application/json'
-         }
-      })
-      .then(reponse => reponse.status == 200 && this.notificar('deleteCard'))
-      .catch(error => console.log(error));
-
-   },
-
-   adicionarCard: async function(listId, card, index = 1){
-      await fetch(`/api/projects/${projectId}/${listId}?index=${index}`,{
-         method: 'POST',
-         headers:{
-            'Content-Type': 'application/json'
-         },
-         body: JSON.stringify(card)
-      })
-      .then(respose => respose.status == 201 && this.notificar('movido'))
-      .catch(error => console.log(error));
-
-   },
-
-   notificar: function (tipo) {
-      tipo == 'deleteCard' && console.log('Card removido da lista!');
-      tipo == 'movido' && console.log('Card movido!');
-   },
-}
-
-export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas, moverCard }
+export { AddRemoveLabels, editIntegrants, modalInfos, editCapa, datas }

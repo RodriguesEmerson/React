@@ -73,7 +73,7 @@ const EachList = (({ list, lists, setLists }) => {
    return (
       <div id={list.id} className="list w-[270px] min-w-[270px]  bg-gray-100 shadow-4xl p-1 rounded-xl text-sm transition-all"
          // onDragStart={(e) => { dragDrop.dragStart(e) }}
-         onDragEnter={(e) => dragDrop.dragEnter(e, cards, setCards) }
+         onDragEnter={(e) => dragDrop.dragEnter(e, cards, setCards, lists, setLists, projectId) }
          onDragOver={(e) => { dragDrop.dragOver(e) }}
         
       >

@@ -1,6 +1,7 @@
 import ModalBox from "./Modal-Box";
 import { useProvidersContext } from "@/app/context/providers";
-import { modalInfos, moverCard } from "@/app/logica/logica-modais/main";
+import { modalInfos } from "@/app/logica/logica-modais/main";
+import { moverCard } from "@/app/logica/mover-card";
 import { SelecionarDestino } from "./Modal-mover";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,6 +11,11 @@ export default function ModalCopiar({ arrLists, setLists}){
    const cardInfos = modalInfos.getCardInfos();
    const [texto, setTexto] = useState(cardInfos.content);
    const listasDisponiveis = moverCard.getLists(arrLists);
+   const textAreaRef = useRef(null);
+   useEffect(()=>{
+      textAreaRef.current.select();
+      textAreaRef.current.focus();
+   },[])
 
    function handleEditingText(e){
       const textArea = textAreaRef.current;
@@ -17,17 +23,10 @@ export default function ModalCopiar({ arrLists, setLists}){
       textArea.style.height = `${textArea.scrollHeight}px`
    }
    
-   function handleClickCopiar(idListDestino, indexDestino, acao = 'copiar'){
-      moverCard.mover(idListDestino, arrLists, setLists, indexDestino, acao, texto);
+   function handleClickCopiar(idListDestino, indexDestino){
+      moverCard.copiar(idListDestino, arrLists, setLists, indexDestino, texto);
       setHiddenCopiarModal(true); setHiddenOptionsModal(true);
-      moverCard.hiddenModal()
    }
-   
-   const textAreaRef = useRef(null);
-   useEffect(()=>{
-      textAreaRef.current.select();
-      textAreaRef.current.focus();
-   },[])
 
    return (
       <ModalBox modalName={'Copiar Cartão'} setHiddenModal={setHiddenCopiarModal}>
@@ -47,7 +46,7 @@ export default function ModalCopiar({ arrLists, setLists}){
          </div>
          <SelecionarDestino  
             listasDisponiveis={listasDisponiveis}
-            handleClickMover={handleClickCopiar}
+            handleClickMoverCard={handleClickCopiar}
             fieldName={'Copiar para...'}
             buttonValue={'Copiar'}
          />

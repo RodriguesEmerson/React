@@ -9,10 +9,14 @@ const Cards = (({ cards, setCards }) => {
       ))
    );
 })
- 
+
 const Card = (({ card, cards, setCards  }) => {
-   const { setPosition, setHiddenOptionsModal, hiddenOptionsModal, projectId } = useProvidersContext();
-   const [editingCardStatus, setEditingCardStatus] = useState(false);
+   const { 
+      setPosition, projectId, 
+      setHiddenOptionsModal, hiddenOptionsModal, 
+   } = useProvidersContext();
+
+   const [isEditingCard, setIsEditingCard] = useState();
 
    const [cardInfos, setCardInfos] = useState({
       labels: card.labels,
@@ -35,35 +39,32 @@ const Card = (({ card, cards, setCards  }) => {
    function handleSaveEditions(){
       setCardInfos({...cardInfos, content: texto});
       setHiddenOptionsModal(true);
-      setEditingCardStatus(false);
-
+      setIsEditingCard(false);
    }
 
    const textAreaRef = useRef(null);
    useEffect(()=>{
-      if(!editingCardStatus) return;
+      if(!isEditingCard) return;
       textAreaRef.current.select();
       textAreaRef.current.focus();
-   },[editingCardStatus])
+   },[isEditingCard])
 
    return (
       <div id={cardInfos.id}
          key={cardInfos.key}
          draggable="true"
          className={`card p-1 cursor-grab flex flex-col gap-1 w-full shadow-4xl 
-            rounded-md overflow-hidden relative mb-2 hover:outline outline-2 outline-blue-400 ${!hiddenOptionsModal && "!outline-none"} ${!editingCardStatus && "card-hovering"}`}
+            rounded-md overflow-hidden relative mb-2 hover:outline outline-2 outline-blue-400 ${!hiddenOptionsModal && "!outline-none"} ${!isEditingCard && "card-hovering"}`}
          style={{ backgroundColor: `${cardInfos.capa.full ? cardInfos.capa.color : "white"}`}}
          onDragStart={(e)=> dragDrop.dragStart(e, cardInfos, cards, setCards)}
          onDragEnd={(e) =>  dragDrop.dragEnd(e, cardInfos)}
       >
-
          <span
             className="edit-button material-icons-outlined bg-white h-8 w-8 rounded-full  absolute right-1 top-1 !text-center !text-lg hover:bg-gray-100 transition-all pt-1px !hidden"
             onClick={(e) => {
-               modalInfos.position(e, setPosition, cardInfos, setCardInfos, setEditingCardStatus, projectId);
-               setHiddenOptionsModal(false), setEditingCardStatus(true);
-            }
-            }
+               modalInfos.position(e, setPosition, cardInfos, setCardInfos, setIsEditingCard, projectId);
+               setHiddenOptionsModal(false), setIsEditingCard(true);
+            }}
          >edit</span>
 
          {(cardInfos.capa.img) &&
@@ -83,7 +84,7 @@ const Card = (({ card, cards, setCards  }) => {
          }
 
          <div className="min-h-8 flex items-center">
-            {!editingCardStatus 
+            {!isEditingCard 
                ? <p className="max-w-full break-words">{cardInfos.content}</p>
                :<textarea 
                   id={`editingCardStatus${cardInfos.id}`} 
