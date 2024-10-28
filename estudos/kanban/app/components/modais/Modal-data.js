@@ -3,6 +3,7 @@ import { datas, modalInfos } from "@/app/logica/logica-modais/main";
 import { useEffect, useState } from "react";
 import { useProvidersContext } from "../../context/providers";
 import { ButtonSaveDefault } from "../buttons";
+import { datesHandler } from "@/app/logica/logica-modais/date-handler";
 import Select from "../select";
 import ModalBox from "./Modal-Box";
 
@@ -20,9 +21,7 @@ const mesesDoAno = [
 
 
 export default function ModalData() {
-   const {
-      setHiddenDataModal
-   } = useProvidersContext();
+   const { setHiddenDataModal } = useProvidersContext();
 
    const [lembrete, setLembrete] = useState("Nenhum");
    const [mesAno, setMesAnos] = useState({ mes: new Date().getMonth(), ano: new Date().getFullYear() });
@@ -30,7 +29,7 @@ export default function ModalData() {
    const [tipo, setTipo] = useState(true); //true = inicio, false = fim;
 
    function handleDataInicio(data, removeDataInicio, clickFrom) {
-      datas.handleDataInicio(data, periodo.fim, removeDataInicio, setPeriodo, clickFrom);
+      datesHandler.handleStartDate(data, periodo.fim, removeDataInicio, setPeriodo, clickFrom);
    }
 
    function handleDataFim(data, removeDataFim, clickFrom) {

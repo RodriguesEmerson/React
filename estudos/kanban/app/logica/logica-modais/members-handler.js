@@ -5,7 +5,6 @@ const membersHandler = {
       const cardMembers = modalInfos.getCardInfos().integrants;
       this.setIntegrants([...cardMembers, newMember]);
       setOutMembers([...outMembers].filter(member => member.nome != newMember.nome));
-
    },
 
    handleRemoveMember: function (removedMember, outMembers, setOutMembers) {

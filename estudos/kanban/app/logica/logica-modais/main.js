@@ -69,17 +69,6 @@ const modalInfos = {
 
 }
 
-const editIntegrants = {
-   setIntegrants: function (integrantes) {
-      const cardInfos = editingCardInfos;
-      setEditingCardInfos({
-         ...cardInfos,
-         integrants: integrantes
-      });
-      cardInfos.integrants = integrantes;
-   }
-}
-
 const datas = {
    checkPrazo: function (periodo) {
       const hoje = new Date(this.converteData(this.hoje())).getTime();
@@ -266,4 +255,4 @@ const datas = {
    }
 }
 
-export { editIntegrants, modalInfos, datas }
+export { modalInfos, datas }
