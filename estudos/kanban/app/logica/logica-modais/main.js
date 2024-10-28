@@ -1,5 +1,5 @@
 
-let editingCard, editingCardID, projectId, editingCapa, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId, setIsEditingCard;
+let editingCard, editingCardID, projectId, editingCardInfos, setEditingCardInfos, periodoEmEdicao, listaOriginalId, setIsEditingCard;
 const modalInfos = {
    position: function (e, setPosition, cardInfos, setCardInfos, setEditingCardStatus, id) {
       const card = e.target.closest('.card');
