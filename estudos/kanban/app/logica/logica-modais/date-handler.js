@@ -1,8 +1,7 @@
 import { modalInfos } from "./main";
 
-
 const datesHandler = {
-   checkPrazo: function (period) {
+   checkDeadline: function (period) {
       const today = new Date(this.dateConvert(this.today())).getTime();
       const term = new Date(period.fim).getTime();
       if (period.status) return "bg-green-700 text-white pt-[5px] pr-[6px]";
@@ -141,8 +140,8 @@ const datesHandler = {
    },
 
    setPeriodo: function () {
-      setEditingCardInfos({
-         ...editingCardInfos,
+      modalInfos.setCardInfos({
+         ...modalInfos.getCardInfos(),
          periodo: this.editingPeriod
       })
    },
@@ -158,11 +157,12 @@ const datesHandler = {
       let newDate;
       removeStartDate ? newDate = '' : newDate = this.validateDate(date);
       let fim = endDate;
-
+      
       if (!removeStartDate) {
          if (!newDate) return console.log('Data inválida.');
          //Se a data final for menor que a data adicionada, é removida.
          if (this.isStartDateGreaterThanEndDate(newDate, endDate)) fim = '';
+         console.log(fim)
       }
 
       this.editingPeriod = { ...this.editingPeriod, inicio: newDate, fim: fim };

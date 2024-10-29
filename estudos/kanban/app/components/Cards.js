@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useProvidersContext } from "../context/providers";
 import { datas, modalInfos } from "../logica/logica-modais/main";
+import { datesHandler } from "../logica/logica-modais/date-handler";
 import dragDrop from "../logica/drag-drop";
 const Cards = (({ cards, setCards }) => {
    return (
@@ -145,10 +146,10 @@ function PeriodoCard({ periodo, cardInfos, setCardInfos }) {
 
    return (
       <div
-         className={`card_periodo h-6 flex flex-row items-center gap-1 p-1 rounded-[3px] ${datas.checkPrazo(periodo)}`}
+         className={`card_periodo h-6 flex flex-row items-center gap-1 p-1 rounded-[3px] ${datesHandler.checkDeadline(periodo)}`}
          onMouseEnter={(e)=> setHovering(true)}
          onMouseOut={(e)=> handleMouseOut(e)}
-         onClick={(e)=> datas.marcarStatus(periodo, cardInfos, setCardInfos)}
+         onClick={(e)=> datesHandler.toggleStatus(periodo, cardInfos, setCardInfos)}
       >
          <span
             className={`material-icons-outlined !text-lg scale-90 -mt-[3px]`}
