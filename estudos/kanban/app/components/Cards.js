@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useProvidersContext } from "../context/providers";
-import { datas, modalInfos } from "../logica/logica-modais/main";
-import { datesHandler } from "../logica/logica-modais/date-handler";
+import { modalInfos } from "../logica/logica-modais/main";
 import dragDrop from "../logica/drag-drop";
+import useDateHandler from "../hooks/useDateHandler";
 const Cards = (({ cards, setCards }) => {
    return (
       cards.map(card => (
@@ -130,7 +130,7 @@ const Card = (({ card, cards, setCards  }) => {
 })
 
 function PeriodoCard({ periodo, cardInfos, setCardInfos }) {
-
+   const { datesHandler } = useDateHandler();
    if(!periodo.inicio && !periodo.fim) return <></>;
 
    const [hovering, setHovering] = useState(false);
