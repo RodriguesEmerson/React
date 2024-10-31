@@ -2,27 +2,27 @@
 
 import { useState, useEffect } from "react";
 import { modalInfos } from "../logica/logica-modais/main";
+import { useDateContext } from "../context/useDateContext";
 
 export default function UseDateHandler(){
-
-   const [monthEndYear, setMonthEndYear] = useState({ month: new Date().getMonth(), year: new Date().getFullYear() });
-   const [calendar, setCalendar]= useState(  );
-   const [period, setPeriod] = useState(modalInfos.getPeriodo());
-   const [startDate, setStartDate] = useState('');
-   const [endDate, setEndDate] = useState('');
-   // const [dateType, setDateType] = useState(true); //true = inicio, false = fim;
+   const {
+      monthEndYear, setMonthEndYear,
+      calendar, setCalendar,
+      period, setPeriod,
+      startDate, setStartDate,
+      endDate, setEndDate 
+   } = useDateContext();
 
    useEffect(()=>{
       setCalendar(datesHandler.calendar(monthEndYear.month, monthEndYear.year));
-      console.log('aqui')
-   }, [monthEndYear])
-
+      setPeriod(modalInfos.getPeriodo());
+   }, [])
+   
    useEffect(() => {
-      setStartDate(datesHandler.dateConvert(period?.inicio, 'br'));
-      setEndDate(datesHandler.dateConvert(period?.fim, 'br'));
-      console.log(period)
+      setStartDate(period?.inicio ? datesHandler.dateConvert(period?.inicio, 'br') : '');
+      setEndDate(period?.fim ? datesHandler.dateConvert(period.fim, 'br') : '');
    }, [period])
-
+   
    const datesHandler = {
       checkDeadline: function (period) {
          const today = new Date(this.dateConvert(this.today())).getTime();
@@ -120,10 +120,9 @@ export default function UseDateHandler(){
          //Regex para validar o formato da data recebida.
          const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/;
          if (!regex.test(date)) return false;
-   
+         
          //Converte a data para o padrão aceito pelo js.
          const convertedDate = this.dateConvert(date);
-   
          //Valida a data.
          if (new Date(convertedDate) == 'Invalid Date') return false;
    
@@ -175,9 +174,7 @@ export default function UseDateHandler(){
    
       //*************************************************HANDLES***************************************************/
       /************************************************************************************************************/
-      editingPeriod: '',
       handleStartDate: function (date, endDate, removeStartDate) {
-         console.log(period)
          let newDate;
          removeStartDate ? newDate = '' : newDate = this.validateDate(date);
          let fim = endDate;
@@ -185,26 +182,27 @@ export default function UseDateHandler(){
          if (!removeStartDate) {
             if (!newDate) return console.log('Data inválida.');
             //Se a data final for menor que a data adicionada, é removida.
-            if (this.isStartDateGreaterThanEndDate(newDate, endDate)) fim = '';
+            if (this.isStartDateGreaterThanEndDate(newDate, this.dateConvert(endDate))) fim = '';
          }
    
-         // this.editingPeriod = { ...this.editingPeriod, inicio: newDate, fim: fim };
-         setPeriod({...period, inicio: newDate, fim: fim });
+         setPeriod({...period, inicio: newDate, fim: fim ? this.dateConvert(fim) : '' });
+         console.log(period)
       },
-   
+      
       handleEndDate: function (date, startDate, removeEndDate) {
          let newDate;
          removeEndDate ? newDate = "" : newDate = this.validateDate(date);
          if (!removeEndDate) {
             if (!newDate) return console.log('Data inválida.');
             //Checa se a data inicial e maior que a final, se sim a data menor vai pra inicial.
-            if (this.isStartDateGreaterThanEndDate(startDate, newDate)) {
+            if (this.isStartDateGreaterThanEndDate(this.dateConvert(startDate), newDate)) {
                setPeriod({ ...period, inicio: '', fim: newDate });
                return;
             }
          }
          //Atualiza o valor de periodoEmEdicao
-         setPeriod({ ...period, inicio: startDate, fim: newDate}); //Seta o novo periodo no estado periodo em Modal-data.js 28;
+         setPeriod({ ...period, inicio: this.dateConvert(startDate), fim: newDate}); //Seta o novo periodo no estado periodo em Modal-data.js 28;
+         console.log(period)
       },
       handleChangeMonth: function(arrow){
          if (arrow == 'next') {
@@ -242,12 +240,6 @@ export default function UseDateHandler(){
       datesHandler, 
       selectOptions, 
       weekDays, 
-      yearMonths, 
-      monthEndYear, 
-      setMonthEndYear, 
-      calendar, 
-      period,
-      setStartDate, startDate,
-      endDate, setEndDate
+      yearMonths
    }
 }

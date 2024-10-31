@@ -6,7 +6,7 @@ import { ButtonSaveDefault } from "../buttons";
 import useDateHandler from "@/app/hooks/useDateHandler";
 import Select from "../select";
 import ModalBox from "./Modal-Box";
-import { UseDateHandler, useuseDateContextHandler } from "@/app/context/useDateContext";
+import { useDateContext } from "@/app/context/useDateContext";
 
 
 export default function ModalData() {
@@ -22,11 +22,10 @@ export default function ModalData() {
 
    return (
       <ModalBox modalName={'Data'} setHiddenModal={setHiddenDataModal}>
-      <UseDateHandler>
          <Calendar
             dateType={dateType}
             setDateType={setDateType}
-            />
+         />
 
          <ButtonsMudarPeriod
             dateType={dateType}
@@ -48,17 +47,16 @@ export default function ModalData() {
             width={'100%'}
             handleClick={handleClickSave}
          />
-      </UseDateHandler>
       </ModalBox>
    )
 }
 
 function Calendar({ dateType, setDateType }) {
-   const { datesHandler, weekDays, yearMonths, monthEndYear, calendar, period  } = useDateHandler();
+   const { datesHandler, weekDays, yearMonths } = useDateHandler();
+   const {  monthEndYear, calendar, period, endDate, startDate } = useDateContext();
    let { month, year } = monthEndYear;
 
    if(!period) return <></>
-   console.log(period)
    return (
       <div>
          <div className="flex justify-between items-center  text-gray-600 mb-3">
@@ -92,8 +90,8 @@ function Calendar({ dateType, setDateType }) {
                   `}
                   onClick={() => {
                      dateType
-                     ? datesHandler.handleStartDate(`${day}/${month}/${year}`, period.fim, false)
-                     : datesHandler.handleEndDate(`${day}/${month}/${year}`, period.inicio, false);
+                     ? datesHandler.handleStartDate(`${day}/${month}/${year}`, endDate, false)
+                     : datesHandler.handleEndDate(`${day}/${month}/${year}`, startDate, false);
                      setDateType(!dateType)
                   }}
                >{day}</span>
@@ -108,9 +106,9 @@ function Calendar({ dateType, setDateType }) {
                   `}
                   onClick={() => {
                      dateType
-                        ? datesHandler.handleStartDate(`${day}/${month + 1}/${year}`, period.fim, false)
-                        : datesHandler.handleEndDate(`${day}/${month + 1}/${year}`, period.inicio, false);
-                     setDateType(!dateType)
+                        ? datesHandler.handleStartDate(`${day}/${month + 1}/${year}`, endDate, false)
+                        : datesHandler.handleEndDate(`${day}/${month + 1}/${year}`, startDate, false);
+                     setDateType(!dateType);
                   }}
                >{day}</span>
             ))}
@@ -123,33 +121,33 @@ function Calendar({ dateType, setDateType }) {
                   `}
                   onClick={() => {
                      dateType
-                     ? datesHandler.handleStartDate(`${day}/${month + 2}/${year}`, period.fim, false)
-                     : datesHandler.handleEndDate(`${day}/${month + 2}/${year}`, period.inicio, false);
+                     ? datesHandler.handleStartDate(`${day}/${month + 2}/${year}`, endDate, false)
+                     : datesHandler.handleEndDate(`${day}/${month + 2}/${year}`, startDate, false);
                      setDateType(!dateType)
                   }}
                >{day}</span>
-            ))}
+            ))}   
          </div>
       </div>
    )
 }
 
-function ButtonsMudarPeriod({ dateType }) {
-   const { datesHandler, period, startDate, endDate, setStartDate, setEndDate } = useDateHandler();
+function ButtonsMudarPeriod({ dateType, setDateType }) {
+   const { datesHandler } = useDateHandler();
+   const { period, startDate, endDate, setStartDate, setEndDate } = useDateContext();
 
    if(!period) return <></>
-   console.log(period)
    return (
       <div className="text-xs mb-2">
          <p className="font-semibold mb-1 text-gray-600">Data Início</p>
          <div className="flex items-center gap-[6px] mb-3">
             <input
                className="w-[18px] h-[18px]" type="checkbox"
-               checked={period.inicio ? true : false}
+               checked={startDate ? true : false}
                onChange={(e) => {
                   !e.target.checked
-                     ? datesHandler.handleStartDate(period.inicio, period.fim, true)
-                     : datesHandler.handleStartDate(datesHandler.today(), period.fim, false);
+                     ? datesHandler.handleStartDate(startDate, endDate, true)
+                     : datesHandler.handleStartDate(datesHandler.today(), endDate, false);
                }}
             />
             <input
@@ -159,10 +157,11 @@ function ButtonsMudarPeriod({ dateType }) {
                   ${(dateType && startDate) && ("border-none outline !outline-blue-400")}
                `}
                placeholder="dd/mm/aaaa"
-               disabled={!period.inicio ? true : false}
+               disabled={!startDate ? true : false}
                value={startDate}
+               // onClick={setDateType(true)}
                onChange={(e) => { setStartDate(e.target.value) }}
-               onKeyDown={(e) => { (e.key == "Enter") && datesHandler.handleStartDate(e.target.value, period.fim, false)}}
+               onKeyDown={(e) => { (e.key == "Enter") && datesHandler.handleStartDate(e.target.value, endDate, false)}}
 
             />
          </div>
@@ -172,11 +171,11 @@ function ButtonsMudarPeriod({ dateType }) {
          <div className="flex items-center gap-[6px]  mb-3">
             <input
                className="w-[18px] h-[18px]" type="checkbox"
-               checked={period.fim ? true : false}
+               checked={endDate ? true : false}
                onChange={(e) => {
                   !e.target.checked
-                  ? datesHandler.handleEndDate(period.inicio, period.fim, true)
-                  : datesHandler.handleEndDate(datesHandler.today(), period.inicio, false);
+                  ? datesHandler.handleEndDate(startDate, endDate, true)
+                  : datesHandler.handleEndDate(datesHandler.today(), startDate, false);
                }}
             />
             <input
@@ -186,10 +185,11 @@ function ButtonsMudarPeriod({ dateType }) {
                   ${(!dateType && endDate) && ("border-none outline !outline-blue-400")}
                `}
                placeholder="D/M/AAA"
-               disabled={!period.fim ? true : false}
+               disabled={!endDate ? true : false}
                value={endDate}
+               // onClick={setDateType(false)}
                onChange={(e) => { setEndDate(e.target.value) }}
-               onKeyDown={(e) =>{(e.key == "Enter") && datesHandler.handleEndDate(e.target.value, period.inicio, false)}}
+               onKeyDown={(e) =>{(e.key == "Enter") && datesHandler.handleEndDate(e.target.value, startDate, false)}}
             />
             <input
                type="text"
