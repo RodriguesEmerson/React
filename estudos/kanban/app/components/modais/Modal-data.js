@@ -53,7 +53,7 @@ export default function ModalData() {
 
 function Calendar({ dateType, setDateType }) {
    const { datesHandler, weekDays, yearMonths } = useDateHandler();
-   const {  monthEndYear, calendar, period, endDate, startDate } = useDateContext();
+   const {  monthEndYear, calendar, period, endDate, startDate, checkOne, checkTwo } = useDateContext();
    let { month, year } = monthEndYear;
 
    if(!period) return <></>
@@ -90,9 +90,9 @@ function Calendar({ dateType, setDateType }) {
                   `}
                   onClick={() => {
                      dateType
-                     ? datesHandler.handleStartDate(`${day}/${month}/${year}`, endDate, false)
-                     : datesHandler.handleEndDate(`${day}/${month}/${year}`, startDate, false);
-                     setDateType(!dateType)
+                        ? datesHandler.handleStartDate(`${day}/${month}/${year}`, endDate, false)
+                        : datesHandler.handleEndDate(`${day}/${month}/${year}`, startDate, false);
+                     setDateType(checkOne && !checkTwo ? true : !checkOne && checkTwo ? false : !dateType);
                   }}
                >{day}</span>
             ))}
@@ -108,7 +108,7 @@ function Calendar({ dateType, setDateType }) {
                      dateType
                         ? datesHandler.handleStartDate(`${day}/${month + 1}/${year}`, endDate, false)
                         : datesHandler.handleEndDate(`${day}/${month + 1}/${year}`, startDate, false);
-                     setDateType(!dateType);
+                     setDateType(checkOne && !checkTwo ? true : !checkOne && checkTwo ? false : !dateType);
                   }}
                >{day}</span>
             ))}
@@ -121,9 +121,9 @@ function Calendar({ dateType, setDateType }) {
                   `}
                   onClick={() => {
                      dateType
-                     ? datesHandler.handleStartDate(`${day}/${month + 2}/${year}`, endDate, false)
-                     : datesHandler.handleEndDate(`${day}/${month + 2}/${year}`, startDate, false);
-                     setDateType(!dateType)
+                        ? datesHandler.handleStartDate(`${day}/${month + 2}/${year}`, endDate, false)
+                        : datesHandler.handleEndDate(`${day}/${month + 2}/${year}`, startDate, false);
+                     setDateType(checkOne && !checkTwo ? true : !checkOne && checkTwo ? false : !dateType);
                   }}
                >{day}</span>
             ))}   
@@ -134,7 +134,7 @@ function Calendar({ dateType, setDateType }) {
 
 function ButtonsMudarPeriod({ dateType, setDateType }) {
    const { datesHandler } = useDateHandler();
-   const { period, startDate, endDate, setStartDate, setEndDate } = useDateContext();
+   const { period, startDate, endDate, setStartDate, setEndDate, checkOne, checkTwo } = useDateContext();
 
    if(!period) return <></>
    return (
@@ -143,7 +143,7 @@ function ButtonsMudarPeriod({ dateType, setDateType }) {
          <div className="flex items-center gap-[6px] mb-3">
             <input
                className="w-[18px] h-[18px]" type="checkbox"
-               checked={startDate ? true : false}
+               checked={checkOne ? true : false}
                onChange={(e) => {
                   !e.target.checked
                      ? datesHandler.handleStartDate(startDate, endDate, true)
@@ -157,7 +157,7 @@ function ButtonsMudarPeriod({ dateType, setDateType }) {
                   ${(dateType && startDate) && ("border-none outline !outline-blue-400")}
                `}
                placeholder="dd/mm/aaaa"
-               disabled={!startDate ? true : false}
+               disabled={!checkTwo ? true : false}
                value={startDate}
                // onClick={setDateType(true)}
                onChange={(e) => { setStartDate(e.target.value) }}

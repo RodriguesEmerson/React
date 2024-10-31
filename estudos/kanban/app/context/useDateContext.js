@@ -10,6 +10,8 @@ export function DateContext({ children }) {
    const [period, setPeriod] = useState('');
    const [startDate, setStartDate] = useState('');
    const [endDate, setEndDate] = useState('');
+   const [checkOne, setCheckOne] = useState(false);
+   const [checkTwo, setCheckTwo] = useState(false);
    return (
       <dateContext.Provider
          value={{
@@ -17,7 +19,9 @@ export function DateContext({ children }) {
             calendar, setCalendar,
             period, setPeriod,
             startDate, setStartDate,
-            endDate, setEndDate
+            endDate, setEndDate,
+            checkOne, setCheckOne,
+            checkTwo, setCheckTwo
          }}>
          {children}
       </dateContext.Provider>

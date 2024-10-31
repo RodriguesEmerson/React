@@ -4,16 +4,18 @@ import { useState, useEffect } from "react";
 import { modalInfos } from "../logica/logica-modais/main";
 import { useDateContext } from "../context/useDateContext";
 
-export default function UseDateHandler(){
+export default function UseDateHandler() {
    const {
       monthEndYear, setMonthEndYear,
       calendar, setCalendar,
       period, setPeriod,
       startDate, setStartDate,
-      endDate, setEndDate 
+      endDate, setEndDate,
+      checkOne, setCheckOne,
+      checkTwo, setCheckTwo
    } = useDateContext();
 
-   useEffect(()=>{
+   useEffect(() => {
       setCalendar(datesHandler.calendar(monthEndYear.month, monthEndYear.year));
       setPeriod(modalInfos.getPeriodo());
    }, [])
@@ -21,8 +23,10 @@ export default function UseDateHandler(){
    useEffect(() => {
       setStartDate(period?.inicio ? datesHandler.dateConvert(period?.inicio, 'br') : '');
       setEndDate(period?.fim ? datesHandler.dateConvert(period.fim, 'br') : '');
+      setCheckOne(period?.inicio && true);
+      setCheckTwo(period?.fim && true);
    }, [period])
-   
+
    const datesHandler = {
       checkDeadline: function (period) {
          const today = new Date(this.dateConvert(this.today())).getTime();
@@ -31,37 +35,37 @@ export default function UseDateHandler(){
          if (term == today) return "bg-yellow-400 text-gray-700 pt-[5px] pr-[6px]";
          if (term < today) return "bg-red-700 text-white pt-[5px] pr-[6px]";
       },
-   
+
       toggleStatus: function (period, cardInfos, setCardInfos) {
          const currentStatus = period.status;
          setCardInfos(
             { ...cardInfos, periodo: { ...period, status: !currentStatus } }
          )
       },
-   
+
       monthDays: function (month, year) {
          const daysNumberInTheLastMonth = new Date(year, month, 0).getDate();
          const daysNumberCurrentMonth = new Date(year, month + 1, 0).getDate();
-         const dayNumberNextMonth = new Date(year, month + 2, 0).getDate(); 
-   
+         const dayNumberNextMonth = new Date(year, month + 2, 0).getDate();
+
          return ({ prevMonth: daysNumberInTheLastMonth, currMonth: daysNumberCurrentMonth, nextMonth: dayNumberNextMonth });
       },
       calendar: function (month, year) {
          //Dia da semana que foi o primeiro dia do mês.
          const firsWeekDayOfMonth = (new Date(year, month, 1).getDay());
-   
+
          //Cria um array com números do 1º dia da semana até o 1º dia do mês.
          const weekDays = []
          for (let day = 1; day <= firsWeekDayOfMonth; day++) {
             weekDays.push(day);
          }
-   
+
          //Cria um array com os ultimos dias do mês anterior que aparecem na mesma semana do 1º dia do mês atual.
          const lastDaysOfPreviousMonth = [];
          for (let day = firsWeekDayOfMonth - 1; day >= 0; day--) {
             lastDaysOfPreviousMonth.push(this.monthDays(month, year).prevMonth - day);
          }
-   
+
          //Cria um array com os primerios dias do próximo mês.
          const firstDaysOfNextMonth = [];
          const lastWeekDayOfCurrentMonth = new Date(year, month + 1, 0).getDay();
@@ -70,24 +74,24 @@ export default function UseDateHandler(){
             firstDaysOfNextMonth.push(day);
             day++;
          }
-   
+
          //Cria um array com todos os dias do mês atual.
          const currentMonthDays = [];
          const daysNumberCurrentMonth = new Date(year, month + 1, 0).getDate();
          for (let day = 1; day <= daysNumberCurrentMonth; day++) {
             currentMonthDays.push(day)
          }
-   
+
          const calendarDatas = {
             firsWeekDayOfMonth: firsWeekDayOfMonth,
             lastDaysOfPreviousMonth: lastDaysOfPreviousMonth,
             currentMonthDays: currentMonthDays,
             firstDaysOfNextMonth: firstDaysOfNextMonth
          }
-   
+
          return calendarDatas;
       },
-   
+
       isDateInAnalyzedPeriod: function (period, day, month, year) {
          let analyzedYear = year
          let analyzedMonth = month;
@@ -99,11 +103,11 @@ export default function UseDateHandler(){
             analyzedYear--;
             analyzedMonth = 12;
          }
-   
+
          const startDate = new Date(period.inicio).getTime();
          const endDate = new Date(period.fim).getTime();
          const analyzedDay = (new Date(`${analyzedYear}/${analyzedMonth}/${day}`).getTime());
-   
+
          //Verifica se as datas recebidas formam um período, com data de incio e fim.
          if (!period.inicio || !period.fim) {
             //Se tiver apenas a data de inicio
@@ -111,33 +115,33 @@ export default function UseDateHandler(){
             //Se tiver a penas a data final.
             if (period.fim && (analyzedDay == endDate)) return true;
          };
-   
+
          //Checa se dia está dentro do periodo analizado.
          if (analyzedDay >= startDate && analyzedDay <= endDate) return true;
       },
-   
+
       validateDate: function (date) {
          //Regex para validar o formato da data recebida.
          const regex = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/;
          if (!regex.test(date)) return false;
-         
+
          //Converte a data para o padrão aceito pelo js.
          const convertedDate = this.dateConvert(date);
          //Valida a data.
          if (new Date(convertedDate) == 'Invalid Date') return false;
-   
+
          const yearMilisseconds = 365 * 24 * 60 * 60 * 1000; //Um ano em milissegundos (365 dias);
          const convertedDateMilisseconds = new Date(convertedDate).getTime(); //data recebida em milissegundos;
          const todayMilisseconds = new Date(this.dateConvert(this.today())).getTime(); //hoje em milissegundos;
-   
+
          //Vilida se o periodo da data tem o período de um ano.
          if (convertedDateMilisseconds > todayMilisseconds + yearMilisseconds
             || convertedDateMilisseconds < todayMilisseconds - yearMilisseconds
          ) return false;
-   
+
          return convertedDate;
       },
-   
+
       isStartDateGreaterThanEndDate: function (date, endDate) {
          //Checa se a data enviada é maior que a data final.
          if (new Date(date).getTime() > new Date(endDate).getTime()) {
@@ -145,50 +149,49 @@ export default function UseDateHandler(){
          }
          return false;
       },
-   
+
       dateConvert: function (date, format) {
          if (format == "br") {
             if (date == '') return '';
             return new Date(date).toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit', year: 'numeric' })
          }
-   
+
          //Divide a data 
          let [day, month, year] = date.split('/');
-   
+
          if (month > 12) { month = 1; year++ } //Se o mes recebido for maior que 12, então é o 1º mês do seguinte.
          if (month < 1) { month = 12; year-- } //Se o mes recebido for menor que 1, então é o 12ª mês do ano anterior.
          //Retorna a data no padrão aaaa/mm/dd;
          return `${year}/${month}/${day}`
       },
-   
+
       savePeriod: function () {
          modalInfos.setCardInfos({
             ...modalInfos.getCardInfos(),
             periodo: this.editingPeriod
          })
       },
-   
+
       today: function () {
          return new Date().toLocaleDateString('pt-br', { day: '2-digit', month: '2-digit', year: 'numeric' })
       },
-   
+
       //*************************************************HANDLES***************************************************/
       /************************************************************************************************************/
       handleStartDate: function (date, endDate, removeStartDate) {
          let newDate;
          removeStartDate ? newDate = '' : newDate = this.validateDate(date);
          let fim = endDate;
-         
+
          if (!removeStartDate) {
             if (!newDate) return console.log('Data inválida.');
             //Se a data final for menor que a data adicionada, é removida.
             if (this.isStartDateGreaterThanEndDate(newDate, this.dateConvert(endDate))) fim = '';
          }
-   
-         setPeriod({...period, inicio: newDate, fim: fim ? this.dateConvert(fim) : '' });
-         console.log(period)
+         setCheckOne(true);
+         setPeriod({ ...period, inicio: newDate, fim: fim ? this.dateConvert(fim) : '' });
       },
-      
+
       handleEndDate: function (date, startDate, removeEndDate) {
          let newDate;
          removeEndDate ? newDate = "" : newDate = this.validateDate(date);
@@ -196,35 +199,34 @@ export default function UseDateHandler(){
             if (!newDate) return console.log('Data inválida.');
             //Checa se a data inicial e maior que a final, se sim a data menor vai pra inicial.
             if (this.isStartDateGreaterThanEndDate(this.dateConvert(startDate), newDate)) {
-               setPeriod({ ...period, inicio: '', fim: newDate });
+               setPeriod({ ...period, inicio: newDate, fim: '' });
                return;
             }
          }
-         //Atualiza o valor de periodoEmEdicao
-         setPeriod({ ...period, inicio: this.dateConvert(startDate), fim: newDate}); //Seta o novo periodo no estado periodo em Modal-data.js 28;
-         console.log(period)
+         setPeriod({ ...period, inicio: this.dateConvert(startDate), fim: newDate });
       },
-      handleChangeMonth: function(arrow){
+
+      handleChangeMonth: function (arrow) {
          if (arrow == 'next') {
-            setMonthEndYear({ 
-               month: (monthEndYear.month + 1) % 12, 
-               year: monthEndYear.month == 11 
-                  ? monthEndYear.year + 1 
-                  : monthEndYear.year 
+            setMonthEndYear({
+               month: (monthEndYear.month + 1) % 12,
+               year: monthEndYear.month == 11
+                  ? monthEndYear.year + 1
+                  : monthEndYear.year
             })
             return;
          }
-   
-         setMonthEndYear({ 
-            month: monthEndYear.month == 0 
-               ? 11 
-               : monthEndYear.month - 1, 
-            year: monthEndYear.month == 0 
-               ? monthEndYear.year - 1 
-               : monthEndYear.year 
-            })
+
+         setMonthEndYear({
+            month: monthEndYear.month == 0
+               ? 11
+               : monthEndYear.month - 1,
+            year: monthEndYear.month == 0
+               ? monthEndYear.year - 1
+               : monthEndYear.year
+         })
       }
-      
+
    }
    const selectOptions = [
       "Nenhum", "Na hora da entrega", "5 minutos antes",
@@ -236,10 +238,10 @@ export default function UseDateHandler(){
       'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
       'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
    ];
-   return { 
-      datesHandler, 
-      selectOptions, 
-      weekDays, 
+   return {
+      datesHandler,
+      selectOptions,
+      weekDays,
       yearMonths
    }
 }
