@@ -12,9 +12,7 @@ import { useDateContext } from "@/app/context/useDateContext";
 export default function ModalData() {
    const { setHiddenDataModal } = useProvidersContext();
    const { datesHandler, selectOptions } = useDateHandler();
-
    const [lembrete, setLembrete] = useState("Nenhum");
-   const [dateType, setDateType] = useState(true); //true = inicio, false = fim;
 
    function handleClickSave(e) {
       e.preventDefault(); datesHandler.savePeriod(); setHiddenDataModal(true)
@@ -22,15 +20,8 @@ export default function ModalData() {
 
    return (
       <ModalBox modalName={'Data'} setHiddenModal={setHiddenDataModal}>
-         <Calendar
-            dateType={dateType}
-            setDateType={setDateType}
-         />
-
-         <ButtonsMudarPeriod
-            dateType={dateType}
-            setDateType={setDateType}
-         />
+         <Calendar />
+         <ButtonsMudarPeriod />
 
          <p className="font-semibold text-xs mb-1 text-gray-600">Definir lembrete</p>
          <Select 
@@ -51,9 +42,9 @@ export default function ModalData() {
    )
 }
 
-function Calendar({ dateType, setDateType }) {
+function Calendar() {
    const { datesHandler, weekDays, yearMonths } = useDateHandler();
-   const {  monthEndYear, calendar, period, endDate, startDate, checkOne, checkTwo } = useDateContext();
+   const {  monthEndYear, calendar, period, endDate, startDate, dateType } = useDateContext();
    let { month, year } = monthEndYear;
 
    if(!period) return <></>
@@ -92,7 +83,6 @@ function Calendar({ dateType, setDateType }) {
                      dateType
                         ? datesHandler.handleStartDate(`${day}/${month}/${year}`, endDate, false)
                         : datesHandler.handleEndDate(`${day}/${month}/${year}`, startDate, false);
-                     setDateType(checkOne && !checkTwo ? true : !checkOne && checkTwo ? false : !dateType);
                   }}
                >{day}</span>
             ))}
@@ -108,7 +98,6 @@ function Calendar({ dateType, setDateType }) {
                      dateType
                         ? datesHandler.handleStartDate(`${day}/${month + 1}/${year}`, endDate, false)
                         : datesHandler.handleEndDate(`${day}/${month + 1}/${year}`, startDate, false);
-                     setDateType(checkOne && !checkTwo ? true : !checkOne && checkTwo ? false : !dateType);
                   }}
                >{day}</span>
             ))}
@@ -123,7 +112,6 @@ function Calendar({ dateType, setDateType }) {
                      dateType
                         ? datesHandler.handleStartDate(`${day}/${month + 2}/${year}`, endDate, false)
                         : datesHandler.handleEndDate(`${day}/${month + 2}/${year}`, startDate, false);
-                     setDateType(checkOne && !checkTwo ? true : !checkOne && checkTwo ? false : !dateType);
                   }}
                >{day}</span>
             ))}   
@@ -132,9 +120,13 @@ function Calendar({ dateType, setDateType }) {
    )
 }
 
-function ButtonsMudarPeriod({ dateType, setDateType }) {
+function ButtonsMudarPeriod() {
    const { datesHandler } = useDateHandler();
-   const { period, startDate, endDate, setStartDate, setEndDate, checkOne, checkTwo } = useDateContext();
+   const { 
+      period, startDate, endDate, setStartDate, 
+      setEndDate, checkOne, checkTwo, setCheckOne,
+      setCheckTwo, dateType, setDateType 
+   } = useDateContext();
 
    if(!period) return <></>
    return (
@@ -148,18 +140,19 @@ function ButtonsMudarPeriod({ dateType, setDateType }) {
                   !e.target.checked
                      ? datesHandler.handleStartDate(startDate, endDate, true)
                      : datesHandler.handleStartDate(datesHandler.today(), endDate, false);
+                  setCheckOne(!checkOne)
                }}
             />
             <input
                type="text"
-               className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400 
-                  ${!startDate && "bg-gray-200 border-none"} 
-                  ${(dateType && startDate) && ("border-none outline !outline-blue-400")}
+               className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-[3px]  focus-within:outline-blue-400 
+                  ${!checkOne && "bg-gray-200 border-none"} 
+                  ${(dateType && checkOne) && ("border-none !outline !outline-blue-400")}
                `}
                placeholder="dd/mm/aaaa"
-               disabled={!checkTwo ? true : false}
+               disabled={!checkOne ? true : false}
                value={startDate}
-               // onClick={setDateType(true)}
+               onClick={()=>setDateType(true)}
                onChange={(e) => { setStartDate(e.target.value) }}
                onKeyDown={(e) => { (e.key == "Enter") && datesHandler.handleStartDate(e.target.value, endDate, false)}}
 
@@ -171,30 +164,31 @@ function ButtonsMudarPeriod({ dateType, setDateType }) {
          <div className="flex items-center gap-[6px]  mb-3">
             <input
                className="w-[18px] h-[18px]" type="checkbox"
-               checked={endDate ? true : false}
+               checked={checkTwo ? true : false}
                onChange={(e) => {
                   !e.target.checked
-                  ? datesHandler.handleEndDate(startDate, endDate, true)
+                  ? datesHandler.handleEndDate(endDate, startDate, true)
                   : datesHandler.handleEndDate(datesHandler.today(), startDate, false);
+                  setCheckTwo(!checkTwo)
                }}
             />
             <input
                type="text"
-               className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400
-                  ${!endDate && "bg-gray-200 border-none"} 
-                  ${(!dateType && endDate) && ("border-none outline !outline-blue-400")}
+               className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-[3px] focus-within:outline-blue-400
+                  ${!checkTwo && "bg-gray-200 border-none"} 
+                  ${(!dateType && checkTwo) && ("border-none !outline !outline-blue-400")}
                `}
                placeholder="D/M/AAA"
-               disabled={!endDate ? true : false}
+               disabled={!checkTwo ? true : false}
                value={endDate}
-               // onClick={setDateType(false)}
+               onClick={()=>setDateType(false)}
                onChange={(e) => { setEndDate(e.target.value) }}
                onKeyDown={(e) =>{(e.key == "Enter") && datesHandler.handleEndDate(e.target.value, startDate, false)}}
             />
             <input
                type="text"
                className={`w-[100px] h-8 border border-gray-400 rounded-[3px] pl-2 focus-within:outline-blue-400
-                  ${!endDate && "bg-gray-200 border-none"}
+                  ${!checkTwo && "bg-gray-200 border-none"}
                `}
                placeholder="hh:mm"
                onChange={() => { }}

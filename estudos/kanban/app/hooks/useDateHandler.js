@@ -12,20 +12,26 @@ export default function UseDateHandler() {
       startDate, setStartDate,
       endDate, setEndDate,
       checkOne, setCheckOne,
-      checkTwo, setCheckTwo
+      checkTwo, setCheckTwo,
+      dateType, setDateType
    } = useDateContext();
 
    useEffect(() => {
       setCalendar(datesHandler.calendar(monthEndYear.month, monthEndYear.year));
       setPeriod(modalInfos.getPeriodo());
    }, [])
+   useEffect(() => {
+      setCheckOne(period?.inicio && true);
+      setCheckTwo(period?.fim && true);
+      setDateType(period?.inicio ? true : false)
+   }, [calendar])
    
    useEffect(() => {
       setStartDate(period?.inicio ? datesHandler.dateConvert(period?.inicio, 'br') : '');
       setEndDate(period?.fim ? datesHandler.dateConvert(period.fim, 'br') : '');
-      setCheckOne(period?.inicio && true);
-      setCheckTwo(period?.fim && true);
    }, [period])
+
+  
 
    const datesHandler = {
       checkDeadline: function (period) {
@@ -168,7 +174,7 @@ export default function UseDateHandler() {
       savePeriod: function () {
          modalInfos.setCardInfos({
             ...modalInfos.getCardInfos(),
-            periodo: this.editingPeriod
+            periodo: period
          })
       },
 
@@ -182,28 +188,37 @@ export default function UseDateHandler() {
          let newDate;
          removeStartDate ? newDate = '' : newDate = this.validateDate(date);
          let fim = endDate;
-
+         
          if (!removeStartDate) {
             if (!newDate) return console.log('Data inválida.');
             //Se a data final for menor que a data adicionada, é removida.
             if (this.isStartDateGreaterThanEndDate(newDate, this.dateConvert(endDate))) fim = '';
          }
-         setCheckOne(true);
+         if(checkTwo){
+            setDateType(false);
+         }
+         
          setPeriod({ ...period, inicio: newDate, fim: fim ? this.dateConvert(fim) : '' });
       },
-
+      
       handleEndDate: function (date, startDate, removeEndDate) {
          let newDate;
          removeEndDate ? newDate = "" : newDate = this.validateDate(date);
          if (!removeEndDate) {
             if (!newDate) return console.log('Data inválida.');
-            //Checa se a data inicial e maior que a final, se sim a data menor vai pra inicial.
+            //Checa se a data inicial é maior que a final, se sim a data menor vai pra inicial.
             if (this.isStartDateGreaterThanEndDate(this.dateConvert(startDate), newDate)) {
                setPeriod({ ...period, inicio: newDate, fim: '' });
+               setDateType(false) 
                return;
             }
+            setPeriod({...period, inicio: startDate ? this.dateConvert(startDate) : '', fim: newDate})
+            setDateType(checkOne ? true : false)
+            return;
          }
-         setPeriod({ ...period, inicio: this.dateConvert(startDate), fim: newDate });
+         
+         setDateType(checkOne ? true : false);   
+         setPeriod({ ...period, inicio: startDate ? this.dateConvert(startDate) : '', fim: newDate });
       },
 
       handleChangeMonth: function (arrow) {

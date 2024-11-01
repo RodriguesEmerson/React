@@ -12,6 +12,7 @@ export function DateContext({ children }) {
    const [endDate, setEndDate] = useState('');
    const [checkOne, setCheckOne] = useState(false);
    const [checkTwo, setCheckTwo] = useState(false);
+   const [dateType, setDateType] = useState(true); //true = inicio, false = fim;
    return (
       <dateContext.Provider
          value={{
@@ -21,7 +22,8 @@ export function DateContext({ children }) {
             startDate, setStartDate,
             endDate, setEndDate,
             checkOne, setCheckOne,
-            checkTwo, setCheckTwo
+            checkTwo, setCheckTwo,
+            dateType, setDateType
          }}>
          {children}
       </dateContext.Provider>
