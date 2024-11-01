@@ -1,10 +1,9 @@
 'use client'
 
 import { createContext, useContext, useState } from "react";
-import { modalInfos } from "../logica/logica-modais/main";
 const dateContext = createContext();
 
-export function DateContext({ children }) {
+export function DateProvider({ children }) {
    const [monthEndYear, setMonthEndYear] = useState({ month: new Date().getMonth(), year: new Date().getFullYear() });
    const [calendar, setCalendar] = useState();
    const [period, setPeriod] = useState('');
@@ -13,6 +12,7 @@ export function DateContext({ children }) {
    const [checkOne, setCheckOne] = useState(false);
    const [checkTwo, setCheckTwo] = useState(false);
    const [dateType, setDateType] = useState(true); //true = inicio, false = fim;
+   
    return (
       <dateContext.Provider
          value={{

@@ -1,6 +1,5 @@
 
-import { modalInfos } from "@/app/logica/logica-modais/main";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useProvidersContext } from "../../context/providers";
 import { ButtonSaveDefault } from "../buttons";
 import useDateHandler from "@/app/hooks/useDateHandler";

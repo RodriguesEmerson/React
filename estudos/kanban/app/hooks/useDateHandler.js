@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { modalInfos } from "../logica/logica-modais/main";
 import { useDateContext } from "../context/useDateContext";
 
-export default function UseDateHandler() {
+export default function useDateHandler() {
    const {
       monthEndYear, setMonthEndYear,
       calendar, setCalendar,
@@ -241,8 +241,8 @@ export default function UseDateHandler() {
                : monthEndYear.year
          })
       }
-
    }
+   
    const selectOptions = [
       "Nenhum", "Na hora da entrega", "5 minutos antes",
       "10 minutos antes", "15 minutos antes", "1 hora antes",

@@ -1,7 +1,8 @@
 'use client';
 import { useCallback, useEffect, useState, memo } from "react";
 import { Providers, useProvidersContext } from "../context/providers";
-import { DateContext, useDateContext } from "../context/useDateContext";
+import { DateProvider, useDateContext } from "../context/useDateContext";
+import { CoverProvider, useCoverContext } from "@/app/context/useCoverContext";
 import { modalInfos } from "../logica/logica-modais/main";
 import List from "./List";
 import ModalEditCard from "./modais/Modal";
@@ -45,9 +46,11 @@ export default function Board({ id }) {
    if (!data) return <Skeleton />;
    return (
       <Providers>
-         <DateContext>
+         <DateProvider>
+         <CoverProvider>
             <BoardBody data={data} id={id} />
-         </DateContext>
+         </CoverProvider>
+         </DateProvider>
       </Providers>
    )
 }

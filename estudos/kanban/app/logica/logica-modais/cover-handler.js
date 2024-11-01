@@ -1,6 +1,6 @@
 import { modalInfos } from "./main";
 
-const coverHandler = {
+const coverHandlerTwo = {
    cover: function () {
       return editingCapa;
    },
@@ -21,4 +21,4 @@ const coverHandler = {
    }
 }
 
-export { coverHandler }
+export { coverHandlerTwo }

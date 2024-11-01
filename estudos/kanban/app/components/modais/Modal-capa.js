@@ -1,7 +1,10 @@
 import { useProvidersContext } from "@/app/context/providers";
 import { useState, useEffect } from "react";
 import { modalInfos } from "@/app/logica/logica-modais/main";
-import { coverHandler } from "@/app/logica/logica-modais/cover-handler";
+import { coverHandlerTwo } from "@/app/logica/logica-modais/cover-handler";
+import { useCoverContext } from "@/app/context/useCoverContext";
+import  useCoverHandler  from "@/app/hooks/useCoverHandler";
+
 import ModalBox from "./Modal-Box";
 
 
@@ -28,23 +31,24 @@ const arrayImages = [
 
 export default function ModalCapa() {
    const { setHiddenCapaModal } = useProvidersContext();
+   const { coverHandler } = useCoverHandler();
+   const { cover } = useCoverContext();
 
    const cardInfos = modalInfos.getCardInfos();
    const [model, setModel] = useState();
    const [capa, setCapa] = useState(cardInfos.capa);
 
    function handleRemoveCapa() {
-      coverHandler.removeCover();
+      coverHandlerTwo.removeCover();
       setCapa(cardInfos.capa)
       setModel(3);
    }
-   //486
-
+   if(!cover) return <></>
    return (
       <ModalBox modalName={'Capa'} setHiddenModal={setHiddenCapaModal}>
-         {capa &&
+         {cover &&
             <div className="flex flex-col gap-2 p-1">
-               <PreviewCapa capa={capa} setCapa={setCapa} model={model} setModel={setModel} />
+               <PreviewCapa model={model} setModel={setModel} />
                <input type="button" value="Remover Capa"
                   className="bg-gray-200 text-[13px] font-semibold w-full 
                            rounded-sm h-8 cursor-pointer hover:bg-gray-300 transition-all"
@@ -59,19 +63,22 @@ export default function ModalCapa() {
 }
 
 function PreviewCapa({ capa, setCapa, model, setModel }) {
+
+   const { cover, setCover } = useCoverContext();
+
    function handleChangeModel(model) {
-      if (capa.color == "") return;
+      if (cover.color == "") return;
 
       if (model === 1 || model === 3) {
          setModel(1)
-         setCapa({ color: `${capa.color}`, full: false, img: "" });
-         coverHandler.setCover({ color: `${capa.color}`, full: false, img: "" })
+         setCapa({ color: `${cover.color}`, full: false, img: "" });
+         coverHandlerTwo.setCover({ color: `${cover.color}`, full: false, img: "" })
          return;
       }
 
       setModel(2)
-      setCapa({ color: `${capa.color}`, full: true, img: "" });
-      coverHandler.setCover({ color: `${capa.color}`, full: true, img: "" })
+      setCapa({ color: `${cover.color}`, full: true, img: "" });
+      coverHandlerTwo.setCover({ color: `${cover.color}`, full: true, img: "" })
    }
 
    return (
@@ -79,11 +86,11 @@ function PreviewCapa({ capa, setCapa, model, setModel }) {
          <p className="font-semibold mb-1">Tamanho</p>
          <div className="flex justify-between gap-[2px]">
             <div className={`w-[49%] rounded-md cursor-pointer p-[2px]
-               ${(model == 1 || capa.color && model != 2) && "outline outline-[3px] outline-blue-500"}`}
+               ${(model == 1 || cover.color && model != 2) && "outline outline-[3px] outline-blue-500"}`}
                onClick={() => { handleChangeModel(1) }}
             >
                <div className="h-7 rounded-t-[4px]"
-                  style={{ backgroundColor: capa.color ? `${capa.color}` : "lightgray" }}
+                  style={{ backgroundColor: cover.color ? `${cover.color}` : "lightgray" }}
                >
                </div>
                <div className=" flex flex-col gap-1 p-1 mt-1">
@@ -103,7 +110,7 @@ function PreviewCapa({ capa, setCapa, model, setModel }) {
                onClick={() => { handleChangeModel(2) }}
             >
                <div className="h-full p-1 rounded-[4px]"
-                  style={{ backgroundColor: capa.color ? `${capa.color}` : "lightgray" }}
+                  style={{ backgroundColor: cover.color ? `${cover.color}` : "lightgray" }}
                >
                   <span className="rounded-md mb-1 mt-12 h-1 w-full bg-gray-500 block"></span>
                   <span className="rounded-md h-1 w-3/4 bg-gray-500 block"></span>
@@ -117,7 +124,7 @@ function PreviewCapa({ capa, setCapa, model, setModel }) {
 function Cores({ capa, setCapa }) {
 
    function handleChangeColor(capa) {
-      coverHandler.setCover(capa);
+      coverHandlerTwo.setCover(capa);
       setCapa(capa);
    }
 
@@ -145,7 +152,7 @@ function Cores({ capa, setCapa }) {
 function Imagens({ setCapa }) {
 
    function handleChangeImage(capa) {
-      coverHandler.setCover(capa);
+      coverHandlerTwo.setCover(capa);
       setCapa(capa)
    }
 
