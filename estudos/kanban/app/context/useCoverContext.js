@@ -5,11 +5,13 @@ const coverContext = createContext(null);
 
 export function CoverProvider({ children }) {
    const [cover, setCover] = useState(null);
+   const [coverStyle, setCoverStyle] = useState(null);
 
    return (
       <coverContext.Provider
          value={{
-            cover, setCover
+            cover, setCover,
+            coverStyle, setCoverStyle
          }}>
          { children }
       </coverContext.Provider>

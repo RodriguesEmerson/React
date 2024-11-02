@@ -1,96 +1,41 @@
 import { useProvidersContext } from "@/app/context/providers";
-import { useState, useEffect } from "react";
-import { modalInfos } from "@/app/logica/logica-modais/main";
-import { coverHandlerTwo } from "@/app/logica/logica-modais/cover-handler";
 import { useCoverContext } from "@/app/context/useCoverContext";
-import  useCoverHandler  from "@/app/hooks/useCoverHandler";
-
+import useCoverHandler from "@/app/hooks/useCoverHandler";
 import ModalBox from "./Modal-Box";
-
-
-//********************************************************************************************* */
-const arrayColors = [
-   { color: '#FFC636' },
-   { color: '#FF6444' },
-   { color: '#00ADA9' },
-   { color: '#260273' },
-   { color: '#04D99D' },
-   { color: '#F205CB' },
-   { color: '#7C05F2' },
-   { color: '#FEA362' },
-   { color: '#94C748' },
-   { color: '#8590A2' },
-]
-const arrayImages = [
-   "/images/bg-img-1.jpg", "/images/bg-img-2.jpg", "/images/bg-img-3.jpg",
-   "/images/bg-img-4.jpg", "/images/bg-img-5.jpg", "/images/bg-img-6.jpg",
-   "/images/bg-img-7.jpg", "/images/bg-img-8.jpg", "/images/bg-img-9.jpg",
-]
-//********************************************************************************************** */
-
 
 export default function ModalCapa() {
    const { setHiddenCapaModal } = useProvidersContext();
    const { coverHandler } = useCoverHandler();
-   const { cover } = useCoverContext();
 
-   const cardInfos = modalInfos.getCardInfos();
-   const [model, setModel] = useState();
-   const [capa, setCapa] = useState(cardInfos.capa);
-
-   function handleRemoveCapa() {
-      coverHandlerTwo.removeCover();
-      setCapa(cardInfos.capa)
-      setModel(3);
-   }
-   if(!cover) return <></>
    return (
       <ModalBox modalName={'Capa'} setHiddenModal={setHiddenCapaModal}>
-         {cover &&
-            <div className="flex flex-col gap-2 p-1">
-               <PreviewCapa model={model} setModel={setModel} />
-               <input type="button" value="Remover Capa"
-                  className="bg-gray-200 text-[13px] font-semibold w-full 
+         <div className="flex flex-col gap-2 p-1">
+            <PreviewCover />
+            <input type="button" value="Remover Capa"
+               className="bg-gray-200 text-[13px] font-semibold w-full 
                            rounded-sm h-8 cursor-pointer hover:bg-gray-300 transition-all"
-                  onClick={() => handleRemoveCapa()}
-               ></input>
-               <Cores capa={capa} setCapa={setCapa} setModel={setModel} />
-               <Imagens setCapa={setCapa} />
-            </div>
-         }
+               onClick={() => coverHandler.removeCover()}
+            ></input>
+            <Colors />
+            <Images />
+         </div>
       </ModalBox>
    )
 }
 
-function PreviewCapa({ capa, setCapa, model, setModel }) {
-
-   const { cover, setCover } = useCoverContext();
-
-   function handleChangeModel(model) {
-      if (cover.color == "") return;
-
-      if (model === 1 || model === 3) {
-         setModel(1)
-         setCapa({ color: `${cover.color}`, full: false, img: "" });
-         coverHandlerTwo.setCover({ color: `${cover.color}`, full: false, img: "" })
-         return;
-      }
-
-      setModel(2)
-      setCapa({ color: `${cover.color}`, full: true, img: "" });
-      coverHandlerTwo.setCover({ color: `${cover.color}`, full: true, img: "" })
-   }
-
+function PreviewCover() {
+   const { coverHandler } = useCoverHandler()
+   const { cover, coverStyle } = useCoverContext();
    return (
       <div className="text-xs">
          <p className="font-semibold mb-1">Tamanho</p>
          <div className="flex justify-between gap-[2px]">
             <div className={`w-[49%] rounded-md cursor-pointer p-[2px]
-               ${(model == 1 || cover.color && model != 2) && "outline outline-[3px] outline-blue-500"}`}
-               onClick={() => { handleChangeModel(1) }}
+               ${(!coverStyle && cover?.color) ? "outline outline-[3px] outline-blue-500" : ''}`}
+               onClick={() => { coverHandler.handleChangeCoverStyle(false) }}
             >
                <div className="h-7 rounded-t-[4px]"
-                  style={{ backgroundColor: cover.color ? `${cover.color}` : "lightgray" }}
+                  style={{ backgroundColor: cover?.color ? `${cover.color}` : "lightgray" }}
                >
                </div>
                <div className=" flex flex-col gap-1 p-1 mt-1">
@@ -106,11 +51,11 @@ function PreviewCapa({ capa, setCapa, model, setModel }) {
                </div>
             </div>
             <div className={`w-[49%]  rounded-[4px] overflow-hidden cursor-pointer p-[2px]
-               ${model == 2 && "outline outline-[3px] outline-blue-500"}`}
-               onClick={() => { handleChangeModel(2) }}
+               ${(coverStyle && cover?.color) ? "outline outline-[3px] outline-blue-500" : ''}`}
+               onClick={() => { coverHandler.handleChangeCoverStyle(true) }}
             >
                <div className="h-full p-1 rounded-[4px]"
-                  style={{ backgroundColor: cover.color ? `${cover.color}` : "lightgray" }}
+                  style={{ backgroundColor: cover?.color ? `${cover?.color}` : "lightgray" }}
                >
                   <span className="rounded-md mb-1 mt-12 h-1 w-full bg-gray-500 block"></span>
                   <span className="rounded-md h-1 w-3/4 bg-gray-500 block"></span>
@@ -121,25 +66,22 @@ function PreviewCapa({ capa, setCapa, model, setModel }) {
    )
 }
 
-function Cores({ capa, setCapa }) {
-
-   function handleChangeColor(capa) {
-      coverHandlerTwo.setCover(capa);
-      setCapa(capa);
-   }
+function Colors() {
+   const { cover } = useCoverContext();
+   const { coverHandler, arrayColors } = useCoverHandler();
 
    return (
       <div className="text-xs mb-2">
          <p className="font-semibold mb-1">Cores</p>
          <div className="flex gap-[6px] flex-wrap w-full">
-            {arrayColors.map(el => (
-               <div key={`capa${el.color}`}
+            {arrayColors.map(color => (
+               <div key={`capa${color.color}`}
                   className={`h-9 w-[18%] rounded-[3px] cursor-pointer p-[1px]
-                  ${capa.color == el.color && "outline outline-[3px] outline-blue-500"}`}
-                  onClick={() => handleChangeColor({ color: `${el.color}`, full: capa.full, img: "" })}
+                  ${cover?.color == color.color && "outline outline-[3px] outline-blue-500"}`}
+                  onClick={() => coverHandler.setCover({ color: `${color.color}`, full: cover.full, img: "" })}
                >
                   <span className={`h-full w-full block rounded-[3px]`}
-                     style={{ backgroundColor: el.color }}
+                     style={{ backgroundColor: color.color }}
                   >
                   </span>
                </div>
@@ -149,21 +91,17 @@ function Cores({ capa, setCapa }) {
    )
 }
 
-function Imagens({ setCapa }) {
-
-   function handleChangeImage(capa) {
-      coverHandlerTwo.setCover(capa);
-      setCapa(capa)
-   }
+function Images() {
+   const { coverHandler, images } = useCoverHandler();
 
    return (
       <div className="text-xs mb-2">
          <p className="font-semibold mb-1">Imagens</p>
          <div className="flex justify-between gap-[6px] flex-wrap w-full">
-            {arrayImages.map(image => (
+            {images.map(image => (
                <div key={`imgSC${image}`}
                   className="flex-1 min-w-[30%] h-11 bg-black overflow-hidden rounded-sm cursor-pointer"
-                  onClick={() => handleChangeImage({ color: "", full: false, img: `${image}` })}
+                  onClick={() => coverHandler.setCover({ color: "", full: false, img: `${image}` })}
                >
                   <img src={`${image}`} className="w-full h-full object-cover hover:opacity-60 transition-all"></img>
                </div>

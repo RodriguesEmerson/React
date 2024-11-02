@@ -242,7 +242,9 @@ export default function useDateHandler() {
          })
       }
    }
-   
+
+   //***********************************************************************************************************/
+   /************************************************************************************************************/
    const selectOptions = [
       "Nenhum", "Na hora da entrega", "5 minutos antes",
       "10 minutos antes", "15 minutos antes", "1 hora antes",
@@ -253,6 +255,8 @@ export default function useDateHandler() {
       'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
       'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
    ];
+
+   
    return {
       datesHandler,
       selectOptions,
